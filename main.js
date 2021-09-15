@@ -59,6 +59,7 @@ function evalMethods(method,args,unqfy){
   switch(method){
     case "addArtist" : 
       unqfy.addArtist({name:args[0],country:args[1]});
+      //Hola
       break;
     default : 
       console.log("Nop");
