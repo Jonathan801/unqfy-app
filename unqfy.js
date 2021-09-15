@@ -1,10 +1,10 @@
 
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
-const Artist = require("./models/artist");
+const Artist = require("./models/artist"); // El modelo Artista
 
 
-class UNQfy {
+class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
 
   constructor(){
     this.artists = [];
@@ -26,7 +26,7 @@ class UNQfy {
     try {
       artist = this.addNewArtist(artistData);
     }catch(error){
-      throw error.message;
+      throw error.message; //todo hacer expeciones especificas a mano
     }
     console.log(artist);
     return artist;

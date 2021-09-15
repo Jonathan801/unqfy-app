@@ -57,7 +57,7 @@ function main() {
 
 function evalMethods(method,args,unqfy){
   switch(method){
-    case "addArtist" : 
+    case "addArtist" :    
       unqfy.addArtist({name:args[0],country:args[1]});
       //Hola
       break;
@@ -66,4 +66,4 @@ function evalMethods(method,args,unqfy){
   }
 }
 
-main();
+main(); //todo 

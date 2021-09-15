@@ -5,4 +5,5 @@ class Artist{
         this.albums = [];
     }
 }
+
 module.exports = Artist;
