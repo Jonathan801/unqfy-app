@@ -47,8 +47,22 @@ function saveUNQfy(unqfy, filename = 'data.json') {
 */
 
 function main() {
-  console.log('arguments: ');
-  process.argv.forEach(argument => console.log(argument));
+  //process.argv.forEach(argument => console.log(argument));
+  const unqfy = getUNQfy();
+  let params = process.argv.splice(2);
+  let functionConsole = params[0];
+  let argumentsConsole = params.splice(1,params.length);
+  evalMethods(functionConsole,argumentsConsole,unqfy);
+}
+
+function evalMethods(method,args,unqfy){
+  switch(method){
+    case "addArtist" : 
+      unqfy.addArtist({name:args[0],country:args[1]});
+      break;
+    default : 
+      console.log("Nop");
+  }
 }
 
 main();
