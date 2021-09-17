@@ -41,6 +41,17 @@ describe('Add, remove and filter data', () => {
     assert.equal(album.year, 1987);
   });
 
+  it('should remove an album to an artist', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album1 = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const album2 = createAndAddAlbum(unqfy, artist.id, 'Use Your Illusion II', 1991);
+
+    assert.equal(artist.albums.length, 2)
+
+    artist.removeAlbum(album1.id)
+    assert.equal(artist.albums.length, 1)
+  })
+
   // it('should add a track to an album', () => {
   //   const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
   //   const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);

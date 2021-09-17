@@ -29,7 +29,6 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
       throw error.message; //todo hacer expeciones especificas a mano
     }
     console.log(artist);
-    console.log(this.artists)
     return artist;
   }
 
@@ -49,6 +48,11 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     // const newArtist = new Artist('ale', 'roma')
     // newArtist.addAlbum()
     return artist.addAlbum(albumData)
+  }
+
+  removeAlbum(artistId, albumId) {
+    const artist = this.getArtistById(artistId)
+    artist.removeAlbum(albumId)
   }
 
 
