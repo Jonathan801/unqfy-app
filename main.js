@@ -51,6 +51,10 @@ function addAlbum(unqfy, artistId, name, year) {
   unqfy.addAlbum(artistId, {name: name, year: year})
 }
 
+function removeAlbum(unqfy, artistId, albumId) {
+  unqfy.removeAlbum(artistId, albumId)
+}
+
 function main() {
   //process.argv.forEach(argument => console.log(argument));
   const unqfy = getUNQfy();
@@ -68,6 +72,10 @@ function evalMethods(method,args,unqfy){
       break;
     case "addAlbum":
       addAlbum(unqfy, args[0], args[1], args[2]);
+      break;
+    case "removeAlbum":
+      removeAlbum(unqfy, args[0], args[1]);
+      break
     default : 
       console.log("Nop");
   }
