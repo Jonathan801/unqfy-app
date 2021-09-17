@@ -62,7 +62,7 @@ function main() {
   let functionConsole = params[0];
   let argumentsConsole = params.splice(1,params.length);
   evalMethods(functionConsole,argumentsConsole,unqfy);
-  // saveUNQfy(unqfy)
+  saveUNQfy(unqfy);
 }
 
 function evalMethods(method,args,unqfy){

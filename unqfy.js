@@ -2,12 +2,14 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require("./models/artist"); // El modelo Artista
-const Album = require('./models/album.js')
+const Album = require('./models/album.js');
+const ArtistException = require("./exceptions/artistException");
 
 class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
 
   constructor(){
     this.artists = [];
+    this.artistsSize = 0;
     this.playlists = [];
     this.users = [];
   }
@@ -26,9 +28,8 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     try {
       artist = this.addNewArtist(artistData);
     }catch(error){
-      throw error.message; //todo hacer expeciones especificas a mano
+      throw new ArtistException("El artista a agregar ya existia"); //todo hacer expeciones especificas a mano
     }
-    console.log(artist);
     return artist;
   }
 
@@ -43,16 +44,16 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
      - una propiedad name (string)
      - una propiedad year (number)
   */
-    const artist = this.getArtistById(artistId)
+    const artist = this.getArtistById(artistId);
     // addAlbum(artistId, albumData)
     // const newArtist = new Artist('ale', 'roma')
     // newArtist.addAlbum()
-    return artist.addAlbum(albumData)
+    return artist.addAlbum(albumData);
   }
 
   removeAlbum(artistId, albumId) {
-    const artist = this.getArtistById(artistId)
-    artist.removeAlbum(albumId)
+    const artist = this.getArtistById(artistId);
+    artist.removeAlbum(albumId);
   }
 
 
@@ -119,8 +120,9 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     if(this.artists.some(art => art.name === artist.name)){
         throw new Error("ya existia el artista");
     } else {
-      const artist1 = new Artist(artist.name,artist.country);
+      const artist1 = new Artist(artist.name,artist.country,this.artistsSize);
       this.artists.push(artist1);
+      this.artistsSize++;
       return artist1;
     }
   }
