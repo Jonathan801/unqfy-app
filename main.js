@@ -46,6 +46,11 @@ function saveUNQfy(unqfy, filename = 'data.json') {
 
 */
 
+function addAlbum(unqfy, artistId, name, year) {
+  // parseo string to int
+  unqfy.addAlbum(artistId, {name: name, year: year})
+}
+
 function main() {
   //process.argv.forEach(argument => console.log(argument));
   const unqfy = getUNQfy();
@@ -53,17 +58,19 @@ function main() {
   let functionConsole = params[0];
   let argumentsConsole = params.splice(1,params.length);
   evalMethods(functionConsole,argumentsConsole,unqfy);
+  // saveUNQfy(unqfy)
 }
 
 function evalMethods(method,args,unqfy){
   switch(method){
     case "addArtist" :    
       unqfy.addArtist({name:args[0],country:args[1]});
-      //Hola
       break;
+    case "addAlbum":
+      addAlbum(unqfy, args[0], args[1], args[2]);
     default : 
       console.log("Nop");
   }
 }
 
-main(); //todo 
+main();
