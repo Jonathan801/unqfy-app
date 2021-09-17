@@ -10,8 +10,8 @@ class Artist{
     }
 
     addAlbum(albumData) {
-        let currentId = this.id2Album++;
-        const newAlbum = new Album(currentId, this.id, albumData.name, albumData.year);
+        const newAlbum = new Album(this.id2Album, this.id, albumData.name, albumData.year);
+        this.id2Album++;
         this.albums.push(newAlbum);
         return newAlbum;
     }
