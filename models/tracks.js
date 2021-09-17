@@ -6,6 +6,10 @@ class Track{
         this.idTrack = idTrack;
         this.genres = genres;
     }
+
+    getTrackById(id) {
+        return this.id === id;
+    }
 }
 
 module.exports = Track;

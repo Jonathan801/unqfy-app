@@ -24,6 +24,16 @@ class Artist{
         this.albums = this.albums.filter(album => album.id !== albumId);
         return this.albums;
     }
+
+    getAlbumById(id) {
+        const album = this.albums.find(album => album.id === id);
+        return album;
+    }
+
+    getTrackById(idTrack) {
+        const track = this.albums.find(album => album.getTrackById(idTrack));
+        return track;
+    }
 }
 
 module.exports = Artist;
