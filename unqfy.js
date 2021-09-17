@@ -2,7 +2,7 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require("./models/artist"); // El modelo Artista
-
+const Album = require('./models/album.js')
 
 class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
 
@@ -29,6 +29,7 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
       throw error.message; //todo hacer expeciones especificas a mano
     }
     console.log(artist);
+    console.log(this.artists)
     return artist;
   }
 
@@ -43,6 +44,11 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
      - una propiedad name (string)
      - una propiedad year (number)
   */
+    const artist = this.getArtistById(artistId)
+    // addAlbum(artistId, albumData)
+    // const newArtist = new Artist('ale', 'roma')
+    // newArtist.addAlbum()
+    return artist.addAlbum(albumData)
   }
 
 
@@ -61,7 +67,9 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
   }
 
   getArtistById(id) {
-
+    // 1 verify exist id
+    // 2 vefify duplicated id
+    return this.artists.find(artist => artist.id === id)
   }
 
   getAlbumById(id) {
@@ -121,13 +129,13 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy];
+    const classes = [UNQfy, Artist, Album];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
 
 // COMPLETAR POR EL ALUMNO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente
 module.exports = {
-  UNQfy: UNQfy,Artist
+  UNQfy: UNQfy,
 };
 
