@@ -2,12 +2,15 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require("./models/artist"); // El modelo Artista
-const Album = require('./models/album.js')
+const Album = require('./models/album.js');
+const ArtistException = require("./exceptions/artistException.js");
+const Track = require('./models/tracks');
 
 class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
 
   constructor(){
     this.artists = [];
+    this.artistsSize = 0;
     this.playlists = [];
     this.users = [];
   }
@@ -26,9 +29,8 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     try {
       artist = this.addNewArtist(artistData);
     }catch(error){
-      throw error.message; //todo hacer expeciones especificas a mano
+      throw new ArtistException("El artista a agregar ya existia");
     }
-    console.log(artist);
     return artist;
   }
 
@@ -43,16 +45,16 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
      - una propiedad name (string)
      - una propiedad year (number)
   */
-    const artist = this.getArtistById(artistId)
+    const artist = this.getArtistById(artistId);
     // addAlbum(artistId, albumData)
     // const newArtist = new Artist('ale', 'roma')
     // newArtist.addAlbum()
-    return artist.addAlbum(albumData)
+    return artist.addAlbum(albumData);
   }
 
   removeAlbum(artistId, albumId) {
-    const artist = this.getArtistById(artistId)
-    artist.removeAlbum(albumId)
+    const artist = this.getArtistById(artistId);
+    artist.removeAlbum(albumId);
   }
 
 
@@ -68,20 +70,28 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
       - una propiedad duration (number),
       - una propiedad genres (lista de strings)
   */
+    const albumObt = this.getAlbumById(albumId);
+    try{
+      return albumObt.addNewTrack(trackData);
+    }catch(err){
+      err.message;
+    }
   }
 
   getArtistById(id) {
     // 1 verify exist id
     // 2 vefify duplicated id
-    return this.artists.find(artist => artist.id === id)
+    return this.artists.find(artist => artist.id === id);
   }
 
   getAlbumById(id) {
-
+    const allAlbums2 = this.artists.reduce((acum,act) => acum.concat(act.albums),[]);
+    const result =  allAlbums2.find(elem => elem.id === id);
+    return result;
   }
 
   getTrackById(id) {
-
+    return this.artists.map(elem => elem.albums).map(elem => elem.tracks).find(elem => elem.id === id);
   }
 
   getPlaylistById(id) {
@@ -117,14 +127,14 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
 
   addNewArtist(artist) {
     if(this.artists.some(art => art.name === artist.name)){
-        throw new Error("ya existia el artista");
+        throw new ArtistException("El artista a agregar ya existia");
     } else {
-      const artist1 = new Artist(artist.name,artist.country);
+      const artist1 = new Artist(artist.name,artist.country,this.artistsSize);
       this.artists.push(artist1);
+      this.artistsSize++;
       return artist1;
     }
   }
-
   save(filename) {
     const serializedData = picklify.picklify(this);
     fs.writeFileSync(filename, JSON.stringify(serializedData, null, 2));
@@ -133,7 +143,7 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, Album];
+    const classes = [UNQfy, Artist, Album,Track];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }

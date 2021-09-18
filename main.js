@@ -48,12 +48,17 @@ function saveUNQfy(unqfy, filename = 'data.json') {
 
 function addAlbum(unqfy, artistId, name, year) {
   // parseo string to int
-  unqfy.addAlbum(artistId, {name: name, year: year})
+  unqfy.addAlbum(artistId, {name: name, year: year});
 }
 
 function removeAlbum(unqfy, artistId, albumId) {
-  unqfy.removeAlbum(artistId, albumId)
+  unqfy.removeAlbum(artistId, albumId);
 }
+
+function addTrack(unqfy,name,album,duration,genres){ //TODO parsear los parametros de la consola
+  unqfy.addTrack(album,{name:name,duration:duration,genres:genres});
+}
+
 
 function main() {
   //process.argv.forEach(argument => console.log(argument));
@@ -62,20 +67,23 @@ function main() {
   let functionConsole = params[0];
   let argumentsConsole = params.splice(1,params.length);
   evalMethods(functionConsole,argumentsConsole,unqfy);
-  // saveUNQfy(unqfy)
+  //saveUNQfy(unqfy);
 }
 
 function evalMethods(method,args,unqfy){
   switch(method){
-    case "addArtist" :    
+    case "addArtist" ://args[0] = name artist ;args[1]= country artist
       unqfy.addArtist({name:args[0],country:args[1]});
       break;
-    case "addAlbum":
+    case "addAlbum": //args[0] = artistId ;args[1]= Album name ;args[2]=year Album
       addAlbum(unqfy, args[0], args[1], args[2]);
+      break;
+    case "addTrack": //args[0] = nombreTrack;args[1]= Album name ;args[2]=durationTrack ;args[3]= genresTrack
+      addTrack(unqfy,args[0],args[1],args[2],args[3]);
       break;
     case "removeAlbum":
       removeAlbum(unqfy, args[0], args[1]);
-      break
+      break;
     default : 
       console.log("Nop");
   }
