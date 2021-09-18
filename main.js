@@ -22,7 +22,7 @@ function saveUNQfy(unqfy, filename = 'data.json') {
 
   Se deberán implementar los comandos:
     - Alta y baja de Artista
-    - Alta y Baja de Albums
+    - Alta y Baja de Albums OK
     - Alta y Baja de tracks
 
     - Listar todos los Artistas
@@ -59,6 +59,11 @@ function addTrack(unqfy,name,album,duration,genres){ //TODO parsear los parametr
   unqfy.addTrack(album,{name:name,duration:duration,genres:genres});
 }
 
+function createPlaylist(name, genresToInclude, maxDuration) {
+  // parse string to list
+  // parse string to int
+  unqfy.createPlaylist(name, genresToInclude, maxDuration)
+}
 
 function main() {
   //process.argv.forEach(argument => console.log(argument));
@@ -83,6 +88,9 @@ function evalMethods(method,args,unqfy){
       break;
     case "removeAlbum":
       removeAlbum(unqfy, args[0], args[1]);
+      break;
+    case "createPlaylist":
+      createPlaylist(unqfy, args[0], args[1], args[2]);
       break;
     default : 
       console.log("Nop");
