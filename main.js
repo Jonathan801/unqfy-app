@@ -59,14 +59,13 @@ function addTrack(unqfy,name,album,duration,genres){ //TODO parsear los parametr
   unqfy.addTrack(album,{name:name,duration:duration,genres:genres});
 }
 
-function createPlaylist(name, genresToInclude, maxDuration) {
+function createPlaylist(unqfy,name, genresToInclude, maxDuration) {
   // parse string to list
   // parse string to int
-  unqfy.createPlaylist(name, genresToInclude, maxDuration)
+  unqfy.createPlaylist(name, genresToInclude, maxDuration);
 }
 
 function main() {
-  //process.argv.forEach(argument => console.log(argument));
   const unqfy = getUNQfy();
   let params = process.argv.splice(2);
   let functionConsole = params[0];
