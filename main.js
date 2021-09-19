@@ -55,6 +55,10 @@ function removeAlbum(unqfy, artistId, albumId) {
   unqfy.removeAlbum(artistId, albumId);
 }
 
+function removeArtist(unqfy,artistId){
+  unqfy.removeArtist(artistId);
+}
+
 function addTrack(unqfy,name,album,duration,genres){ //TODO parsear los parametros de la consola
   unqfy.addTrack(album,{name:name,duration:duration,genres:genres});
 }
@@ -87,6 +91,9 @@ function evalMethods(method,args,unqfy){
       break;
     case "removeAlbum":
       removeAlbum(unqfy, args[0], args[1]);
+      break;
+    case "removeArtist":
+      removeArtist(unqfy,args[0]);
       break;
     case "createPlaylist":
       createPlaylist(unqfy, args[0], args[1], args[2]);

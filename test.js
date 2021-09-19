@@ -64,6 +64,20 @@ describe('Add, remove and filter data', () => {
     assert.lengthOf(track.genres, 2);
   });
 
+  it('size of artists', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+
+    assert.lengthOf(unqfy.artists, 1);
+    assert.lengthOf(artist.albums, 1);
+    assert.lengthOf(album.tracks, 1);
+    unqfy.removeArtist(0);
+    assert.lengthOf(unqfy.artists, 0);
+
+
+  });
+
   // it('should find different things by name', () => {
   //   const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
   //   const album1 = createAndAddAlbum(unqfy, artist1.id, 'Roses Album', 1987);
@@ -149,11 +163,11 @@ describe('Add, remove and filter data', () => {
 //     const playlist = unqfy.createPlaylist('my playlist', ['pop', 'rock'], 1400);
 
 //     assert.equal(playlist.name, 'my playlist');
-//     assert.isAtMost(playlist.duration(), 1400);
+//     //assert.isAtMost(playlist.duration(), 1400);
 //     assert.isTrue(playlist.hasTrack(t1));
-//     assert.isTrue(playlist.hasTrack(t2));
-//     assert.isTrue(playlist.hasTrack(t3));
-//     assert.isTrue(playlist.hasTrack(t4));
-//     assert.lengthOf(playlist.tracks, 4);
+//     // assert.isTrue(playlist.hasTrack(t2));
+//     // assert.isTrue(playlist.hasTrack(t3));
+//     // assert.isTrue(playlist.hasTrack(t4));
+//     // assert.lengthOf(playlist.tracks, 4);
 //   });
 // });

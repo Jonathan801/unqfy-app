@@ -38,6 +38,8 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
   }
 
 
+
+
   // albumData: objeto JS con los datos necesarios para crear un album
   //   albumData.name (string)
   //   albumData.year (number)
@@ -55,11 +57,20 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     return artist.addAlbum(albumData);
   }
 
+  removeArtist(artistId){
+    let art = this.getArtistById(artistId);
+    art.albums.forEach(elem => this.removeAlbum(artistId,elem.id));
+    this.removeItemFromArr(art);
+  }
+
+  removeItemFromArr(item){
+    this.artists = this.artists.filter(elem => elem.id !==item.id );
+  }
+
   removeAlbum(artistId, albumId) {
     const artist = this.getArtistById(artistId);
-    artist.removeAlbum(albumId);
-    
     this.removeAlbum2Playlists(albumId);
+    artist.removeAlbum(albumId);
   }
 
   removeAlbum2Playlists(albumId) {
@@ -71,7 +82,7 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     album.tracks.forEach(track => {
       this.playlists.forEach(playlist => {
         playlist.removeTrack(track);
-      })
+      });
     });
   }
 
@@ -101,7 +112,6 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     let artist = this.artists.find(artist => artist.id === id); 
     return artist !== undefined ? artist : 'dont exist artist';
   }
-
   getAlbumById(id) {
     // [album] !== album
     let artistOfAlbum = this.artists.find(artist => artist.haveAlbum(id));
