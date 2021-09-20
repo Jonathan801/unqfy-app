@@ -29,13 +29,20 @@ class Artist{
         return this.albums.some(elem=> elem.id === id);
     }
 
+    removeTrack(idTrack) {
+        const track = this.getTrackById(idTrack);
+        let album = this.albums.find(album => album.id === track.albumId);
+        album.removeTrack(track);
+    }
+
     getAlbumById(id) {
         const album = this.albums.find(album => album.id === id);
         return album;
     }
 
     getTrackById(idTrack) {
-        const track = this.albums.find(album => album.getTrackById(idTrack));
+        const albumWithTrack = this.albums.find(album => album.getTrackById(idTrack));
+        let track = albumWithTrack.getTrackById(idTrack);
         return track;
     }
 }

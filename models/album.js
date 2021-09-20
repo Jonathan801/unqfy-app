@@ -16,15 +16,26 @@ class Album {
         if(this.containsTrack(trackData.name)){
           throw new TrackException("El track a agregar ya existia en el album");
         }else{
-            const newTrack = new Track(trackData.name,this.id,trackData.duration,this.id2Tracks,trackData.genres);
+            const newTrack = new Track(trackData.name, this.id, trackData.duration, this.id2Tracks, trackData.genres);
             this.id2Tracks++;
             this.tracks.push(newTrack);
             return newTrack;
         }
     }
 
+    removeTrack(trackData) {
+        this.tracks = this.tracks.filter(track => track.id !== trackData.id);
+        return this.tracks;
+    }
+
     containsTrack(track) {
         return this.tracks.some(elem => elem.name === track);
+    }
+
+    getTrackById(idTrack) {
+        // should be function getTrackById (other name)
+        const track = this.tracks.find(track => track.idTrack === idTrack);
+        return track;
     }
 }
 

@@ -64,18 +64,16 @@ describe('Add, remove and filter data', () => {
     assert.lengthOf(track.genres, 2);
   });
 
-  it('size of artists', () => {
+
+  it(`Should remove a track from an artist's album`, () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
     const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
 
-    assert.lengthOf(unqfy.artists, 1);
-    assert.lengthOf(artist.albums, 1);
-    assert.lengthOf(album.tracks, 1);
-    unqfy.removeArtist(0);
-    assert.lengthOf(unqfy.artists, 0);
+    unqfy.removeTrack(artist.id, track.idTrack);
 
-
+    assert.isEmpty(unqfy.getAlbumById(album.id).tracks, 'is not empty');
+    assert.equal(unqfy.getAlbumById(album.id).tracks.length, 0);
   });
 
   // it('should find different things by name', () => {
