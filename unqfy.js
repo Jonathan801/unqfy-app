@@ -32,7 +32,7 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     try {
       artist = this.addNewArtist(artistData);
     }catch(error){
-      throw new ArtistException("El artista a agregar ya existia");
+      error.message;
     }
     return artist;
   }
@@ -130,12 +130,13 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     // [album] !== album
     let artistOfAlbum = this.artists.find(artist => artist.haveAlbum(id));
     let album = artistOfAlbum.getAlbumById(id);
-    //return album !== undefined ? album : 'dont exist album';
-    return album;
+    //return album;
+    return album !== undefined ? album : 'Dont exist album';
   }
 
   getTrackById(id) {
-    return this.artist.find(artist => artist.getTrackById(id));
+    const artistWithTrack = this.artists.find(artist => artist.getTrackById(id));
+    return artistWithTrack.getTrackById(id);
   }
 
   getPlaylistById(id) {

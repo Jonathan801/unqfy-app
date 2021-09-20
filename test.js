@@ -76,6 +76,19 @@ describe('Add, remove and filter data', () => {
     assert.equal(unqfy.getAlbumById(album.id).tracks.length, 0);
   });
 
+  // it('should remove an artist', () => {
+  //   const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+
+  //   assert.equal(artist.name, 'Guns n\' Roses');
+  //   assert.equal(artist.country, 'USA');
+  //   assert.equal(unqfy.artists.length,1);
+
+  //   unqfy.removeArtist(artist.id);
+
+  //   assert.equal(unqfy.artists.length,0);
+
+  // });
+
   // it('should find different things by name', () => {
   //   const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
   //   const album1 = createAndAddAlbum(unqfy, artist1.id, 'Roses Album', 1987);
