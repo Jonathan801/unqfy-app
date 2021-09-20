@@ -95,6 +95,20 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     }
   }
 
+  removeTrack(artistId, trackId) {
+    let artist = this.getArtistById(artistId);
+    this.removeTrack2Playlist(trackId);
+    
+    artist.removeTrack(trackId);
+  }
+
+  removeTrack2Playlist(trackId) {
+    const track = this.getTrackById(trackId);
+    this.playlists.forEach(playlist => {
+      playlist.removeTrack(track);
+    });
+  }
+
   getArtistById(id) {
     // 1 verify exist id
     // 2 vefify duplicated id
@@ -103,13 +117,15 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
   }
 
   getAlbumById(id) {
-    // [album] !== album
-    let album = this.artists.find(artist => artist.getAlbumById(id));
-    return album !== undefined ? album : 'dont exist album';
+    let artistWithAlbum = this.artists.find(artist => artist.getAlbumById(id));
+
+    const albumFound = artistWithAlbum.getAlbumById(id);
+    return albumFound;
   }
 
   getTrackById(id) {
-    return this.artist.find(artist => artist.getTrackById(id))
+    const track = this.artists.find(artist => artist.getTrackById(id));
+    return track.getTrackById(id);
   }
 
   getPlaylistById(id) {
@@ -169,11 +185,7 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-<<<<<<< HEAD
-    const classes = [UNQfy, Artist, Album,Track];
-=======
-    const classes = [UNQfy, Artist, Album, Playlist];
->>>>>>> Add new Playlist to UNQfy
+    const classes = [UNQfy, Artist, Album, Playlist, Track];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }

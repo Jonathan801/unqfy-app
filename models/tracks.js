@@ -1,7 +1,7 @@
 class Track{
-    constructor(name,album,duration,idTrack,genres = []){
+    constructor(name, albumId, duration, idTrack, genres = []){
         this.name = name;
-        this.album = album;
+        this.albumId = albumId;
         this.duration = duration;
         this.idTrack = idTrack;
         this.genres = genres;

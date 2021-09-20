@@ -59,10 +59,14 @@ function addTrack(unqfy,name,album,duration,genres){ //TODO parsear los parametr
   unqfy.addTrack(album,{name:name,duration:duration,genres:genres});
 }
 
-function createPlaylist(name, genresToInclude, maxDuration) {
+function createPlaylist(unqfy, name, genresToInclude, maxDuration) {
   // parse string to list
   // parse string to int
   unqfy.createPlaylist(name, genresToInclude, maxDuration)
+}
+
+function removeTrack(unqfy, artistId, trackId) {
+  unqfy.removeTrack(artistId, trackId);
 }
 
 function main() {
@@ -91,6 +95,9 @@ function evalMethods(method,args,unqfy){
       break;
     case "createPlaylist":
       createPlaylist(unqfy, args[0], args[1], args[2]);
+      break;
+    case "removeTrack":
+      removeTrack(unqfy, args[0], args[1]);
       break;
     default : 
       console.log("Nop");
