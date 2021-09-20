@@ -152,7 +152,10 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
-
+    let artist = this.artists.find(art => art.name === artistName);
+    let albumsOfArtist = artist.albums;
+    let tracks = albumsOfArtist.map(elem => elem.tracks);
+    console.log(tracks);
   }
 
 
