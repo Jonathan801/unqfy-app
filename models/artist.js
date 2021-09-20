@@ -24,6 +24,10 @@ class Artist{
         this.albums = this.albums.filter(album => album.id !== albumId);
         return this.albums;
     }
+    
+    haveAlbum(id){
+        return this.albums.some(elem=> elem.id === id);
+    }
 
     removeTrack(idTrack) {
         const track = this.getTrackById(idTrack);

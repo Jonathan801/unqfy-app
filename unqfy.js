@@ -3,9 +3,9 @@ const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require("./models/artist"); // El modelo Artista
 const ArtistException = require("./exceptions/artistException.js");
-const Album = require('./models/album.js')
+const Album = require('./models/album.js');
 const Track = require('./models/tracks');
-const Playlist = require('./models/playlist.js')
+const Playlist = require('./models/playlist.js');
 
 class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
 
@@ -15,7 +15,7 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     this.playlists = [];
     this.users = [];
 
-    this.id2Playlist = 0
+    this.id2Playlist = 0;
   }
 
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -38,6 +38,8 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
   }
 
 
+
+
   // albumData: objeto JS con los datos necesarios para crear un album
   //   albumData.name (string)
   //   albumData.year (number)
@@ -55,23 +57,32 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     return artist.addAlbum(albumData);
   }
 
+  removeArtist(artistId){
+    let art = this.getArtistById(artistId);
+    art.albums.forEach(elem => this.removeAlbum(artistId,elem.id));
+    this.removeItemFromArr(art);
+  }
+
+  removeItemFromArr(item){
+    this.artists = this.artists.filter(elem => elem.id !==item.id );
+  }
+
   removeAlbum(artistId, albumId) {
-    const artist = this.getArtistById(artistId)
-    artist.removeAlbum(albumId)
-    
-    this.removeAlbum2Playlists(albumId)
+    const artist = this.getArtistById(artistId);
+    this.removeAlbum2Playlists(albumId);
+    artist.removeAlbum(albumId);
   }
 
   removeAlbum2Playlists(albumId) {
-    const album = this.getAlbumById(albumId)
-    this.removeTracksByAlbum(album)
+    const album = this.getAlbumById(albumId);
+    this.removeTracksByAlbum(album);
   }
 
   removeTracksByAlbum(album) {
     album.tracks.forEach(track => {
       this.playlists.forEach(playlist => {
-        playlist.removeTrack(track)
-      })
+        playlist.removeTrack(track);
+      });
     });
   }
 
@@ -115,17 +126,16 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     let artist = this.artists.find(artist => artist.id === id); 
     return artist !== undefined ? artist : 'dont exist artist';
   }
-
   getAlbumById(id) {
-    let artistWithAlbum = this.artists.find(artist => artist.getAlbumById(id));
-
-    const albumFound = artistWithAlbum.getAlbumById(id);
-    return albumFound;
+    // [album] !== album
+    let artistOfAlbum = this.artists.find(artist => artist.haveAlbum(id));
+    let album = artistOfAlbum.getAlbumById(id);
+    //return album !== undefined ? album : 'dont exist album';
+    return album;
   }
 
   getTrackById(id) {
-    const track = this.artists.find(artist => artist.getTrackById(id));
-    return track.getTrackById(id);
+    return this.artist.find(artist => artist.getTrackById(id));
   }
 
   getPlaylistById(id) {
@@ -158,13 +168,13 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
   */
     let currentId = this.id2Playlist++
     const playlist = new Playlist(currentId, name, genresToInclude, maxDuration)
-    this.addNewPlaylist(playlist)
+    this.addNewPlaylist(playlist);
 
     return playlist
   }
 
   addNewPlaylist(playlist) {
-    this.playlists.push(playlist)
+    this.playlists.push(playlist);
   }
 
   addNewArtist(artist) {

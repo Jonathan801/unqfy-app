@@ -55,14 +55,19 @@ function removeAlbum(unqfy, artistId, albumId) {
   unqfy.removeAlbum(artistId, albumId);
 }
 
+function removeArtist(unqfy,artistId){
+  unqfy.removeArtist(artistId);
+}
+
 function addTrack(unqfy,name,album,duration,genres){ //TODO parsear los parametros de la consola
   unqfy.addTrack(album,{name:name,duration:duration,genres:genres});
 }
 
+
 function createPlaylist(unqfy, name, genresToInclude, maxDuration) {
   // parse string to list
   // parse string to int
-  unqfy.createPlaylist(name, genresToInclude, maxDuration)
+  unqfy.createPlaylist(name, genresToInclude, maxDuration);
 }
 
 function removeTrack(unqfy, artistId, trackId) {
@@ -70,7 +75,6 @@ function removeTrack(unqfy, artistId, trackId) {
 }
 
 function main() {
-  //process.argv.forEach(argument => console.log(argument));
   const unqfy = getUNQfy();
   let params = process.argv.splice(2);
   let functionConsole = params[0];
@@ -92,6 +96,9 @@ function evalMethods(method,args,unqfy){
       break;
     case "removeAlbum":
       removeAlbum(unqfy, args[0], args[1]);
+      break;
+    case "removeArtist":
+      removeArtist(unqfy,args[0]);
       break;
     case "createPlaylist":
       createPlaylist(unqfy, args[0], args[1], args[2]);

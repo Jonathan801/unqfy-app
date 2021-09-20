@@ -64,6 +64,7 @@ describe('Add, remove and filter data', () => {
     assert.lengthOf(track.genres, 2);
   });
 
+
   it(`Should remove a track from an artist's album`, () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
@@ -160,11 +161,11 @@ describe('Add, remove and filter data', () => {
 //     const playlist = unqfy.createPlaylist('my playlist', ['pop', 'rock'], 1400);
 
 //     assert.equal(playlist.name, 'my playlist');
-//     assert.isAtMost(playlist.duration(), 1400);
+//     //assert.isAtMost(playlist.duration(), 1400);
 //     assert.isTrue(playlist.hasTrack(t1));
-//     assert.isTrue(playlist.hasTrack(t2));
-//     assert.isTrue(playlist.hasTrack(t3));
-//     assert.isTrue(playlist.hasTrack(t4));
-//     assert.lengthOf(playlist.tracks, 4);
+//     // assert.isTrue(playlist.hasTrack(t2));
+//     // assert.isTrue(playlist.hasTrack(t3));
+//     // assert.isTrue(playlist.hasTrack(t4));
+//     // assert.lengthOf(playlist.tracks, 4);
 //   });
 // });
