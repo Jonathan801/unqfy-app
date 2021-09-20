@@ -64,6 +64,17 @@ describe('Add, remove and filter data', () => {
     assert.lengthOf(track.genres, 2);
   });
 
+  it(`Should remove a track from an artist's album`, () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+
+    unqfy.removeTrack(artist.id, track.idTrack);
+
+    assert.isEmpty(unqfy.getAlbumById(album.id).tracks, 'is not empty');
+    assert.equal(unqfy.getAlbumById(album.id).tracks.length, 0);
+  });
+
   // it('should find different things by name', () => {
   //   const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
   //   const album1 = createAndAddAlbum(unqfy, artist1.id, 'Roses Album', 1987);
