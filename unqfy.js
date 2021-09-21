@@ -152,7 +152,11 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) {
-
+    let artist = this.artists.find(art => art.name === artistName);
+    let albumsOfArtist = artist.albums;
+    let tracks = albumsOfArtist.map(elem => elem.tracks).reduce((actual,elem) => actual.concat(elem));
+    console.log(tracks);
+    return tracks;
   }
 
 
@@ -167,8 +171,8 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
-    let currentId = this.id2Playlist++
-    const playlist = new Playlist(currentId, name, genresToInclude, maxDuration)
+    let currentId = this.id2Playlist++;
+    const playlist = new Playlist(currentId, name, genresToInclude, maxDuration);
     this.addNewPlaylist(playlist);
 
     return playlist
@@ -182,9 +186,8 @@ class UNQfy { //todo picklify que ya valla guardando la imagen de la clase
     if(this.artists.some(art => art.name === artist.name)){
         throw new ArtistException("El artista a agregar ya existia");
     } else {
-      const artist1 = new Artist(artist.name,artist.country,this.artistsSize);
+      const artist1 = new Artist(artist.name,artist.country);
       this.artists.push(artist1);
-      this.artistsSize++;
       return artist1;
     }
   }
