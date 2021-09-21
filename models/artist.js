@@ -1,17 +1,17 @@
 const Album = require("./album");
+const idGenerator = require("./idGenerator");
+let idGen = new idGenerator();
 
 class Artist{
-    constructor(name,country,id){
+    constructor(name,country){
         this.name = name;
         this.country = country;
         this.albums = [];
-        this.id = id;
-        this.id2Album = 0;
+        this.id = idGen.getNextId();
     }
 
     addAlbum(albumData) {
-        const newAlbum = new Album(this.id2Album, this.id, albumData.name, albumData.year);
-        this.id2Album++;
+        const newAlbum = new Album(this.id, albumData.name, albumData.year);    
         this.albums.push(newAlbum);
         return newAlbum;
     }

@@ -1,9 +1,13 @@
+const idGenerator = require("./idGenerator");
+let idGen = new idGenerator();
+
+
 class Track{
-    constructor(name, albumId, duration, idTrack, genres = []){
+    constructor(name, albumId, duration,genres = []){
         this.name = name;
         this.albumId = albumId;
         this.duration = duration;
-        this.idTrack = idTrack;
+        this.idTrack = idGen.getNextId();
         this.genres = genres;
     }
 
