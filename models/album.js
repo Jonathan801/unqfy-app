@@ -46,6 +46,18 @@ class Album {
         const track = this.tracks.find(track => track.idTrack === idTrack);
         return track;
     }
+
+    matchingByName(scrappyWord) {
+        const reg = new RegExp(scrappyWord, 'gi')
+        
+        let match =  reg.exec(this.name);
+        return match !== null;
+    }
+
+    matchingTrackByName(scrappyWord) {
+        let tracks = this.tracks.filter( track => track.matchingByName(scrappyWord));
+        return tracks
+    }
 }
 
 module.exports = Album;

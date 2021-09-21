@@ -179,7 +179,47 @@ class UNQfy {
     });
   }
 
+  searchByName(scrappyWord) {
+    let artists = this.matchingPartialByArtist(scrappyWord);
+    let albums = this.matchingPartialByAlbum(scrappyWord);
+    let tracks = this.matchingPartialByTrack(scrappyWord);
+    let playlists = this.matchingPartialByPlaylist(scrappyWord);
+    
+    return {
+      artists: artists,
+      albums: albums,
+      tracks: tracks,
+      playlists: playlists
+    }
+  }
 
+  matchingPartialByArtist(scrappyWord) {
+    let artists = this.artists.filter(artist => artist.matchingByName(scrappyWord));
+    return artists;
+  }
+
+  matchingPartialByAlbum(scrappyWord) {
+    let albums = this.artists.reduce((total, current) => {
+      let albumsMatch = current.matchingAlbumByName(scrappyWord);
+      total = total.concat(albumsMatch);
+      return total;
+    }, []);
+    return albums;
+  }
+
+  matchingPartialByTrack(scrappyWord) {
+    let tracks = this.artists.reduce((total, current) => {
+      let tracksMatch = current.matchingTrackByName(scrappyWord);
+      total = total.concat(tracksMatch);
+      return total;
+    }, []);
+    return tracks;
+  }
+
+  matchingPartialByPlaylist(scrappyWord) {
+    let playlists = this.playlists.filter(playlist => playlist.matchingTrackByName(scrappyWord))
+    return playlists;
+  }
 
   // genres: array de generos(strings)
   // retorna: los tracks que contenga alguno de los generos en el parametro genres
@@ -209,9 +249,14 @@ class UNQfy {
   createPlaylist(name, genresToInclude, maxDuration) {
     let currentId = this.id2Playlist++;
     const playlist = new Playlist(currentId, name, genresToInclude, maxDuration);
+    
+    let tracks = this.getTracksMatchingGenres(playlist.genresToInclude);
+    let tracksWithMaxDuration = tracks.filter(track => track.isMaxDuration(maxDuration));
+    playlist.addFullTracks(tracksWithMaxDuration);
+    
     this.addNewPlaylist(playlist);
 
-    return playlist
+    return playlist;
   }
 
   addNewPlaylist(playlist) {
@@ -219,7 +264,8 @@ class UNQfy {
   }
 
   getPlaylistById(id) {
-
+    let playlist = this.playlists.find(artist => artist.id === id); 
+    return playlist !== undefined ? playlist : 'dont exist playlist';
   }
 
   save(filename) {

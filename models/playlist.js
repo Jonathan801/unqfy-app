@@ -7,6 +7,11 @@ class Playlist {
         this.tracks = []
     }
 
+    addFullTracks(tracksWithMaxDuration) {
+        this.tracks = tracksWithMaxDuration;
+        return this.tracks;
+    }
+
     duration() {
     // * un metodo duration() que retorne la duración de la playlist.
         // return this.tracks.reduce((accumulator, current) => {
@@ -24,6 +29,11 @@ class Playlist {
     removeTrack(aTrack) {
         this.tracks = this.tracks.filter(track => (track.name !== aTrack.name) && (track.id !== aTrack.id));
         return this.tracks;
+    }
+
+    matchingTrackByName(scrappyWord) {
+        let tracks = this.tracks.filter(track => track.matchingByName(scrappyWord));
+        return tracks;
     }
 }
 

@@ -89,20 +89,20 @@ describe('Add, remove and filter data', () => {
 
   });
 
-  // it('should find different things by name', () => {
-  //   const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-  //   const album1 = createAndAddAlbum(unqfy, artist1.id, 'Roses Album', 1987);
-  //   const track = createAndAddTrack(unqfy, album1.id, 'Roses track', 200, ['pop', 'movie']);
-  //   const playlist = unqfy.createPlaylist('Roses playlist', ['pop'], 1400);
+  it('should find different things by name', () => {
+    const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album1 = createAndAddAlbum(unqfy, artist1.id, 'Roses Album', 1987);
+    const track = createAndAddTrack(unqfy, album1.id, 'Roses track', 200, ['pop', 'movie']);
+    const playlist = unqfy.createPlaylist('Roses playlist', ['pop'], 1400);
 
-  //   const results = unqfy.searchByName('Roses');
-  //   assert.deepEqual(results, {
-  //     artists: [artist1],
-  //     albums: [album1],
-  //     tracks: [track],
-  //     playlists: [playlist],
-  //   });
-  // });
+    const results = unqfy.searchByName('Roses');
+    assert.deepEqual(results, {
+      artists: [artist1],
+      albums: [album1],
+      tracks: [track],
+      playlists: [playlist]
+    });
+  });
 
   it('should get all tracks matching genres', () => {
     const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
@@ -152,35 +152,36 @@ describe('Add, remove and filter data', () => {
   });
 });
 
-// describe('Playlist Creation and properties', () => {
-//   let unqfy = null;
+describe('Playlist Creation and properties', () => {
+  let unqfy = null;
 
-//   beforeEach(() => {
-//     unqfy = new libunqfy.UNQfy();
-//   });
+  beforeEach(() => {
+    unqfy = new libunqfy.UNQfy();
+  });
 
-//   it('should create a playlist as requested', () => {
-//     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
-//     const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-//     const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
-//     createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
+  it('should create a playlist as requested', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+    const t5 = createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
 
-//     const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
-//     const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
-//     const t2 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
-//     const t3 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
-//     const t4 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
+    const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
+    const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
+    const t2 = createAndAddTrack(unqfy, album2.id, 'Thriller', 200, ['pop', 'movie']);
+    const t3 = createAndAddTrack(unqfy, album2.id, 'Another song', 500, ['pop']);
+    const t4 = createAndAddTrack(unqfy, album2.id, 'Another song II', 500, ['pop']);
 
-//     const playlist = unqfy.createPlaylist('my playlist', ['pop', 'rock'], 1400);
+    const playlist = unqfy.createPlaylist('my playlist', ['pop', 'rock'], 1400);
 
-//     console.log(playlist.tracks);
+    console.log(playlist.tracks);
 
-//     assert.equal(playlist.name, 'my playlist');
-//     assert.isAtMost(playlist.duration(), 1400);
-    // assert.isTrue(playlist.hasTrack(t1));
-    // assert.isTrue(playlist.hasTrack(t2));
-    // assert.isTrue(playlist.hasTrack(t3));
-    // assert.isTrue(playlist.hasTrack(t4));
-    // assert.lengthOf(playlist.tracks, 4);
-  // });
-// });
+    assert.equal(playlist.name, 'my playlist');
+    assert.isAtMost(playlist.duration(), 1400);
+    assert.isTrue(playlist.hasTrack(t1));
+    assert.isTrue(playlist.hasTrack(t2));
+    assert.isTrue(playlist.hasTrack(t3));
+    assert.isTrue(playlist.hasTrack(t4));
+    assert.isTrue(playlist.hasTrack(t5));
+    assert.lengthOf(playlist.tracks, 4);
+  });
+});
