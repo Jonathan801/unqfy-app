@@ -18,6 +18,10 @@ class UNQfy {
     this.id2Playlist = 0;
   }
 
+  printArray(array){
+    array.forEach(elem=> console.log(elem));
+  }
+
   // artistData: objeto JS con los datos necesarios para crear un artista
   //   artistData.name (string)
   //   artistData.country (string)
@@ -75,8 +79,16 @@ class UNQfy {
     this.artists = this.artists.filter(elem => elem.id !==item.id );
   }
 
-  getAllArtists(){
-    return this.artists;
+  printAllArtists(){
+    this.printArray(this.artists);
+  }
+
+  printAllAlbums(){
+    this.printArray(this.getAlbums());
+  }
+
+  printAllTracks(){
+    this.printArray(this.getTracks());
   }
 
   // albumData: objeto JS con los datos necesarios para crear un album
