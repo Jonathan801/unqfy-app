@@ -1,5 +1,6 @@
 const Album = require("./album");
 const idGenerator = require("./idGenerator");
+const albumExceptions = require("../exceptions/albumException.js");
 let idGen = new idGenerator();
 
 class Artist{
@@ -15,9 +16,13 @@ class Artist{
     }
 
     addAlbum(albumData) {
-        const newAlbum = new Album(this.id, albumData.name, albumData.year);    
-        this.albums.push(newAlbum);
-        return newAlbum;
+        if(this.haveAlbumName(albumData.name)){
+            throw new albumExceptions.AlbumException("The album to add already existed in the artist");
+        }else{
+            const newAlbum = new Album(this.id, albumData.name, albumData.year);    
+            this.albums.push(newAlbum);
+            return newAlbum;
+        }
     }
 
     removeAlbum(albumId) {
@@ -37,7 +42,11 @@ class Artist{
     getTracks(){
         let tracks = this.albums.map(elem => elem.tracks).reduce((accumulator,actual)=> accumulator.concat(actual),[]);
         return tracks.forEach(elem=> console.log(elem));
-    }   
+    }
+
+    haveAlbumName(name){
+        return this.albums.some(elem => elem.name === name);
+    }
     
     haveAlbum(id){
         return this.albums.some(elem => elem.id === id);

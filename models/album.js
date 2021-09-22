@@ -1,5 +1,5 @@
 const Track = require("./tracks");
-const TrackException = require("../exceptions/trackException");
+const trackExceptions = require("../exceptions/trackException");
 const idGenerator = require("./idGenerator");
 let idGen = new idGenerator();
 
@@ -20,7 +20,7 @@ class Album {
 
     addNewTrack(trackData) {
         if(this.containsTrack(trackData.name)){
-          throw new TrackException("El track a agregar ya existia en el album");
+          throw new trackExceptions.TrackException("The track to add already existed in the album");
         }else{
             const newTrack = new Track(trackData.name, this.id, trackData.duration,trackData.genres);
             this.tracks.push(newTrack);

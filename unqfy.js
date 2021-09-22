@@ -2,8 +2,9 @@
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require("./models/artist"); // El modelo Artista
-const ArtistException = require("./exceptions/artistException.js");
-const TrackException = require("./exceptions/trackException.js");
+const artistExceptions = require("./exceptions/artistException.js");
+const albumExceptions = require("./exceptions/albumException.js");
+const trackExceptions = require("./exceptions/trackException.js");
 const Album = require('./models/album.js');
 const Track = require('./models/tracks');
 const Playlist = require('./models/playlist.js');
@@ -37,7 +38,7 @@ class UNQfy {
     try {
       artist = this.addNewArtist(artistData);
     }catch(error){
-      if(error instanceof ArtistException){
+      if(error instanceof artistExceptions.ArtistException){
         console.log(error.message);
       }
       throw error;
@@ -47,7 +48,7 @@ class UNQfy {
 
   addNewArtist(artist) {
     if(this.artists.some(art => art.name === artist.name)){
-        throw new ArtistException("El artista a agregar ya existia");
+        throw new artistExceptions.ArtistException("The artist to add already existed");
     } else {
       const artist1 = new Artist(artist.name,artist.country);
       this.artists.push(artist1);
@@ -65,7 +66,12 @@ class UNQfy {
     // 1 verify exist id
     // 2 vefify duplicated id
     let artist = this.artists.find(artist => artist.id === id); 
-    return artist !== undefined ? artist : 'dont exist artist';
+    //return artist !== undefined ? artist : 'dont exist artist';
+    if (artist !== undefined){
+      return artist;
+    }else{
+      throw new artistExceptions.ThereIsNoArtist("There is no artist with that id");
+    }
   }
 
   getTracksArtist(id){
@@ -105,11 +111,17 @@ class UNQfy {
      - una propiedad year (number)
   */
   addAlbum(artistId, albumData) {
-    const artist = this.getArtistById(artistId);
-    // addAlbum(artistId, albumData)
-    // const newArtist = new Artist('ale', 'roma')
-    // newArtist.addAlbum()
-    return artist.addAlbum(albumData);
+    let album;
+    try {
+      const artist = this.getArtistById(artistId);
+      album = artist.addAlbum(albumData);
+    }catch(error){
+      if(error instanceof albumExceptions.AlbumException || error instanceof artistExceptions.ThereIsNoArtist){
+        console.log(error.message);
+      }
+      throw error;
+    }
+    return album;
   }
 
   getTracksAlbum(idAlbum){
@@ -124,11 +136,20 @@ class UNQfy {
   }
 
   getAlbumById(id) {
-    // [album] !== album
+    let album;
     let artistOfAlbum = this.artists.find(artist => artist.haveAlbum(id));
-    let album = artistOfAlbum.getAlbumById(id);
-    //return album;
-    return album !== undefined ? album : 'Dont exist album';
+    if(artistOfAlbum !== undefined){
+      album = artistOfAlbum.getAlbumById(id);
+      //return album;
+      //return album !== undefined ? album : 'Dont exist album';
+      if (album !== undefined){
+        return album;
+      }else{
+        throw new albumExceptions.ThereIsNoAlbum("There is no album with that id");
+      }
+    }else{
+        throw new artistExceptions.ThereIsNoArtistWithAlbum("There is no artist with that album");
+    }
   }
 
   removeAlbum2Playlists(albumId) {
@@ -156,15 +177,17 @@ class UNQfy {
       - una propiedad genres (lista de strings)
   */
   addTrack(albumId, trackData) {
-    const albumObt = this.getAlbumById(albumId);
+    let track;
     try{
-      return albumObt.addNewTrack(trackData);
+      const albumObt = this.getAlbumById(albumId);
+      track = albumObt.addNewTrack(trackData);
     }catch(error){
-      if(error instanceof TrackException){
+      if(error instanceof trackExceptions.TrackException || error instanceof albumExceptions.ThereIsNoAlbum){
         console.log(error.message);
       }
       throw error;
     }
+    return track;
   }
 
   removeTrack(artistId, trackId) {
