@@ -14,6 +14,10 @@ class Album {
         this.tracks = [];
     }
 
+    toJSON(){
+        return { id: this.id, name: this.name, tracks: this.tracks,year:this.year };
+    }
+
     addNewTrack(trackData) {
         if(this.containsTrack(trackData.name)){
           throw new TrackException("El track a agregar ya existia en el album");
@@ -22,6 +26,10 @@ class Album {
             this.tracks.push(newTrack);
             return newTrack;
         }
+    }
+
+    getTracks(){
+        return this.tracks.forEach(track=> console.log(track));
     }
 
     removeTrack(trackData) {

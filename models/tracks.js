@@ -15,6 +15,10 @@ class Track{
         return this.id === id;
     }
 
+    anyGenre(genres){
+        return genres.some(genre => this.genres.includes(genre));   
+    }
+
     toJSON(){
         return {
             name:this.name,
