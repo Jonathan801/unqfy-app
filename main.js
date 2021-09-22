@@ -184,7 +184,7 @@ function evalMethods(method,args,unqfy){
       saveUNQfy(unqfy);
       break;
     default : 
-      console.log("Nop");
+      console.log("No existe el metodo: " , method);
   }
 }
 
