@@ -81,6 +81,18 @@ function getTracksGenre(unqfy,genre){
   unqfy.getTracksMatchingGenres(genresToList);
 }
 
+function getArtists(unqfy){
+  unqfy.printAllArtists();
+}
+
+function getAlbums(unqfy){
+  unqfy.printAllAlbums();
+}
+
+function getTracks(unqfy){
+  unqfy.printAllTracks();
+}
+
 /*
  En esta funcion deberán interpretar los argumentos pasado por linea de comandos
  e implementar los diferentes comandos.
@@ -158,12 +170,39 @@ function evalMethods(method,args,unqfy){
     case "getTracksGenre": //args[0] seria los generos , 
       getTracksGenre(unqfy,args[0]);
       break;
+    case "artists":
+      getArtists(unqfy);
+      break;
+    case "albums":
+      getAlbums(unqfy);
+      break;
+    case "tracks":
+      getTracks(unqfy);
+      break;
+    case "setUp":
+      setUp(unqfy);
+      saveUNQfy(unqfy);
+      break;
     default : 
       console.log("Nop");
   }
 }
 
+function setUp(unqfy){ 
+  const artist = unqfy.addArtist({name:'Guns n\' Roses',country:'USA'});
+  const album = unqfy.addAlbum(artist.id, {name:'Appetite for Destruction',year:1987});
+  const t1 = unqfy.addTrack(album.id, {name:'Welcome to the jungle',duration:200,genres:['rock', 'hard rock', 'movie']});
+  const t5 = unqfy.addTrack(album.id, {name:'Sweet Child o\' Mine',duration:1500,genres:['rock', 'hard rock', 'pop', 'movie']});
 
+  const artist2 = unqfy.addArtist({name:'Michael Jackson',country:'USA'});
+  const album2 = unqfy.addAlbum(artist2.id, {name:'Thriller',year:1987});
+  const t2 = unqfy.addTrack(album2.id, {name:'Thriller',duration:200,genres:['pop', 'movie']});
+  const t3 = unqfy.addTrack(album2.id, {name:'Another song',duration:500,genres:['pop']});
+  const t4 = unqfy.addTrack(album2.id, {name:'Another song II',duration:500,genres:['pop']});
+}
+
+// let setTest = getUNQfy();
+// setUp(setTest);
 main();
 
 
