@@ -15,8 +15,19 @@ class Track{
         return this.id === id;
     }
 
+    matchingByName(scrappyWord) {
+        const reg = new RegExp(scrappyWord, 'gi')
+        
+        let match =  reg.exec(this.name);
+        return match !== null;
+    }
+
     anyGenre(genres){
         return genres.some(genre => this.genres.includes(genre));   
+    }
+
+    isMaxDuration(maxDuration) {
+        return this.duration <= maxDuration;
     }
 
     toJSON(){

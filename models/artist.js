@@ -59,6 +59,27 @@ class Artist{
         let track = albumWithTrack.getTrackById(idTrack);
         return track;
     }
+
+    matchingByName(scrappyWord) {
+        const reg = new RegExp(scrappyWord, 'gi')
+        
+        let match =  reg.exec(this.name);
+        return match !== null;
+    }
+
+    matchingAlbumByName(scrappyWord) {
+        let albums = this.albums.filter(album => album.matchingByName(scrappyWord));
+        return albums;
+    }
+
+    matchingTrackByName(scrappyWord) {
+        let tracksByAlbum = this.albums.reduce((total, current) => {
+            let tracks = current.matchingTrackByName(scrappyWord);
+            total = total.concat(tracks);
+            return total;
+        }, []);
+        return tracksByAlbum;
+    }
 }
 
 module.exports = Artist;
