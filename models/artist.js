@@ -10,6 +10,10 @@ class Artist{
         this.id = idGen.getNextId();
     }
 
+    toJSON(){
+        return { id: this.id, name: this.name, country: this.country, albums: this.albums };
+    }
+
     addAlbum(albumData) {
         const newAlbum = new Album(this.id, albumData.name, albumData.year);    
         this.albums.push(newAlbum);
@@ -24,9 +28,19 @@ class Artist{
         this.albums = this.albums.filter(album => album.id !== albumId);
         return this.albums;
     }
+
+    getAlbums(){
+        //return this.albums.forEach(album=> console.log(JSON.stringify(album)));
+        return this.albums.forEach(album=> console.log(album));
+    }
+
+    getTracks(){
+        let tracks = this.albums.map(elem => elem.tracks).reduce((accumulator,actual)=> accumulator.concat(actual),[]);
+        return tracks.forEach(elem=> console.log(elem));
+    }   
     
     haveAlbum(id){
-        return this.albums.some(elem=> elem.id === id);
+        return this.albums.some(elem => elem.id === id);
     }
 
     removeTrack(idTrack) {

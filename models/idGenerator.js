@@ -4,8 +4,7 @@ class IdGenerator{
     }
 
     getNextId(){
-        this.id++;
-        return this.id-1;
+        return this.id++;
     }
 }
 
