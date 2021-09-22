@@ -3,6 +3,7 @@ const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require("./models/artist"); // El modelo Artista
 const ArtistException = require("./exceptions/artistException.js");
+const TrackException = require("./exceptions/trackException.js");
 const Album = require('./models/album.js');
 const Track = require('./models/tracks');
 const Playlist = require('./models/playlist.js');
@@ -36,7 +37,10 @@ class UNQfy {
     try {
       artist = this.addNewArtist(artistData);
     }catch(error){
-      error.message;
+      if(error instanceof ArtistException){
+        console.log(error.message);
+      }
+      throw error;
     }
     return artist;
   }
@@ -155,8 +159,11 @@ class UNQfy {
     const albumObt = this.getAlbumById(albumId);
     try{
       return albumObt.addNewTrack(trackData);
-    }catch(err){
-      err.message;
+    }catch(error){
+      if(error instanceof TrackException){
+        console.log(error.message);
+      }
+      throw error;
     }
   }
 
