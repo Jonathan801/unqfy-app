@@ -17,6 +17,10 @@ function createAndAddTrack(unqfy, albumId, trackName, trackDuraction, trackGenre
   return unqfy.addTrack(albumId, { name: trackName, duration: trackDuraction, genres: trackGenres });
 }
 
+function createAndAddUser(unqfy, name) {
+  return unqfy.addUser(name);
+}
+
 
 describe('Add, remove and filter data', () => {
   let unqfy = null;
@@ -41,6 +45,17 @@ describe('Add, remove and filter data', () => {
     assert.equal(album.year, 1987);
   });
 
+  it('should remove an album to an artist', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album1 = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const album2 = createAndAddAlbum(unqfy, artist.id, 'Use Your Illusion II', 1991);
+
+    assert.equal(artist.albums.length, 2);
+
+    artist.removeAlbum(album1.id);
+    assert.equal(artist.albums.length, 1);
+  });
+
   it('should add a track to an album', () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
@@ -51,6 +66,31 @@ describe('Add, remove and filter data', () => {
     assert.equal(track.genres.includes('rock'), true);
     assert.equal(track.genres.includes('hard rock'), true);
     assert.lengthOf(track.genres, 2);
+  });
+
+
+  it(`Should remove a track from an artist's album`, () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
+    const track = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock']);
+
+    unqfy.removeTrack(artist.id, track.idTrack);
+
+    assert.isEmpty(unqfy.getAlbumById(album.id).tracks, 'is not empty');
+    assert.equal(unqfy.getAlbumById(album.id).tracks.length, 0);
+  });
+
+  it('should remove an artist', () => {
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+
+    assert.equal(artist.name, 'Guns n\' Roses');
+    assert.equal(artist.country, 'USA');
+    assert.equal(unqfy.artists.length,1);
+
+    unqfy.removeArtist(artist.id);
+    
+    assert.equal(unqfy.artists.length,0);
+
   });
 
   it('should find different things by name', () => {
@@ -64,7 +104,7 @@ describe('Add, remove and filter data', () => {
       artists: [artist1],
       albums: [album1],
       tracks: [track],
-      playlists: [playlist],
+      playlists: [playlist]
     });
   });
 
@@ -127,7 +167,7 @@ describe('Playlist Creation and properties', () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
     const t1 = createAndAddTrack(unqfy, album.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
-    createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
+    const t5 = createAndAddTrack(unqfy, album.id, 'Sweet Child o\' Mine', 1500, ['rock', 'hard rock', 'pop', 'movie']);
 
     const artist2 = createAndAddArtist(unqfy, 'Michael Jackson', 'USA');
     const album2 = createAndAddAlbum(unqfy, artist2.id, 'Thriller', 1987);
@@ -145,4 +185,33 @@ describe('Playlist Creation and properties', () => {
     assert.isTrue(playlist.hasTrack(t4));
     assert.lengthOf(playlist.tracks, 4);
   });
+});
+
+describe('User Creation', () => {
+  let unqfy = null;
+  beforeEach(() => {
+      unqfy = new libunqfy.UNQfy();
+  });
+
+  it("should create a user",() =>{
+    const u1 = createAndAddUser(unqfy,"Pepe");
+    const u2 = createAndAddUser(unqfy,"Coqui");
+    assert.equal(u1.name, 'Pepe');
+    assert.equal(u2.name, 'Coqui');
+  });
+
+  it('canciones que escucho user', () => {
+    const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const album1 = createAndAddAlbum(unqfy, artist1.id, 'Leyendas', 1920);
+    const track1 = createAndAddTrack(unqfy, album1.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+    const u1 = createAndAddUser(unqfy,"Pepe");
+    unqfy.addListenedSong(u1.id,track1.idTrack);
+    assert.equal(unqfy.tracksListenedByUser(u1.id).length, 1);
+    assert.isTrue(unqfy.tracksListenedByUser(u1.id).includes(track1));
+    unqfy.addListenedSong(u1.id,track1.idTrack);
+    unqfy.addListenedSong(u1.id,track1.idTrack);
+    assert.equal(unqfy.timesListenedTrackByUser(u1.id,track1.idTrack),3);
+  });
+
+
 });
