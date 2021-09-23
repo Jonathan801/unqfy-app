@@ -44,9 +44,8 @@ Comandos
 
 UML
 ------
-https://drive.google.com/file/d/1o44EyFFowoRQ8Pm6JN01SOl-NgLTV1QH/view?usp=sharing
+[uml-unqfy](https://drive.google.com/file/d/1o44EyFFowoRQ8Pm6JN01SOl-NgLTV1QH/view?usp=sharing)
 
-[uml-unqfy](https://lucid.app/lucidchart/bc7d4b72-5556-4d07-b56f-a030b969601f/edit?viewport_loc=-28%2C-11%2C2200%2C1127%2C0_0&invitationId=inv_b1df06c1-3479-4d63-a7fd-9063d6706a1d)
 
 
 
