@@ -5,8 +5,10 @@ const Artist = require("./models/artist"); // El modelo Artista
 const artistExceptions = require("./exceptions/artistException.js");
 const albumExceptions = require("./exceptions/albumException.js");
 const trackExceptions = require("./exceptions/trackException.js");
+const userExceptions = require("./exceptions/userException.js");
 const Album = require('./models/album.js');
 const Track = require('./models/tracks');
+const User = require("./models/user");
 const Playlist = require('./models/playlist.js');
 
 class UNQfy {
@@ -22,6 +24,40 @@ class UNQfy {
 
   printArray(array){
     array.forEach(elem=> console.log(elem));
+  }
+
+  addUser(userName){
+    if(this.users.some(elem=> elem.name === userName)){
+      throw new userExceptions.UserException(userName);
+    }else{
+      const user = new User(userName);
+      this.users.push(user);
+      return user;
+    }
+  }
+
+  getUserById(id){
+    return this.users.find(elem=> elem.id === id);
+  }
+
+  addListenedSong(userId,trackId){
+    let user = this.getUserById(userId);
+    let track = this.getTrackById(trackId);
+    user.listenTrack(track);
+  }
+
+  tracksListenedByUser(userId){
+    return this.getUserById(userId).tracksListenedWithoutRepeat();
+  }
+
+  timesListenedTrackByUser(userId,trackId){
+    const track = this.getTrackById(trackId);
+    return this.getUserById(userId).amountTrackListened(track);
+  }
+
+  removeUser(idUser){
+    const user = this.getUserById(idUser);
+    this.users = this.removeItemWithIdFromArr(user,this.users);
   }
 
   // artistData: objeto JS con los datos necesarios para crear un artista
@@ -59,7 +95,7 @@ class UNQfy {
   removeArtist(artistId){
     let art = this.getArtistById(artistId);
     art.albums.forEach(elem => this.removeAlbum(artistId,elem.id));
-    this.removeItemFromArr(art);
+    this.artists = this.removeItemWithIdFromArr(art,this.artists);
   }
 
   getArtistById(id) {
@@ -85,8 +121,8 @@ class UNQfy {
     return art.getAlbums();
   }
 
-  removeItemFromArr(item){
-    this.artists = this.artists.filter(elem => elem.id !==item.id );
+  removeItemWithIdFromArr(item,arr){
+    return arr.filter(elem => elem.id !==item.id );
   }
 
   printAllArtists(){
