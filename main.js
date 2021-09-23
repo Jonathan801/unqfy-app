@@ -93,6 +93,10 @@ function getTracks(unqfy){
   unqfy.printAllTracks();
 }
 
+function addUser(unqfy,name){
+  unqfy.addUser(name);
+}
+
 /*
  En esta funcion deberán interpretar los argumentos pasado por linea de comandos
  e implementar los diferentes comandos.
@@ -181,7 +185,10 @@ function evalMethods(method,args,unqfy){
       break;
     case "setUp":
       setUp(unqfy);
-      saveUNQfy(unqfy);
+      //saveUNQfy(unqfy);
+      break;
+    case "addUser":
+      addUser(unqfy,args[0]);
       break;
     default : 
       console.log("No existe el metodo: " , method);
