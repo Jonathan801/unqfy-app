@@ -57,10 +57,6 @@ function createPlaylist(unqfy, name, genresToInclude, maxDuration) {
   unqfy.createPlaylist(name, genresToList, intDuration);
 }
 
-function allArtists(unqfy){
-  unqfy.getAllArtists();
-}
-
 function getAlbumsArtist(unqfy,artistId){
   let intArtistId = parseInt(artistId);
   unqfy.getAlbumsArtist(intArtistId);
@@ -158,9 +154,6 @@ function evalMethods(method,args,unqfy){
       break;
     case "removeTrack":
       removeTrack(unqfy, args[0], args[1]);
-      break;
-    case "allArtists":
-      allArtists(unqfy);
       break;
     case "getAlbumsArtist":
       getAlbumsArtist(unqfy,args[0]);
