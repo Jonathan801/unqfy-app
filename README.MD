@@ -42,6 +42,10 @@ Comandos
 |`setUp`|              |
 |`addUser`|userName|
 
+UML
+------
+https://drive.google.com/file/d/1o44EyFFowoRQ8Pm6JN01SOl-NgLTV1QH/view?usp=sharing
+
 
 
 
