@@ -47,12 +47,15 @@ class UNQfy {
   }
 
   tracksListenedByUser(userId){
-    return this.getUserById(userId).tracksListenedWithoutRepeat();
+    const user = this.getUserById(userId);
+    const tracks = user.tracksListenedWithoutRepeat();
+    return tracks;
   }
 
   timesListenedTrackByUser(userId,trackId){
     const track = this.getTrackById(trackId);
-    return this.getUserById(userId).amountTrackListened(track);
+    const tracks = this.getUserById(userId).amountTrackListened(track);
+    return tracks;
   }
 
   removeUser(idUser){
@@ -354,7 +357,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, Album, Playlist, Track];
+    const classes = [UNQfy, Artist, Album, Playlist, Track,User];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
