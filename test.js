@@ -204,13 +204,16 @@ describe('User Creation', () => {
     const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album1 = createAndAddAlbum(unqfy, artist1.id, 'Leyendas', 1920);
     const track1 = createAndAddTrack(unqfy, album1.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+    const t2 = createAndAddTrack(unqfy, album1.id, 'Thriller', 200, ['pop', 'movie']);
     const u1 = createAndAddUser(unqfy,"Pepe");
     unqfy.addListenedSong(u1.id,track1.idTrack);
     assert.equal(unqfy.tracksListenedByUser(u1.id).length, 1);
     assert.isTrue(unqfy.tracksListenedByUser(u1.id).includes(track1));
     unqfy.addListenedSong(u1.id,track1.idTrack);
     unqfy.addListenedSong(u1.id,track1.idTrack);
+    unqfy.addListenedSong(u1.id,t2.idTrack);
     assert.equal(unqfy.timesListenedTrackByUser(u1.id,track1.idTrack),3);
+    assert.equal(unqfy.tracksListenedByUser(u1.id).length, 2);
   });
 
 

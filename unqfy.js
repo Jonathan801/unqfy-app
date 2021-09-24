@@ -157,8 +157,9 @@ class UNQfy {
     }catch(error){
       if(error instanceof albumExceptions.AlbumException || error instanceof artistExceptions.ThereIsNoArtist){
         console.log(error.message);
+      }else{
+        throw error;
       }
-      throw error;
     }
     return album;
   }

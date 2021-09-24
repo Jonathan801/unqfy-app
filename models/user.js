@@ -14,8 +14,7 @@ class User{
     }
 
     tracksListenedWithoutRepeat(){
-        const tracksWithoutRepeat = this.tracksListened.filter( (ele,pos)=> this.tracksListened.indexOf(ele) === pos);
-        return tracksWithoutRepeat;
+        return [...new Set(this.tracksListened)];
     }
 
     amountTrackListened(track){
