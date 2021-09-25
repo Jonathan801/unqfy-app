@@ -1,14 +1,13 @@
 const Album = require("./album");
 const idGenerator = require("./idGenerator");
 const albumExceptions = require("../exceptions/albumException.js");
-let idGen = new idGenerator();
 
 class Artist{
     constructor(name,country){
         this.name = name;
         this.country = country;
         this.albums = [];
-        this.id = idGen.getNextId();
+        this.id = idGenerator.getNextIdArtist();
     }
 
     toJSON(){

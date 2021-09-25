@@ -1,5 +1,5 @@
 const idGenerator = require("./idGenerator");
-let idGen = new idGenerator();
+//let idGen = new idGenerator();
 
 
 class Track{
@@ -7,7 +7,7 @@ class Track{
         this.name = name;
         this.albumId = albumId;
         this.duration = duration;
-        this.idTrack = idGen.getNextId();
+        this.idTrack = idGenerator.getNextIdTrack();
         this.genres = genres;
     }
 
