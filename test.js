@@ -2,6 +2,7 @@
 
 const assert = require('chai').assert;
 const libunqfy = require('./unqfy');
+const idGenerator = require("./models/idGenerator");
 
 
 function createAndAddArtist(unqfy, artistName, country) {
@@ -27,6 +28,7 @@ describe('Add, remove and filter data', () => {
 
   beforeEach(() => {
     unqfy = new libunqfy.UNQfy();
+    idGenerator.resetIDs();
   });
 
   it('should add an artist', () => {
@@ -161,6 +163,7 @@ describe('Playlist Creation and properties', () => {
 
   beforeEach(() => {
     unqfy = new libunqfy.UNQfy();
+    idGenerator.resetIDs();
   });
 
   it('should create a playlist as requested', () => {
@@ -191,6 +194,7 @@ describe('User Creation', () => {
   let unqfy = null;
   beforeEach(() => {
       unqfy = new libunqfy.UNQfy();
+      idGenerator.resetIDs();
   });
 
   it("should create a user",() =>{

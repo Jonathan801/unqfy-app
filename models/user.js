@@ -1,12 +1,12 @@
 const idGenerator = require("./idGenerator");
-let idGen = new idGenerator();
+//let idGen = new idGenerator();
 
 
 class User{
     constructor(name){
         this.name = name;
         this.tracksListened = [];
-        this.id = idGen.getNextId();
+        this.id = idGenerator.getNextIdUser();
     }
 
     listenTrack(track){
