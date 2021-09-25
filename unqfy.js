@@ -48,7 +48,7 @@ class UNQfy {
 
   tracksListenedByUser(userId){
     const user = this.getUserById(userId);
-    const tracks = user.tracksListenedWithoutRepeat();
+    const tracks = user.differentsTracksListened();
     return tracks;
   }
 

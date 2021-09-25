@@ -13,7 +13,7 @@ class User{
         this.tracksListened.push(track);
     }
 
-    tracksListenedWithoutRepeat(){
+    differentsTracksListened(){ // differentsTracksListened()
         return [...new Set(this.tracksListened)];
     }
 
