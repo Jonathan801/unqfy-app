@@ -18,7 +18,6 @@ class UNQfy {
     this.artistsSize = 0;
     this.playlists = [];
     this.users = [];
-
     this.id2Playlist = 0;
   }
 
