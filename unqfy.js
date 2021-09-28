@@ -18,7 +18,6 @@ class UNQfy {
     this.artistsSize = 0;
     this.playlists = [];
     this.users = [];
-
     this.id2Playlist = 0;
   }
 
@@ -48,7 +47,7 @@ class UNQfy {
 
   tracksListenedByUser(userId){
     const user = this.getUserById(userId);
-    const tracks = user.tracksListenedWithoutRepeat();
+    const tracks = user.differentsTracksListened();
     return tracks;
   }
 
@@ -87,7 +86,7 @@ class UNQfy {
 
   addNewArtist(artist) {
     if(this.artists.some(art => art.name === artist.name)){
-        throw new artistExceptions.ArtistException("The artist to add already existed");
+        throw new artistExceptions.ArtistWithSameName(`The artist ${artist.name} already existed.`)
     } else {
       const artist1 = new Artist(artist.name,artist.country);
       this.artists.push(artist1);
@@ -109,7 +108,7 @@ class UNQfy {
     if (artist !== undefined){
       return artist;
     }else{
-      throw new artistExceptions.ThereIsNoArtist("There is no artist with that id");
+      throw new artistExceptions.ArtistIdDoesNotExist(`The artist with id ${id} does not exist`)
     }
   }
 
@@ -157,8 +156,9 @@ class UNQfy {
     }catch(error){
       if(error instanceof albumExceptions.AlbumException || error instanceof artistExceptions.ThereIsNoArtist){
         console.log(error.message);
+      }else{
+        throw error;
       }
-      throw error;
     }
     return album;
   }

@@ -1,21 +1,20 @@
 const idGenerator = require("./idGenerator");
-let idGen = new idGenerator();
+//let idGen = new idGenerator();
 
 
 class User{
     constructor(name){
         this.name = name;
         this.tracksListened = [];
-        this.id = idGen.getNextId();
+        this.id = idGenerator.getNextIdUser();
     }
 
     listenTrack(track){
         this.tracksListened.push(track);
     }
 
-    tracksListenedWithoutRepeat(){
-        const tracksWithoutRepeat = this.tracksListened.filter( (ele,pos)=> this.tracksListened.indexOf(ele) === pos);
-        return tracksWithoutRepeat;
+    differentsTracksListened(){ // differentsTracksListened()
+        return [...new Set(this.tracksListened)];
     }
 
     amountTrackListened(track){

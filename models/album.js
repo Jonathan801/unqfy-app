@@ -1,13 +1,13 @@
 const Track = require("./tracks");
 const trackExceptions = require("../exceptions/trackException");
 const idGenerator = require("./idGenerator");
-let idGen = new idGenerator();
+//let idGen = new idGenerator();
 
 
 
 class Album {
     constructor(artistId, name, year) {
-        this.id = idGen.getNextId();
+        this.id = idGenerator.getNextIdAlbum();
         this.artist = artistId;
         this.name = name;
         this.year = year;

@@ -2,10 +2,12 @@
 
 const assert = require('chai').assert;
 const libunqfy = require('./unqfy');
+const idGenerator = require("./models/idGenerator");
 
 
 function createAndAddArtist(unqfy, artistName, country) {
-  const artist = unqfy.addArtist({ name: artistName, country });
+  // try catch
+  const artist = unqfy.addArtist({ name: artistName, country: country });
   return artist;
 }
 
@@ -27,6 +29,7 @@ describe('Add, remove and filter data', () => {
 
   beforeEach(() => {
     unqfy = new libunqfy.UNQfy();
+    idGenerator.resetIDs();
   });
 
   it('should add an artist', () => {
@@ -35,6 +38,24 @@ describe('Add, remove and filter data', () => {
     assert.equal(artist.name, 'Guns n\' Roses');
     assert.equal(artist.country, 'USA');
 
+  });
+
+  it('should add the same artist twice', () => {
+    /**
+     * create Artist json to verify message error
+     */
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+
+    assert.throw(() => {unqfy.addArtist({ name: 'Guns n\' Roses', country: 'USA'})}, Error, 'The artist Guns n\' Roses already existed.');
+  });
+
+  it('get artist with existing ID', () => {
+    /**
+     * create API for getArtist/AlBum/Track/PlaylistByID
+     */
+    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+
+    assert.throw(() => {unqfy.getArtistById(9)}, Error, 'The artist with id 9 does not exist')
   });
 
   it('should add an album to an artist', () => {
@@ -161,6 +182,7 @@ describe('Playlist Creation and properties', () => {
 
   beforeEach(() => {
     unqfy = new libunqfy.UNQfy();
+    idGenerator.resetIDs();
   });
 
   it('should create a playlist as requested', () => {
@@ -191,6 +213,7 @@ describe('User Creation', () => {
   let unqfy = null;
   beforeEach(() => {
       unqfy = new libunqfy.UNQfy();
+      idGenerator.resetIDs();
   });
 
   it("should create a user",() =>{
@@ -204,13 +227,16 @@ describe('User Creation', () => {
     const artist1 = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album1 = createAndAddAlbum(unqfy, artist1.id, 'Leyendas', 1920);
     const track1 = createAndAddTrack(unqfy, album1.id, 'Welcome to the jungle', 200, ['rock', 'hard rock', 'movie']);
+    const t2 = createAndAddTrack(unqfy, album1.id, 'Thriller', 200, ['pop', 'movie']);
     const u1 = createAndAddUser(unqfy,"Pepe");
     unqfy.addListenedSong(u1.id,track1.idTrack);
     assert.equal(unqfy.tracksListenedByUser(u1.id).length, 1);
     assert.isTrue(unqfy.tracksListenedByUser(u1.id).includes(track1));
     unqfy.addListenedSong(u1.id,track1.idTrack);
     unqfy.addListenedSong(u1.id,track1.idTrack);
+    unqfy.addListenedSong(u1.id,t2.idTrack);
     assert.equal(unqfy.timesListenedTrackByUser(u1.id,track1.idTrack),3);
+    assert.equal(unqfy.tracksListenedByUser(u1.id).length, 2);
   });
 
 

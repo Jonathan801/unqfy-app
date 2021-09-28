@@ -132,60 +132,71 @@ function main() {
   saveUNQfy(unqfy);
 }
 
-function evalMethods(method,args,unqfy){
-  switch(method){
-    case "addArtist" ://args[0] = name artist ;args[1]= country artist
+function evalMethods(method1,args,unqfy){
+
+  let metodos = {
+    // eslint-disable-next-line quote-props
+    "addArtist" : function(){
       addArtist(unqfy,args[0],args[1]);
-      break;
-    case "addAlbum": //args[0] = artistId ;args[1]= Album name ;args[2]=year Album
+    },
+    // eslint-disable-next-line quote-props
+    "addAlbum" : function(){
       addAlbum(unqfy, args[0], args[1], args[2]);
-      break;
-    case "addTrack": //args[0] = nombreTrack;args[1]= Album id ;args[2]=durationTrack ;args[3]= genresTrack
+    },
+    // eslint-disable-next-line quote-props
+    "addTrack" : function(){
       addTrack(unqfy,args[0],args[1],args[2],args[3]);
-      break;
-    case "removeAlbum":
-      removeAlbum(unqfy, args[0], args[1]);
-      break;
-    case "removeArtist":
-      removeArtist(unqfy,args[0]);
-      break;
-    case "createPlaylist":
-      createPlaylist(unqfy, args[0], args[1], args[2]);
-      break;
-    case "removeTrack":
-      removeTrack(unqfy, args[0], args[1]);
-      break;
-    case "getAlbumsArtist":
-      getAlbumsArtist(unqfy,args[0]);
-      break;
-    case "getTracksAlbum":
-      getTracksAlbum(unqfy,args[0]);
-      break;
-    case "getTracksArtist":
-      getTracksArtist(unqfy,args[0]);
-      break;
-    case "getTracksGenre": //args[0] seria los generos , 
-      getTracksGenre(unqfy,args[0]);
-      break;
-    case "artists":
-      getArtists(unqfy);
-      break;
-    case "albums":
-      getAlbums(unqfy);
-      break;
-    case "tracks":
-      getTracks(unqfy);
-      break;
-    case "setUp":
-      setUp(unqfy);
-      //saveUNQfy(unqfy);
-      break;
-    case "addUser":
+    },
+    // eslint-disable-next-line quote-props
+    "addUser" : function(){
       addUser(unqfy,args[0]);
-      break;
-    default : 
-      console.log("No existe el metodo: " , method);
-  }
+    },
+    // eslint-disable-next-line quote-props
+    "removeAlbum":function(){
+      removeAlbum(unqfy,args[0],args[1]);
+    },
+    // eslint-disable-next-line quote-props
+    "removeArtist":function(){
+      removeArtist(unqfy,args[0]);
+    },    
+    // eslint-disable-next-line quote-props
+    "removeTrack":function(){
+      removeTrack(unqfy, args[0], args[1]);
+    },
+    // eslint-disable-next-line quote-props
+    "getAlbumsArtist":function(){
+      getAlbumsArtist(unqfy,args[0]);
+    },
+    // eslint-disable-next-line quote-props
+    "getTracksAlbum":function(){
+      getTracksAlbum(unqfy,args[0]);
+    },
+    // eslint-disable-next-line quote-props
+    "getTracksArtist":function(){
+      getTracksArtist(unqfy,args[0]);
+    },
+    // eslint-disable-next-line quote-props
+    "getTracksGenre":function(){
+      getTracksGenre(unqfy,args[0]);(unqfy,args[0]);
+    },
+    // eslint-disable-next-line quote-props
+    "artists":function(){
+      getArtists(unqfy);
+    },
+    // eslint-disable-next-line quote-props
+    "albums":function(){
+      getAlbums(unqfy);
+    },
+    // eslint-disable-next-line quote-props
+    "tracks":function(){
+      getTracks(unqfy);
+    },
+    // eslint-disable-next-line quote-props
+    "setUp":function(){
+      setUp(unqfy);
+    }                         
+  };
+  metodos[method1]();
 }
 
 function setUp(unqfy){ 
@@ -199,10 +210,15 @@ function setUp(unqfy){
   const t2 = unqfy.addTrack(album2.id, {name:'Thriller',duration:200,genres:['pop', 'movie']});
   const t3 = unqfy.addTrack(album2.id, {name:'Another song',duration:500,genres:['pop']});
   const t4 = unqfy.addTrack(album2.id, {name:'Another song II',duration:500,genres:['pop']});
+
+  const u1 = unqfy.addUser("UserTest1");
+  // unqfy.addListenedSong(u1.id,t1.id);
+  // unqfy.addListenedSong(u1.id,t2.id);
+  // unqfy.addListenedSong(u1.id,t4.id);
+  // unqfy.addListenedSong(u1.id,t1.id);
+  // unqfy.addListenedSong(u1.id,t4.id);
 }
 
-// let setTest = getUNQfy();
-// setUp(setTest);
 main();
 
 
