@@ -17,8 +17,24 @@ ArtistException.prototype.toString = function() {
     return `${this.name}: "${this.message}"`;
   }
 
+class ArtistWithSameName extends Error {
+    constructor(message) {
+        super(message)
+        this.name = 'ArtistWithSameName'
+    }
+}
+
+class ArtistIdDoesNotExist extends Error {
+    constructor(message) {
+        super(message)
+        this.name = 'ArtistIdDoesNotExist'
+    }
+} 
+
   module.exports = {
       ArtistException,
       ThereIsNoArtist,
-      ThereIsNoArtistWithAlbum
+      ThereIsNoArtistWithAlbum,
+      ArtistWithSameName,
+      ArtistIdDoesNotExist
 };
