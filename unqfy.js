@@ -72,15 +72,7 @@ class UNQfy {
     - una propiedad country (string)
   */
   addArtist(artistData) {
-    let artist;
-    try {
-      artist = this.addNewArtist(artistData);
-    }catch(error){
-      if(error instanceof artistExceptions.ArtistException){
-        console.log(error.message);
-      }
-      throw error;
-    }
+    const artist = this.addNewArtist(artistData);
     return artist;
   }
 
@@ -101,8 +93,6 @@ class UNQfy {
   }
 
   getArtistById(id) {
-    // 1 verify exist id
-    // 2 vefify duplicated id
     let artist = this.artists.find(artist => artist.id === id); 
     //return artist !== undefined ? artist : 'dont exist artist';
     if (artist !== undefined){
