@@ -86,7 +86,7 @@ class UNQfy {
 
   addNewArtist(artist) {
     if(this.artists.some(art => art.name === artist.name)){
-        throw new artistExceptions.ArtistException("The artist to add already existed");
+        throw new artistExceptions.ArtistWithSameName(`The artist ${artist.name} already existed.`)
     } else {
       const artist1 = new Artist(artist.name,artist.country);
       this.artists.push(artist1);
@@ -108,7 +108,7 @@ class UNQfy {
     if (artist !== undefined){
       return artist;
     }else{
-      throw new artistExceptions.ThereIsNoArtist("There is no artist with that id");
+      throw new artistExceptions.ArtistIdDoesNotExist(`The artist with id ${id} does not exist`)
     }
   }
 
