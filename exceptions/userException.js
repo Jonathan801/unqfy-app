@@ -9,4 +9,4 @@ UserException.prototype.toString = function() {
 
 module.exports ={
     UserException
-}
+};

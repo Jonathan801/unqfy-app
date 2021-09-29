@@ -1,10 +1,10 @@
 class Playlist {
     constructor(id, name, genresToInclude, maxDuration) {
-        this.id = id
-        this.name = name
-        this.genresToInclude = genresToInclude
-        this.maxDuration = maxDuration
-        this.tracks = []
+        this.id = id;
+        this.name = name;
+        this.genresToInclude = genresToInclude;
+        this.maxDuration = maxDuration;
+        this.tracks = [];
     }
 
     addFullTracks(tracksWithMaxDuration) {
@@ -22,7 +22,7 @@ class Playlist {
 
     hasTrack(aTrack) {
     // * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
-        let findTrack = this.tracks.find(track => (track.id === aTrack.id) && (track.name === aTrack.name))
+        const findTrack = this.tracks.find(track => (track.id === aTrack.id) && (track.name === aTrack.name));
         return findTrack !== undefined;
     }
 
@@ -32,9 +32,9 @@ class Playlist {
     }
 
     matchingTrackByName(scrappyWord) {
-        let tracks = this.tracks.filter(track => track.matchingByName(scrappyWord));
+        const tracks = this.tracks.filter(track => track.matchingByName(scrappyWord));
         return tracks;
     }
 }
 
-module.exports = Playlist
+module.exports = Playlist;

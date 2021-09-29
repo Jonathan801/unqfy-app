@@ -15,7 +15,8 @@
   },
   "scripts": {
     "test": "mocha",
-    "eslint": "node_modules/.bin/eslint *.js"
+    "eslint": "node_modules/.bin/eslint *.js",
+    "lint-fix": "node_modules/.bin/eslint --fix *.js"
   },
   "author": "",
   "license": "ISC"

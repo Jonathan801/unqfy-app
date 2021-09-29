@@ -10,7 +10,7 @@ function ThereIsNoTrack(message){
 
 TrackException.prototype.toString = function() {
     return `${this.name}: "${this.message}"`;
-  }
+  };
 
   module.exports = {
       TrackException,

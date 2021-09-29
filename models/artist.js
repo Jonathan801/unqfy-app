@@ -39,7 +39,7 @@ class Artist{
     }
 
     getTracks(){
-        let tracks = this.albums.map(elem => elem.tracks).reduce((accumulator,actual)=> accumulator.concat(actual),[]);
+        const tracks = this.albums.map(elem => elem.tracks).reduce((accumulator,actual)=> accumulator.concat(actual),[]);
         return tracks.forEach(elem=> console.log(elem));
     }
 
@@ -53,7 +53,7 @@ class Artist{
 
     removeTrack(idTrack) {
         const track = this.getTrackById(idTrack);
-        let album = this.albums.find(album => album.id === track.albumId);
+        const album = this.albums.find(album => album.id === track.albumId);
         album.removeTrack(track);
     }
 
@@ -64,25 +64,25 @@ class Artist{
 
     getTrackById(idTrack) {
         const albumWithTrack = this.albums.find(album => album.getTrackById(idTrack));
-        let track = albumWithTrack.getTrackById(idTrack);
+        const track = albumWithTrack.getTrackById(idTrack);
         return track;
     }
 
     matchingByName(scrappyWord) {
-        const reg = new RegExp(scrappyWord, 'gi')
+        const reg = new RegExp(scrappyWord, 'gi');
         
-        let match =  reg.exec(this.name);
+        const match =  reg.exec(this.name);
         return match !== null;
     }
 
     matchingAlbumByName(scrappyWord) {
-        let albums = this.albums.filter(album => album.matchingByName(scrappyWord));
+        const albums = this.albums.filter(album => album.matchingByName(scrappyWord));
         return albums;
     }
 
     matchingTrackByName(scrappyWord) {
-        let tracksByAlbum = this.albums.reduce((total, current) => {
-            let tracks = current.matchingTrackByName(scrappyWord);
+        const tracksByAlbum = this.albums.reduce((total, current) => {
+            const tracks = current.matchingTrackByName(scrappyWord);
             total = total.concat(tracks);
             return total;
         }, []);
