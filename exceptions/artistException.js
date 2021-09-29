@@ -15,19 +15,19 @@ function ThereIsNoArtistWithAlbum(message){
 
 ArtistException.prototype.toString = function() {
     return `${this.name}: "${this.message}"`;
-  }
+  };
 
 class ArtistWithSameName extends Error {
     constructor(message) {
-        super(message)
-        this.name = 'ArtistWithSameName'
+        super(message);
+        this.name = 'ArtistWithSameName';
     }
 }
 
 class ArtistIdDoesNotExist extends Error {
     constructor(message) {
-        super(message)
-        this.name = 'ArtistIdDoesNotExist'
+        super(message);
+        this.name = 'ArtistIdDoesNotExist';
     }
 } 
 

@@ -21,59 +21,59 @@ function addArtist(unqfy,name,country){
 }
 
 function removeArtist(unqfy,artistId){
-  let intArtistId = parseInt(artistId);
+  const intArtistId = parseInt(artistId);
   unqfy.removeArtist(intArtistId);
 }
 
 function addAlbum(unqfy, artistId, name, year) {
   // parseo string to int
-  let intArtistId = parseInt(artistId);
-  let intYear = parseInt(year);
+  const intArtistId = parseInt(artistId);
+  const intYear = parseInt(year);
   unqfy.addAlbum(intArtistId, {name: name, year: intYear});
 }
 
 function removeAlbum(unqfy, artistId, albumId) {
-  let intArtistId = parseInt(artistId);
-  let intAlbumId = parseInt(albumId);
+  const intArtistId = parseInt(artistId);
+  const intAlbumId = parseInt(albumId);
   unqfy.removeAlbum(intArtistId, intAlbumId);
 }
 
 function addTrack(unqfy,name,album,duration,genres){
-  let intDuration = parseInt(duration);
-  let intAlbum = parseInt(album);
-  let genresToList = genres.substr(1,genres.length-2).split(",");
+  const intDuration = parseInt(duration);
+  const intAlbum = parseInt(album);
+  const genresToList = genres.substr(1,genres.length-2).split(",");
   unqfy.addTrack(intAlbum,{name:name,duration:intDuration,genres:genresToList});
 }
 
 function removeTrack(unqfy, artistId, trackId) {
-  let intArtistId = parseInt(artistId);
-  let intTrackId = parseInt(trackId);
+  const intArtistId = parseInt(artistId);
+  const intTrackId = parseInt(trackId);
   unqfy.removeTrack(intArtistId, intTrackId);
 }
 
 function createPlaylist(unqfy, name, genresToInclude, maxDuration) {
-  let genresToList = genresToInclude.substr(1,genresToInclude.length-2).split(",");
-  let intDuration = parseInt(maxDuration);
+  const genresToList = genresToInclude.substr(1,genresToInclude.length-2).split(",");
+  const intDuration = parseInt(maxDuration);
   unqfy.createPlaylist(name, genresToList, intDuration);
 }
 
 function getAlbumsArtist(unqfy,artistId){
-  let intArtistId = parseInt(artistId);
+  const intArtistId = parseInt(artistId);
   unqfy.getAlbumsArtist(intArtistId);
 }
 
 function getTracksAlbum(unqfy,albumdId){
-  let intAlbum = parseInt(albumdId);
+  const intAlbum = parseInt(albumdId);
   unqfy.getTracksAlbum(intAlbum);
 }
 
 function getTracksArtist(unqfy,artistId){
-  let intArtistId = parseInt(artistId);
+  const intArtistId = parseInt(artistId);
   unqfy.getTracksArtist(intArtistId);
 }
 
 function getTracksGenre(unqfy,genre){
-  let genresToList = genre.substr(1,genre.length-2).split(",");
+  const genresToList = genre.substr(1,genre.length-2).split(",");
   unqfy.getTracksMatchingGenres(genresToList);
 }
 
@@ -125,16 +125,16 @@ function addUser(unqfy,name){
 
 function main() {
   const unqfy = getUNQfy();
-  let params = process.argv.splice(2);
-  let functionConsole = params[0];
-  let argumentsConsole = params.splice(1,params.length);
+  const params = process.argv.splice(2);
+  const functionConsole = params[0];
+  const argumentsConsole = params.splice(1,params.length);
   evalMethods(functionConsole,argumentsConsole,unqfy);
   saveUNQfy(unqfy);
 }
 
 function evalMethods(method1,args,unqfy){
 
-  let metodos = {
+  const metodos = {
     // eslint-disable-next-line quote-props
     "addArtist" : function(){
       addArtist(unqfy,args[0],args[1]);
@@ -194,7 +194,10 @@ function evalMethods(method1,args,unqfy){
     // eslint-disable-next-line quote-props
     "setUp":function(){
       setUp(unqfy);
-    }                         
+    },
+    createPlaylist: function() {
+      createPlaylist(unqfy, args[0], args[1], args[2]);
+    }
   };
   metodos[method1]();
 }
@@ -202,16 +205,16 @@ function evalMethods(method1,args,unqfy){
 function setUp(unqfy){ 
   const artist = unqfy.addArtist({name:'Guns n\' Roses',country:'USA'});
   const album = unqfy.addAlbum(artist.id, {name:'Appetite for Destruction',year:1987});
-  const t1 = unqfy.addTrack(album.id, {name:'Welcome to the jungle',duration:200,genres:['rock', 'hard rock', 'movie']});
-  const t5 = unqfy.addTrack(album.id, {name:'Sweet Child o\' Mine',duration:1500,genres:['rock', 'hard rock', 'pop', 'movie']});
+  unqfy.addTrack(album.id, {name:'Welcome to the jungle',duration:200,genres:['rock', 'hard rock', 'movie']});
+  unqfy.addTrack(album.id, {name:'Sweet Child o\' Mine',duration:1500,genres:['rock', 'hard rock', 'pop', 'movie']});
 
   const artist2 = unqfy.addArtist({name:'Michael Jackson',country:'USA'});
   const album2 = unqfy.addAlbum(artist2.id, {name:'Thriller',year:1987});
-  const t2 = unqfy.addTrack(album2.id, {name:'Thriller',duration:200,genres:['pop', 'movie']});
-  const t3 = unqfy.addTrack(album2.id, {name:'Another song',duration:500,genres:['pop']});
-  const t4 = unqfy.addTrack(album2.id, {name:'Another song II',duration:500,genres:['pop']});
+  unqfy.addTrack(album2.id, {name:'Thriller',duration:200,genres:['pop', 'movie']});
+  unqfy.addTrack(album2.id, {name:'Another song',duration:500,genres:['pop']});
+  unqfy.addTrack(album2.id, {name:'Another song II',duration:500,genres:['pop']});
 
-  const u1 = unqfy.addUser("UserTest1");
+  unqfy.addUser("UserTest1");
   // unqfy.addListenedSong(u1.id,t1.id);
   // unqfy.addListenedSong(u1.id,t2.id);
   // unqfy.addListenedSong(u1.id,t4.id);

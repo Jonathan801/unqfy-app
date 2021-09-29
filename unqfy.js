@@ -40,8 +40,8 @@ class UNQfy {
   }
 
   addListenedSong(userId,trackId){
-    let user = this.getUserById(userId);
-    let track = this.getTrackById(trackId);
+    const user = this.getUserById(userId);
+    const track = this.getTrackById(trackId);
     user.listenTrack(track);
   }
 
@@ -78,7 +78,7 @@ class UNQfy {
 
   addNewArtist(artist) {
     if(this.artists.some(art => art.name === artist.name)){
-        throw new artistExceptions.ArtistWithSameName(`The artist ${artist.name} already existed.`)
+        throw new artistExceptions.ArtistWithSameName(`The artist ${artist.name} already existed.`);
     } else {
       const artist1 = new Artist(artist.name,artist.country);
       this.artists.push(artist1);
@@ -87,29 +87,29 @@ class UNQfy {
   }
 
   removeArtist(artistId){
-    let art = this.getArtistById(artistId);
+    const art = this.getArtistById(artistId);
     art.albums.forEach(elem => this.removeAlbum(artistId,elem.id));
     this.artists = this.removeItemWithIdFromArr(art,this.artists);
   }
 
   getArtistById(id) {
-    let artist = this.artists.find(artist => artist.id === id); 
+    const artist = this.artists.find(artist => artist.id === id); 
     //return artist !== undefined ? artist : 'dont exist artist';
     if (artist !== undefined){
       return artist;
     }else{
-      throw new artistExceptions.ArtistIdDoesNotExist(`The artist with id ${id} does not exist`)
+      throw new artistExceptions.ArtistIdDoesNotExist(`The artist with id ${id} does not exist`);
     }
   }
 
   getTracksArtist(id){
-    let art = this.getArtistById(id);
+    const art = this.getArtistById(id);
     return art.getTracks();
 
   }
 
   getAlbumsArtist(id){
-    let art = this.getArtistById(id);
+    const art = this.getArtistById(id);
     return art.getAlbums();
   }
 
@@ -154,7 +154,7 @@ class UNQfy {
   }
 
   getTracksAlbum(idAlbum){
-    let abm = this.getAlbumById(idAlbum);
+    const abm = this.getAlbumById(idAlbum);
     return abm.getTracks();
   }
 
@@ -166,7 +166,7 @@ class UNQfy {
 
   getAlbumById(id) {
     let album;
-    let artistOfAlbum = this.artists.find(artist => artist.haveAlbum(id));
+    const artistOfAlbum = this.artists.find(artist => artist.haveAlbum(id));
     if(artistOfAlbum !== undefined){
       album = artistOfAlbum.getAlbumById(id);
       //return album;
@@ -220,7 +220,7 @@ class UNQfy {
   }
 
   removeTrack(artistId, trackId) {
-    let artist = this.getArtistById(artistId);
+    const artist = this.getArtistById(artistId);
     this.removeTrack2Playlist(trackId);
     
     artist.removeTrack(trackId);
@@ -251,44 +251,42 @@ class UNQfy {
   }
 
   searchByName(scrappyWord) {
-    let artists = this.matchingPartialByArtist(scrappyWord);
-    let albums = this.matchingPartialByAlbum(scrappyWord);
-    let tracks = this.matchingPartialByTrack(scrappyWord);
-    let playlists = this.matchingPartialByPlaylist(scrappyWord);
+    const artists = this.matchingPartialByArtist(scrappyWord);
+    const albums = this.matchingPartialByAlbum(scrappyWord);
+    const tracks = this.matchingPartialByTrack(scrappyWord);
+    const playlists = this.matchingPartialByPlaylist(scrappyWord);
     
     return {
       artists: artists,
       albums: albums,
       tracks: tracks,
       playlists: playlists
-    }
+    };
   }
 
   matchingPartialByArtist(scrappyWord) {
-    let artists = this.artists.filter(artist => artist.matchingByName(scrappyWord));
+    const artists = this.artists.filter(artist => artist.matchingByName(scrappyWord));
     return artists;
   }
 
   matchingPartialByAlbum(scrappyWord) {
-    let albums = this.artists.reduce((total, current) => {
-      let albumsMatch = current.matchingAlbumByName(scrappyWord);
-      total = total.concat(albumsMatch);
-      return total;
+    const albums = this.artists.reduce((total, current) => {
+      const albumsMatch = current.matchingAlbumByName(scrappyWord);
+      return total.concat(albumsMatch);
     }, []);
     return albums;
   }
 
   matchingPartialByTrack(scrappyWord) {
-    let tracks = this.artists.reduce((total, current) => {
-      let tracksMatch = current.matchingTrackByName(scrappyWord);
-      total = total.concat(tracksMatch);
-      return total;
+    const tracks = this.artists.reduce((total, current) => {
+      const tracksMatch = current.matchingTrackByName(scrappyWord);
+      return total.concat(tracksMatch);
     }, []);
     return tracks;
   }
 
   matchingPartialByPlaylist(scrappyWord) {
-    let playlists = this.playlists.filter(playlist => playlist.matchingTrackByName(scrappyWord))
+    const playlists = this.playlists.filter(playlist => playlist.matchingTrackByName(scrappyWord));
     return playlists;
   }
 
@@ -301,9 +299,9 @@ class UNQfy {
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
   getTracksMatchingArtist(artistName) { //TODO manejar caso donde no existe el artista
-    let artist = this.artists.find(art => art.name === artistName);
-    let albumsOfArtist = artist.albums;
-    let tracks = albumsOfArtist.map(elem => elem.tracks).reduce((actual,elem) => actual.concat(elem));
+    const artist = this.artists.find(art => art.name === artistName);
+    const albumsOfArtist = artist.albums;
+    const tracks = albumsOfArtist.map(elem => elem.tracks).reduce((actual,elem) => actual.concat(elem));
     return tracks;
   }
 
@@ -318,11 +316,11 @@ class UNQfy {
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
   createPlaylist(name, genresToInclude, maxDuration) {
-    let currentId = this.id2Playlist++;
+    const currentId = this.id2Playlist++;
     const playlist = new Playlist(currentId, name, genresToInclude, maxDuration);
     
-    let tracks = this.getTracksMatchingGenres(playlist.genresToInclude);
-    let tracksWithMaxDuration = tracks.filter(track => track.isMaxDuration(maxDuration));
+    const tracks = this.getTracksMatchingGenres(playlist.genresToInclude);
+    const tracksWithMaxDuration = tracks.filter(track => track.isMaxDuration(maxDuration));
     playlist.addFullTracks(tracksWithMaxDuration);
     
     this.addNewPlaylist(playlist);
@@ -335,7 +333,7 @@ class UNQfy {
   }
 
   getPlaylistById(id) {
-    let playlist = this.playlists.find(artist => artist.id === id); 
+    const playlist = this.playlists.find(artist => artist.id === id); 
     return playlist !== undefined ? playlist : 'dont exist playlist';
   }
 

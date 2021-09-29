@@ -16,9 +16,9 @@ class Track{
     }
 
     matchingByName(scrappyWord) {
-        const reg = new RegExp(scrappyWord, 'gi')
+        const reg = new RegExp(scrappyWord, 'gi');
         
-        let match =  reg.exec(this.name);
+        const match =  reg.exec(this.name);
         return match !== null;
     }
 

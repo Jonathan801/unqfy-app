@@ -10,7 +10,7 @@ function ThereIsNoAlbum(message){
 
 AlbumException.prototype.toString = function() {
     return `${this.name}: "${this.message}"`;
-  }
+  };
 
   module.exports = {
     AlbumException,
