@@ -16,7 +16,7 @@ class Artist{
 
     addAlbum(albumData) {
         if(this.haveAlbumName(albumData.name)){
-            throw new albumExceptions.AlbumException("The album to add already existed in the artist");
+            throw new albumExceptions.AlbumWithSameName(`The Album ${albumData.name} already existed.`);
         }else{
             const newAlbum = new Album(this.id, albumData.name, albumData.year);    
             this.albums.push(newAlbum);
@@ -25,10 +25,6 @@ class Artist{
     }
 
     removeAlbum(albumId) {
-        // 1 verify exist id
-        // 2 vefify duplicated id
-        // 3 verify valid id
-        // 4 console if remove OK
         this.albums = this.albums.filter(album => album.id !== albumId);
         return this.albums;
     }
@@ -53,13 +49,13 @@ class Artist{
 
     removeTrack(idTrack) {
         const track = this.getTrackById(idTrack);
-        const album = this.albums.find(album => album.id === track.albumId);
+        const album = this.getAlbumById(track.albumId);
         album.removeTrack(track);
     }
 
     getAlbumById(id) {
         const album = this.albums.find(album => album.id === id);
-        return album;
+        return album !== undefined ? album : albumExceptions.AlbumIdDoesNotExist(`The Album with id ${id} does not exist`);
     }
 
     getTrackById(idTrack) {

@@ -20,7 +20,7 @@ class Album {
 
     addNewTrack(trackData) {
         if(this.containsTrack(trackData.name)){
-          throw new trackExceptions.TrackException("The track to add already existed in the album");
+          throw new trackExceptions.TrackWithSameName(`The Track ${trackData.name} already existed.`);
         }else{
             const newTrack = new Track(trackData.name, this.id, trackData.duration,trackData.genres);
             this.tracks.push(newTrack);
@@ -42,9 +42,8 @@ class Album {
     }
 
     getTrackById(idTrack) {
-        // should be function getTrackById (other name)
         const track = this.tracks.find(track => track.idTrack === idTrack);
-        return track;
+        return track != undefined ? track : trackExceptions.TrackIdDoesNotExist(`The Track with id ${id} does not exist`);
     }
 
     matchingByName(scrappyWord) {

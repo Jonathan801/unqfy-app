@@ -12,7 +12,23 @@ AlbumException.prototype.toString = function() {
     return `${this.name}: "${this.message}"`;
   };
 
+class AlbumIdDoesNotExist extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'AlbumIdDoesNotExist'
+  }
+}
+
+class AlbumWithSameName extends Error {
+  constructor(message) {
+      super(message);
+      this.name = 'AlbumWithSameName';
+  }
+}
+
   module.exports = {
     AlbumException,
-    ThereIsNoAlbum  
+    ThereIsNoAlbum,
+    AlbumIdDoesNotExist,
+    AlbumWithSameName
   };
