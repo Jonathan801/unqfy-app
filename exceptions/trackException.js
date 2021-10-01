@@ -12,7 +12,23 @@ TrackException.prototype.toString = function() {
     return `${this.name}: "${this.message}"`;
   };
 
+class TrackWithSameName extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'TrackWithSameName';
+    }
+}
+
+class TrackIdDoesNotExist extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'TrackIdDoesNotExist';
+    }
+}
+
   module.exports = {
       TrackException,
-      ThereIsNoTrack
+      ThereIsNoTrack,
+      TrackWithSameName,
+      TrackIdDoesNotExist
   };
