@@ -14,6 +14,11 @@ class Artist{
         return { id: this.id, name: this.name, country: this.country, albums: this.albums };
     }
 
+    update(body){
+        this.name = body.name;
+        this.country = body.country;
+    }
+
     addAlbum(albumData) {
         if(this.haveAlbumName(albumData.name)){
             throw new albumExceptions.AlbumWithSameName(`The Album ${albumData.name} already existed.`);
