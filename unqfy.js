@@ -1,4 +1,3 @@
-
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require("./models/artist"); // El modelo Artista
@@ -98,6 +97,10 @@ class UNQfy {
     }else{
       throw new artistExceptions.ArtistIdDoesNotExist(`The artist with id ${id} does not exist`);
     }
+  }
+
+  getArtists(){
+    return this.artists;
   }
 
   getTracksArtist(id){
