@@ -37,11 +37,18 @@ class AlreadyExists extends APIError{
   }
 }
 
+class RelatedSourceNotFound extends APIError{
+  constructor(){
+    super('RelatedSourceNotFound', 404, 'RELATED_RESOURCE_NOT_FOUND');
+} 
+}
+
 module.exports = {
    APIError,
    InvalidInputError,
    NotFound,
    InvalidURL,
    JSONException,
-   AlreadyExists
+   AlreadyExists,
+   RelatedSourceNotFound
 }

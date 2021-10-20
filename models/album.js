@@ -15,7 +15,12 @@ class Album {
     }
 
     toJSON(){
-        return { id: this.id, name: this.name, tracks: this.tracks,year:this.year };
+        return { id: this.id, name: this.name,year:this.year,tracks: this.tracks, };
+    }
+
+    //A priori solo updatea el year
+    update(year){
+        this.year = year;
     }
 
     addNewTrack(trackData) {
