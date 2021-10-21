@@ -44,6 +44,10 @@ class Artist{
         return tracks.forEach(elem=> console.log(elem));
     }
 
+    getTracks2(){
+        return this.albums.reduce((accumulator, album) => accumulator.concat(album.tracks), []);
+    }
+
     haveAlbumName(name){
         return this.albums.some(elem => elem.name === name);
     }

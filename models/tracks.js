@@ -1,5 +1,5 @@
 const idGenerator = require("./idGenerator");
-//let idGen = new idGenerator();
+const getIdTrack = require("./musixmatch");
 
 
 class Track{
@@ -9,6 +9,7 @@ class Track{
         this.duration = duration;
         this.idTrack = idGenerator.getNextIdTrack();
         this.genres = genres;
+        this.lyrics ;
     }
 
     getTrackById(id) {
@@ -28,6 +29,23 @@ class Track{
 
     isMaxDuration(maxDuration) {
         return this.duration <= maxDuration;
+    }
+
+    async getLyrics(){ 
+        try{
+            if(!this.lyrics){
+                console.log("No tenia la letra")
+                let lytrack = await getIdTrack(this.name);
+                this.lyrics = lytrack
+                return this.lyrics;
+            }else{
+                console.log("Si las tenia");
+                return this.lyrics;
+            }
+        }catch(error){
+            console.log(error);
+        }
+
     }
 
     toJSON(){

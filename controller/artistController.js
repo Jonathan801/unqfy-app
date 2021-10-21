@@ -46,6 +46,24 @@ router.patch("/:id",(req, res) => {
     }
 });
 
+router.put("/:id",(req, res) => {
+    const idArtist = Number(req.params.id);
+    const body = req.body;
+    const unqfy = getUNQfy();
+    if((body.name && body.country)){
+        try{
+            const artist =unqfy.getArtistById(idArtist);
+            artist.update(body);
+            saveUNQfy(unqfy);
+            res.status(200).json(artist);    
+        }catch(error){
+            throw new errorsAPI.NotFound();
+        }
+    }else{
+        throw new errorsAPI.JSONException();
+    }
+});
+
 //Delete an artist by id
 router.delete("/:id",(req,res) =>{
     const idArtist = Number(req.params.id);

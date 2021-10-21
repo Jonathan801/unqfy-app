@@ -51,9 +51,9 @@ router.get("/",(req, res) => {
 
 router.get("/:id",(req,res) =>{
     const idAlbum = Number(req.params.id);
-    const UNQfy = getUNQfy();
+    const unqfy = getUNQfy();
     try {
-        const album = UNQfy.getAlbumById(idAlbum);
+        const album = unqfy.getAlbumById(idAlbum);
         res.status(200);
         res.json(album);
     } catch (error) {
