@@ -1,9 +1,9 @@
 /* eslint-env node, mocha */
 
 const assert = require('chai').assert;
-const libunqfy = require('./unqfy');
-const idGenerator = require("./models/idGenerator");
-const exceptionsArt = require('./exceptions/artistException');
+const libunqfy = require('../unqfy');
+const idGenerator = require("../models/idGenerator");
+const exceptionsArt = require('../exceptions/artistException');
 
 
 function createAndAddArtist(unqfy, artistName, country) {
@@ -43,7 +43,7 @@ function createAndAddUser(unqfy, name) {
 }
 
 
-describe('Add, remove and filter data', () => {
+describe('Add, remove and filter data to UNQfy', () => {
   let unqfy = null;
   let artistTest = null;
 
