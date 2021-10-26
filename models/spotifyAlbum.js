@@ -3,7 +3,7 @@ let token = accessToken.access_token;
 let rp = require('request-promise');
 
 function getIdArtistSpotifyByName(name){
-    rp.get({
+    return rp.get({
         url: 'https://api.spotify.com/v1/search?q=' + name + '&type=artist',
         headers: { Authorization: 'Bearer ' + token },
         json: true
@@ -12,12 +12,12 @@ function getIdArtistSpotifyByName(name){
         return result.artists.items[0].id;
     })
     .then(id =>{
-        albumsArtistSpotify(id);
+        return albumsArtistSpotify(id);
     });
 }
 
 function albumsArtistSpotify(idArtist){
-    rp.get({
+    return rp.get({
         url: 'https://api.spotify.com/v1/artists/' + idArtist + '/albums',
         headers: { Authorization: 'Bearer ' + token },
         json: true
@@ -27,5 +27,7 @@ function albumsArtistSpotify(idArtist){
         return data.items;
     });
 }
+
+//getIdArtistSpotifyByName("Eminem");
  
-exports.albumByName = getIdArtistSpotifyByName;
+module.exports = getIdArtistSpotifyByName;

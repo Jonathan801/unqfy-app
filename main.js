@@ -129,7 +129,7 @@ function main() {
   const functionConsole = params[0];
   const argumentsConsole = params.splice(1,params.length);
   evalMethods(functionConsole,argumentsConsole,unqfy);
-  saveUNQfy(unqfy);
+  //saveUNQfy(unqfy);
 }
 
 function evalMethods(method1,args,unqfy){
@@ -138,30 +138,37 @@ function evalMethods(method1,args,unqfy){
     // eslint-disable-next-line quote-props
     "addArtist" : function(){
       addArtist(unqfy,args[0],args[1]);
+      saveUNQfy(unqfy);
     },
     // eslint-disable-next-line quote-props
     "addAlbum" : function(){
       addAlbum(unqfy, args[0], args[1], args[2]);
+      saveUNQfy(unqfy);
     },
     // eslint-disable-next-line quote-props
     "addTrack" : function(){
       addTrack(unqfy,args[0],args[1],args[2],args[3]);
+      saveUNQfy(unqfy);
     },
     // eslint-disable-next-line quote-props
     "addUser" : function(){
       addUser(unqfy,args[0]);
+      saveUNQfy(unqfy);
     },
     // eslint-disable-next-line quote-props
     "removeAlbum":function(){
       removeAlbum(unqfy,args[0],args[1]);
+      saveUNQfy(unqfy);
     },
     // eslint-disable-next-line quote-props
     "removeArtist":function(){
       removeArtist(unqfy,args[0]);
+      saveUNQfy(unqfy);
     },    
     // eslint-disable-next-line quote-props
     "removeTrack":function(){
       removeTrack(unqfy, args[0], args[1]);
+      saveUNQfy(unqfy);
     },
     // eslint-disable-next-line quote-props
     "getAlbumsArtist":function(){
@@ -194,12 +201,23 @@ function evalMethods(method1,args,unqfy){
     // eslint-disable-next-line quote-props
     "setUp":function(){
       setUp(unqfy);
+      saveUNQfy(unqfy);
+    },
+    // eslint-disable-next-line quote-props
+    "populateAlbumsForArtist":function(){
+      populateAlbumsForArtist(unqfy,args[0]);
     },
     createPlaylist: function() {
       createPlaylist(unqfy, args[0], args[1], args[2]);
+      saveUNQfy(unqfy);
     }
   };
   metodos[method1]();
+}
+
+function populateAlbumsForArtist(unqfy,artistName){
+  unqfy.populateAlbumsForArtist(artistName)
+  .then(() =>  saveUNQfy(unqfy));
 }
 
 function setUp(unqfy){ 

@@ -8,6 +8,7 @@ const Album = require('./models/album.js');
 const Track = require('./models/tracks');
 const User = require("./models/user");
 const Playlist = require('./models/playlist.js');
+const getIdArtistSpotifyByName =  require("./models/spotifyAlbum");
 
 class UNQfy {
 
@@ -18,6 +19,18 @@ class UNQfy {
     this.users = [];
     this.id2Playlist = 0;
   }
+
+  async populateAlbumsForArtist(artistName){
+    const artist = this.artists.find(elem => elem.name === artistName).id;
+    let albumsTest = [];
+    const albums = await getIdArtistSpotifyByName(artistName);
+    albums.forEach(album => {
+      if (!albumsTest.includes(album.name)) {
+        albumsTest.push(album.name);
+        this.addAlbum(artist, { name: album.name, year: album.release_date });
+      }
+    });
+}
 
   printArray(array){
     array.forEach(elem=> console.log(elem));
