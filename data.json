@@ -22,8 +22,8 @@
       "0": "__00007__"
     },
     "__00005__": {
-      "name": "Nombre Test",
-      "country": "Chile",
+      "name": "Guns n' Roses",
+      "country": "USA",
       "albums": "__00008__",
       "id": 1
     },
@@ -73,7 +73,8 @@
       "albumId": 1,
       "duration": 200,
       "idTrack": 1,
-      "genres": "__00020__"
+      "genres": "__00020__",
+      "lyrics": ""
     },
     "__00016__": {
       "name": "Sweet Child o' Mine",
@@ -87,7 +88,8 @@
       "albumId": 2,
       "duration": 200,
       "idTrack": 3,
-      "genres": "__00022__"
+      "genres": "__00022__",
+      "lyrics": "It's close to midnight\nSomething evil's lurkin' in the dark\nUnder the moonlight\nYou see a sight that almost stops your heart\nYou try to scream\nBut terror takes the sound before you make it\nYou start to freeze\nAs horror looks you right between the eyes\nYou're paralyzed\n\n'Cause this is thriller\nThriller night\nAnd no one's gonna save you\nFrom the beast about to strike\n\nYou know it's thriller\nThriller night\nYou're fighting for your life\nInside a killer, thriller tonight, yeah\n\nYou hear the door slam\nAnd realize there's nowhere left to run\nYou feel the cold hand\nAnd wonder if you'll ever see the sun\n\nYou close your eyes\nAnd hope that this is just imagination, girl\nBut all the while\nYou hear a creature creepin' up behind\nYou're out of time\n\n'Cause this is thriller\nThriller night\nThere ain't no second chance\nAgainst the thing with the forty eyes, girl\n\n(Thriller, thriller night)\n...\n\n******* This Lyrics is NOT for Commercial use *******\n(1409622179495)"
     },
     "__00018__": {
       "name": "Another song",

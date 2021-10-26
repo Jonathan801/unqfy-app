@@ -5,6 +5,9 @@
   "main": "main.js",
   "dependencies": {
     "chai": "^4.1.2",
+    "express": "^4.17.1",
+    "request": "^2.88.2",
+    "request-promise" : "^4.2.6",
     "picklify": "github:lwoites/picklify"
   },
   "devDependencies": {
