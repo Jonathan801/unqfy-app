@@ -15,7 +15,12 @@ class Album {
     }
 
     toJSON(){
-        return { id: this.id, name: this.name, tracks: this.tracks,year:this.year };
+        return { id: this.id, name: this.name,year:this.year,tracks: this.tracks, };
+    }
+
+    //A priori solo updatea el year
+    update(year){
+        this.year = year;
     }
 
     addNewTrack(trackData) {
@@ -43,7 +48,11 @@ class Album {
 
     getTrackById(idTrack) {
         const track = this.tracks.find(track => track.idTrack === idTrack);
-        return track != undefined ? track : trackExceptions.TrackIdDoesNotExist(`The Track with id ${id} does not exist`);
+        if(track !== undefined ){
+            return track;
+        }else{
+            throw new trackExceptions.TrackIdDoesNotExist(`The Track with id ${idTrack} does not exist`)
+        }
     }
 
     matchingByName(scrappyWord) {

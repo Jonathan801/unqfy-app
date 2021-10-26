@@ -14,6 +14,11 @@ class Artist{
         return { id: this.id, name: this.name, country: this.country, albums: this.albums };
     }
 
+    update(body){
+        this.name = body.name;
+        this.country = body.country;
+    }
+
     addAlbum(albumData) {
         if(this.haveAlbumName(albumData.name)){
             throw new albumExceptions.AlbumWithSameName(`The Album ${albumData.name} already existed.`);
@@ -37,6 +42,10 @@ class Artist{
     getTracks(){
         const tracks = this.albums.map(elem => elem.tracks).reduce((accumulator,actual)=> accumulator.concat(actual),[]);
         return tracks.forEach(elem=> console.log(elem));
+    }
+
+    getTracks2(){
+        return this.albums.reduce((accumulator, album) => accumulator.concat(album.tracks), []);
     }
 
     haveAlbumName(name){

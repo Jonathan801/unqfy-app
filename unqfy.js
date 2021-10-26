@@ -1,4 +1,3 @@
-
 const picklify = require('picklify'); // para cargar/guarfar unqfy
 const fs = require('fs'); // para cargar/guarfar unqfy
 const Artist = require("./models/artist"); // El modelo Artista
@@ -98,6 +97,10 @@ class UNQfy {
     }else{
       throw new artistExceptions.ArtistIdDoesNotExist(`The artist with id ${id} does not exist`);
     }
+  }
+
+  getArtists(){
+    return this.artists;
   }
 
   getTracksArtist(id){
@@ -216,6 +219,21 @@ class UNQfy {
     return artistWithTrack.getTrackById(id);
   }
 
+
+  getTrackById2(id){
+    let test = this.getTracks().find(elem => elem.idTrack === id);
+    if(!test){
+      throw new Error("Not Founddddd");
+    }else{
+      return test;
+    }
+  }
+
+  getLyricsTrack(id){
+    const track = this.getTrackById2(id);
+    return track.getLyrics();
+  }
+
   removeTrack2Playlist(trackId) {
     const track = this.getTrackById(trackId);
     this.playlists.forEach(playlist => {
@@ -326,6 +344,7 @@ class UNQfy {
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
+
 
 // COMPLETAR POR EL ALUMNO: exportar todas las clases que necesiten ser utilizadas desde un modulo cliente
 module.exports = {
