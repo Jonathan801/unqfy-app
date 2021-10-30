@@ -241,6 +241,10 @@ class UNQfy {
     });
   }
 
+  removePlaylistById(playlistId) {
+    this.removeItemWithIdFromArr(playlistId, this.playlists)
+  }
+
   searchByName(scrappyWord) {
     const artists = this.matchingPartialByArtist(scrappyWord);
     const albums = this.matchingPartialByAlbum(scrappyWord);
@@ -253,6 +257,21 @@ class UNQfy {
       tracks: tracks,
       playlists: playlists
     };
+  }
+
+  searchBy(name=undefined, durationLT=undefined, durationGT=undefined) {
+    let playlists = []
+
+    playlists = this.createQuery(name, durationLT, durationLT)
+
+    // if(name =! undefined) { playlists = this.searchByName(name) }
+
+    return playlists;
+  }
+
+  createQuery(name, durationLT, durationGT) {
+    const playlists = this.playlists.filter(playlist => playlist.matchingTrackBy(name, durationLT, durationGT))
+    return playlists
   }
 
   matchingPartialByArtist(scrappyWord) {
@@ -306,7 +325,7 @@ class UNQfy {
       * un metodo duration() que retorne la duración de la playlist.
       * un metodo hasTrack(aTrack) que retorna true si aTrack se encuentra en la playlist.
   */
-  createPlaylist(name, genresToInclude, maxDuration) {
+  createPlaylist(name, genresToInclude=[], maxDuration=1400) {
     const currentId = this.id2Playlist++;
     const playlist = new Playlist(currentId, name, genresToInclude, maxDuration);
     
@@ -316,6 +335,21 @@ class UNQfy {
     
     this.addNewPlaylist(playlist);
 
+    return playlist;
+  }
+
+  createPlaylistByIds(name, ids) {
+    let tracksById = [];
+    let allTracks = this.getTracks();
+    ids.forEach(id => { 
+       tracksById = allTracks.filter(track => track.getTrackById(id));
+    })
+
+    const currentId = this.id2Playlist++;
+    const playlist = this.createPlaylist(currentId, name);
+    playlist.addFullTracks(tracksById);
+    
+    this.addNewPlaylist(playlist);
     return playlist;
   }
 

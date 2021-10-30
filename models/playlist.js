@@ -35,6 +35,19 @@ class Playlist {
         const tracks = this.tracks.filter(track => track.matchingByName(scrappyWord));
         return tracks;
     }
+
+    matchingTrackBy(name, durationLT, durationGT) {
+        const tracks = this.tracks.filter(track => track.matchingBy(name, durationLT, durationGT))
+        return tracks;
+    }
+
+    toJson() {
+        return { id: this.id,
+                 name: this.name,
+                 duration: this.maxDuration,
+                 tracks: this.tracks
+                }
+    }
 }
 
 module.exports = Playlist;

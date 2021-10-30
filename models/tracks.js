@@ -23,6 +23,14 @@ class Track{
         return match !== null;
     }
 
+    matchingBy(name, durationLT, durationGT) {
+        const reg = new RegExp(name, 'gi');
+        
+        let match =  reg.exec(this.name);
+
+        return (match !== null) && (this.duration <= durationLT) && (this.duration >= durationGT);
+    }
+
     anyGenre(genres){
         return genres.some(genre => this.genres.includes(genre));   
     }
