@@ -14,9 +14,14 @@ class Artist{
         return { id: this.id, name: this.name, country: this.country, albums: this.albums };
     }
 
+    update(body){
+        this.name = body.name;
+        this.country = body.country;
+    }
+
     addAlbum(albumData) {
         if(this.haveAlbumName(albumData.name)){
-            throw new albumExceptions.AlbumException("The album to add already existed in the artist");
+            throw new albumExceptions.AlbumWithSameName(`The Album ${albumData.name} already existed.`);
         }else{
             const newAlbum = new Album(this.id, albumData.name, albumData.year);    
             this.albums.push(newAlbum);
@@ -25,10 +30,6 @@ class Artist{
     }
 
     removeAlbum(albumId) {
-        // 1 verify exist id
-        // 2 vefify duplicated id
-        // 3 verify valid id
-        // 4 console if remove OK
         this.albums = this.albums.filter(album => album.id !== albumId);
         return this.albums;
     }
@@ -39,8 +40,12 @@ class Artist{
     }
 
     getTracks(){
-        let tracks = this.albums.map(elem => elem.tracks).reduce((accumulator,actual)=> accumulator.concat(actual),[]);
+        const tracks = this.albums.map(elem => elem.tracks).reduce((accumulator,actual)=> accumulator.concat(actual),[]);
         return tracks.forEach(elem=> console.log(elem));
+    }
+
+    getTracks2(){
+        return this.albums.reduce((accumulator, album) => accumulator.concat(album.tracks), []);
     }
 
     haveAlbumName(name){
@@ -53,36 +58,36 @@ class Artist{
 
     removeTrack(idTrack) {
         const track = this.getTrackById(idTrack);
-        let album = this.albums.find(album => album.id === track.albumId);
+        const album = this.getAlbumById(track.albumId);
         album.removeTrack(track);
     }
 
     getAlbumById(id) {
         const album = this.albums.find(album => album.id === id);
-        return album;
+        return album !== undefined ? album : albumExceptions.AlbumIdDoesNotExist(`The Album with id ${id} does not exist`);
     }
 
     getTrackById(idTrack) {
         const albumWithTrack = this.albums.find(album => album.getTrackById(idTrack));
-        let track = albumWithTrack.getTrackById(idTrack);
+        const track = albumWithTrack.getTrackById(idTrack);
         return track;
     }
 
     matchingByName(scrappyWord) {
-        const reg = new RegExp(scrappyWord, 'gi')
+        const reg = new RegExp(scrappyWord, 'gi');
         
-        let match =  reg.exec(this.name);
+        const match =  reg.exec(this.name);
         return match !== null;
     }
 
     matchingAlbumByName(scrappyWord) {
-        let albums = this.albums.filter(album => album.matchingByName(scrappyWord));
+        const albums = this.albums.filter(album => album.matchingByName(scrappyWord));
         return albums;
     }
 
     matchingTrackByName(scrappyWord) {
-        let tracksByAlbum = this.albums.reduce((total, current) => {
-            let tracks = current.matchingTrackByName(scrappyWord);
+        const tracksByAlbum = this.albums.reduce((total, current) => {
+            const tracks = current.matchingTrackByName(scrappyWord);
             total = total.concat(tracks);
             return total;
         }, []);

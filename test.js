@@ -3,11 +3,30 @@
 const assert = require('chai').assert;
 const libunqfy = require('./unqfy');
 const idGenerator = require("./models/idGenerator");
+const exceptionsArt = require('./exceptions/artistException');
 
 
 function createAndAddArtist(unqfy, artistName, country) {
-  // try catch
-  const artist = unqfy.addArtist({ name: artistName, country: country });
+  let artist;
+  try {
+     artist = unqfy.addArtist({ name: artistName, country: country });
+  } catch (error) {
+    console.log('error method runned: ', error.name, error.message);
+    console.log(error.stack);
+    throw new exceptionsArt.ArtistWithSameName(`The artist ${artistName} already existed.`);
+  }
+  return artist;
+}
+
+function getArtistById(unqfy, artistId) {
+  let artist;
+  try {
+     artist = unqfy.getArtistById(artistId);
+  } catch (error) {
+    console.log('error method runned: ', error.name, error.message);
+    console.log(error.stack);
+    throw new exceptionsArt.ArtistIdDoesNotExist(`The artist with id ${artistId} does not exist`);
+  }
   return artist;
 }
 
@@ -26,10 +45,14 @@ function createAndAddUser(unqfy, name) {
 
 describe('Add, remove and filter data', () => {
   let unqfy = null;
+  let artistTest = null;
 
   beforeEach(() => {
     unqfy = new libunqfy.UNQfy();
     idGenerator.resetIDs();
+
+    // It is not added to UNQfy then it has no ID (dict)
+    artistTest = { name: 'Guns n\' Roses', country: 'USA' };
   });
 
   it('should add an artist', () => {
@@ -41,21 +64,20 @@ describe('Add, remove and filter data', () => {
   });
 
   it('should add the same artist twice', () => {
-    /**
-     * create Artist json to verify message error
-     */
-    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    const artistDict = { name: 'Guns n\' Roses', country: 'USA' };
+    createAndAddArtist(unqfy, artistDict.name, artistDict.country);
 
-    assert.throw(() => {unqfy.addArtist({ name: 'Guns n\' Roses', country: 'USA'})}, Error, 'The artist Guns n\' Roses already existed.');
+    assert.throw(() => {createAndAddArtist(unqfy, artistTest.name, artistTest.country);}, Error, `The artist ${artistTest.name} already existed.`);
   });
 
   it('get artist with existing ID', () => {
     /**
      * create API for getArtist/AlBum/Track/PlaylistByID
      */
-    const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
+    createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
 
-    assert.throw(() => {unqfy.getArtistById(9)}, Error, 'The artist with id 9 does not exist')
+    const fakeId = 9;
+    assert.throw(() => {getArtistById(unqfy, fakeId);}, Error, `The artist with id ${fakeId} does not exist`);
   });
 
   it('should add an album to an artist', () => {
@@ -69,7 +91,7 @@ describe('Add, remove and filter data', () => {
   it('should remove an album to an artist', () => {
     const artist = createAndAddArtist(unqfy, 'Guns n\' Roses', 'USA');
     const album1 = createAndAddAlbum(unqfy, artist.id, 'Appetite for Destruction', 1987);
-    const album2 = createAndAddAlbum(unqfy, artist.id, 'Use Your Illusion II', 1991);
+    createAndAddAlbum(unqfy, artist.id, 'Use Your Illusion II', 1991);
 
     assert.equal(artist.albums.length, 2);
 
@@ -205,6 +227,7 @@ describe('Playlist Creation and properties', () => {
     assert.isTrue(playlist.hasTrack(t2));
     assert.isTrue(playlist.hasTrack(t3));
     assert.isTrue(playlist.hasTrack(t4));
+    assert.isFalse(playlist.hasTrack(t5));
     assert.lengthOf(playlist.tracks, 4);
   });
 });

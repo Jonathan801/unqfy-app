@@ -15,12 +15,17 @@ class Album {
     }
 
     toJSON(){
-        return { id: this.id, name: this.name, tracks: this.tracks,year:this.year };
+        return { id: this.id, name: this.name,year:this.year,tracks: this.tracks, };
+    }
+
+    //A priori solo updatea el year
+    update(year){
+        this.year = year;
     }
 
     addNewTrack(trackData) {
         if(this.containsTrack(trackData.name)){
-          throw new trackExceptions.TrackException("The track to add already existed in the album");
+          throw new trackExceptions.TrackWithSameName(`The Track ${trackData.name} already existed.`);
         }else{
             const newTrack = new Track(trackData.name, this.id, trackData.duration,trackData.genres);
             this.tracks.push(newTrack);
@@ -42,21 +47,24 @@ class Album {
     }
 
     getTrackById(idTrack) {
-        // should be function getTrackById (other name)
         const track = this.tracks.find(track => track.idTrack === idTrack);
-        return track;
+        if(track !== undefined ){
+            return track;
+        }else{
+            throw new trackExceptions.TrackIdDoesNotExist(`The Track with id ${idTrack} does not exist`)
+        }
     }
 
     matchingByName(scrappyWord) {
-        const reg = new RegExp(scrappyWord, 'gi')
+        const reg = new RegExp(scrappyWord, 'gi');
         
-        let match =  reg.exec(this.name);
+        const match =  reg.exec(this.name);
         return match !== null;
     }
 
     matchingTrackByName(scrappyWord) {
-        let tracks = this.tracks.filter( track => track.matchingByName(scrappyWord));
-        return tracks
+        const tracks = this.tracks.filter( track => track.matchingByName(scrappyWord));
+        return tracks;
     }
 }
 
