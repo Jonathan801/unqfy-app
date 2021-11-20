@@ -8,6 +8,7 @@ const Album = require('./models/album.js');
 const Track = require('./models/tracks');
 const User = require("./models/user");
 const Playlist = require('./models/playlist.js');
+const {Newsletter} = require("./Newsletter/newsletter");
 
 class UNQfy {
 
@@ -374,7 +375,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, Album, Playlist, Track,User];
+    const classes = [UNQfy, Artist, Album, Playlist, Track,User,Newsletter];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }

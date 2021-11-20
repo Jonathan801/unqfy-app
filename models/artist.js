@@ -1,6 +1,8 @@
 const Album = require("./album");
 const idGenerator = require("./idGenerator");
 const albumExceptions = require("../exceptions/albumException.js");
+const Newsletter = require("../Newsletter/newsletter");
+const newsletter = new Newsletter.Newsletter();
 
 class Artist{
     constructor(name,country){
@@ -8,6 +10,7 @@ class Artist{
         this.country = country;
         this.albums = [];
         this.id = idGenerator.getNextIdArtist();
+        this.observer = newsletter;
     }
 
     toJSON(){
@@ -25,6 +28,7 @@ class Artist{
         }else{
             const newAlbum = new Album(this.id, albumData.name, albumData.year);    
             this.albums.push(newAlbum);
+            this.observer.update(this,newAlbum);
             return newAlbum;
         }
     }

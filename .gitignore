@@ -716,6 +716,9 @@ yarn-error.log*
 *.sw?
 
 package-lock.json
+Newsletter/credentials.json
+Newsletter/token.json
+Newsletter/pathFiles.json
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
