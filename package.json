@@ -6,9 +6,13 @@
   "dependencies": {
     "chai": "^4.1.2",
     "express": "^4.17.1",
+    "googleapis": "^91.0.0",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.34",
+    "picklify": "github:lwoites/picklify",
     "request": "^2.88.2",
-    "request-promise" : "^4.2.6",
-    "picklify": "github:lwoites/picklify"
+    "request-promise": "^4.2.6",
+    "winston-loggly-bulk": "^3.2.1"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
