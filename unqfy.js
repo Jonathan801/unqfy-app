@@ -93,6 +93,7 @@ class UNQfy {
     const art = this.getArtistById(artistId);
     art.albums.forEach(elem => this.removeAlbum(artistId,elem.id));
     this.artists = this.removeItemWithIdFromArr(art,this.artists);
+    this.observador.logEvent('info','Se ha eliminado el artista ' + art.name);
   }
 
   getArtistById(id) {
@@ -147,6 +148,7 @@ class UNQfy {
   addAlbum(artistId, albumData) {
     const artist = this.getArtistById(artistId);
     const album = artist.addAlbum(albumData);
+    this.observador.logEvent('info','Se ha agregado el album ' + album.name +' al artista ' + artist.name);
     return album;
   }
 
@@ -157,8 +159,10 @@ class UNQfy {
 
   removeAlbum(artistId, albumId) {
     const artist = this.getArtistById(artistId);
+    const album = this.getAlbumById(albumId);
     this.removeAlbum2Playlists(albumId);
     artist.removeAlbum(albumId);
+    this.observador.logEvent('info','Se ha eliminado el album ' + album.name + ' del artista ' + artist.name);
   }
 
   getAlbumById(id) {
@@ -198,13 +202,16 @@ class UNQfy {
   addTrack(albumId, trackData) {
     const albumObt = this.getAlbumById(albumId);
     const track = albumObt.addNewTrack(trackData);
+    this.observador.logEvent('info','Se ha agregado el track ' + track.name +' al album ' + albumObt.name);
     return track;
   }
 
   removeTrack(artistId, trackId) {
     const artist = this.getArtistById(artistId);
+    const track = this.getTrackById2(trackId);
     this.removeTrack2Playlist(trackId);
     artist.removeTrack(trackId);
+    this.observador.logEvent('info','Se ha eliminado el track ' + track.name);
   }
 
   getTracks(){
