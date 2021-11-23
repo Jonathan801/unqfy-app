@@ -719,8 +719,10 @@ package-lock.json
 Newsletter/credentials.json
 Newsletter/token.json
 Newsletter/pathFiles.json
+Loggly/token.json
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/node,sublimetext,visualstudio,visualstudiocode,linux,windows,pycharm
+
