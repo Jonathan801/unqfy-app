@@ -8,9 +8,11 @@ const Album = require('./models/album.js');
 const Track = require('./models/tracks');
 const User = require("./models/user");
 const Playlist = require('./models/playlist.js');
-const {Newsletter} = require("./Newsletter/newsletter");
+//const {Newsletter} = require("./Newsletter/newsletter");
 const LogglyApp = require("./Loggly/LogglyApp");
 const loggly = new LogglyApp();
+const Newsletter = require("./Newsletter/observerNewsletter");
+const newsletter = new Newsletter.Newsletter();
 
 class UNQfy {
 
@@ -20,7 +22,7 @@ class UNQfy {
     this.playlists = [];
     this.users = [];
     this.id2Playlist = 0;
-    this.observer = loggly;
+    this.observer = [loggly,newsletter];
   }
 
   printArray(array){
@@ -84,7 +86,8 @@ class UNQfy {
     } else {
       const artist1 = new Artist(artist.name,artist.country);
       this.artists.push(artist1);
-      this.observer.logEvent("info",`Se a agregado al sistema el artista ${artist1.name}`);
+      this.observer.forEach(elem => elem.update((arguments.callee.name),{artist:artist1}));
+      //this.observer.logEvent("info",`Se a agregado al sistema el artista ${artist1.name}`);
       return artist1;
     }
   }
@@ -148,7 +151,8 @@ class UNQfy {
   addAlbum(artistId, albumData) {
     const artist = this.getArtistById(artistId);
     const album = artist.addAlbum(albumData);
-    this.observador.logEvent('info','Se ha agregado el album ' + album.name +' al artista ' + artist.name);
+    this.observer.forEach(elem => elem.update((arguments.callee.name),{artist:artist,album:album}));
+    //this.observador.logEvent('info','Se ha agregado el album ' + album.name +' al artista ' + artist.name);
     return album;
   }
 
@@ -202,7 +206,8 @@ class UNQfy {
   addTrack(albumId, trackData) {
     const albumObt = this.getAlbumById(albumId);
     const track = albumObt.addNewTrack(trackData);
-    this.observador.logEvent('info','Se ha agregado el track ' + track.name +' al album ' + albumObt.name);
+    this.observer.forEach(elem => elem.update((arguments.callee.name),{track:track,album:albumObt}));
+    //this.observador.logEvent('info','Se ha agregado el track ' + track.name +' al album ' + albumObt.name);
     return track;
   }
 
@@ -386,7 +391,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, Album, Playlist, Track,User,Newsletter,LogglyApp];
+    const classes = [UNQfy, Artist, Album, Playlist, Track,User,LogglyApp,newsletter];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }

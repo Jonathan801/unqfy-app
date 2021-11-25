@@ -29,7 +29,18 @@ class LogglyApp {
         }
     }
 
-    logEvent(level,message){
+    update(event,artist){
+        const level = "info";
+        const typeMessage = () => {
+            if (event == "addNewArtist"){
+                    return "artista";
+                }else if (event == "addAlbum"){
+                    return "album";
+                }else {
+                    return "track";
+                }      
+        };
+        let message = `Se a agregado el ${typeMessage} ${artist}`;
         const options = {
             url : "http://localhost:5002/api/loggly/event",
             body : {
