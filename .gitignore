@@ -720,6 +720,8 @@ Newsletter/credentials.json
 Newsletter/token.json
 Newsletter/pathFiles.json
 Loggly/token.json
+data.json
+
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio

@@ -1,5 +1,5 @@
 const rp = require('request-promise');
-const endpoints = require("../endpoints");
+//const endpoints = require("../endpoints");
 const artistExceptions = require("../exceptions/artistException");
 const suscribersOfArtist = require("./suscribersOfArtist");
 const errorsApi = require("../exceptions/apiExeptions");

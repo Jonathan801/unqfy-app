@@ -9,6 +9,8 @@ const Track = require('./models/tracks');
 const User = require("./models/user");
 const Playlist = require('./models/playlist.js');
 const {Newsletter} = require("./Newsletter/newsletter");
+const LogglyApp = require("./Loggly/LogglyApp");
+const loggly = new LogglyApp();
 
 class UNQfy {
 
@@ -18,6 +20,7 @@ class UNQfy {
     this.playlists = [];
     this.users = [];
     this.id2Playlist = 0;
+    this.observer = loggly;
   }
 
   printArray(array){
@@ -81,6 +84,7 @@ class UNQfy {
     } else {
       const artist1 = new Artist(artist.name,artist.country);
       this.artists.push(artist1);
+      this.observer.logEvent("info",`Se a agregado al sistema el artista ${artist1.name}`);
       return artist1;
     }
   }
@@ -89,6 +93,7 @@ class UNQfy {
     const art = this.getArtistById(artistId);
     art.albums.forEach(elem => this.removeAlbum(artistId,elem.id));
     this.artists = this.removeItemWithIdFromArr(art,this.artists);
+    this.observador.logEvent('info','Se ha eliminado el artista ' + art.name);
   }
 
   getArtistById(id) {
@@ -143,6 +148,7 @@ class UNQfy {
   addAlbum(artistId, albumData) {
     const artist = this.getArtistById(artistId);
     const album = artist.addAlbum(albumData);
+    this.observador.logEvent('info','Se ha agregado el album ' + album.name +' al artista ' + artist.name);
     return album;
   }
 
@@ -153,8 +159,10 @@ class UNQfy {
 
   removeAlbum(artistId, albumId) {
     const artist = this.getArtistById(artistId);
+    const album = this.getAlbumById(albumId);
     this.removeAlbum2Playlists(albumId);
     artist.removeAlbum(albumId);
+    this.observador.logEvent('info','Se ha eliminado el album ' + album.name + ' del artista ' + artist.name);
   }
 
   getAlbumById(id) {
@@ -194,13 +202,16 @@ class UNQfy {
   addTrack(albumId, trackData) {
     const albumObt = this.getAlbumById(albumId);
     const track = albumObt.addNewTrack(trackData);
+    this.observador.logEvent('info','Se ha agregado el track ' + track.name +' al album ' + albumObt.name);
     return track;
   }
 
   removeTrack(artistId, trackId) {
     const artist = this.getArtistById(artistId);
+    const track = this.getTrackById2(trackId);
     this.removeTrack2Playlist(trackId);
     artist.removeTrack(trackId);
+    this.observador.logEvent('info','Se ha eliminado el track ' + track.name);
   }
 
   getTracks(){
@@ -375,7 +386,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, Album, Playlist, Track,User,Newsletter];
+    const classes = [UNQfy, Artist, Album, Playlist, Track,User,Newsletter,LogglyApp];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
