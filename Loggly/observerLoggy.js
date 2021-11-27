@@ -29,31 +29,35 @@ class LogglyApp {
         }
     }
 
+    typeOfEvent(event){
+        if (event == "addNewArtist"){
+            return "artista";
+        }else if (event == "addAlbum"){
+            return "album";
+        }else {
+            return "track";
+        } 
+    }
+
     update(event,artist){
         const level = "info";
-        const typeMessage = () => {
-            if (event == "addNewArtist"){
-                    return "artista";
-                }else if (event == "addAlbum"){
-                    return "album";
-                }else {
-                    return "track";
-                }      
-        };
-        let message = `Se a agregado el ${typeMessage} ${artist}`;
-        const options = {
-            url : "http://localhost:5002/api/loggly/event",
-            body : {
-                name : level,
-                message : message
-            },
-            json : true,
-        };
-        rp.post(options)
-        .then(() =>{
-            winston.log(level,message);//Hace el log a Loggy
-            Logger.log(level,message); //Hace el log al archivo local
-        });
+        const typeMessage = this.typeOfEvent(event);
+        let message = `Se a agregado el ${typeMessage} ${artist.artist.name}`;
+        // const options = {
+        //     url : "http://localhost:5002/api/loggly/event",
+        //     body : {
+        //         name : level,
+        //         message : message
+        //     },
+        //     json : true,
+        // };
+        // rp.post(options)
+        // .then(() =>{
+        //     winston.log(level,message);//Hace el log a Loggy
+        //     Logger.log(level,message); //Hace el log al archivo local
+        // });
+        console.log("Loggy");
+        console.log(message);
     }
 
     configureWingston(){

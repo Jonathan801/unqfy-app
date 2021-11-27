@@ -8,9 +8,10 @@ const api = express.Router();
 
 api.post("/api/subscribe",newsletter.suscribe);
 api.post("/api/unsubscribe",newsletter.unsubscribe);
+api.post("/api/notify",newsletter.notify);
 api.get( "/api/subscriptions",newsletter.getSubscribersOfArtist);
 api.delete('/api/subscription', newsletter.deleteSubscriptions);
-api.post("/api/notify",newsletter.notify);
+
 
 api.all('*', (_req, res) => {
     throw new errorsAPI.InvalidURL();

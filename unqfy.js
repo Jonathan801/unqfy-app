@@ -8,11 +8,10 @@ const Album = require('./models/album.js');
 const Track = require('./models/tracks');
 const User = require("./models/user");
 const Playlist = require('./models/playlist.js');
-//const {Newsletter} = require("./Newsletter/newsletter");
-const LogglyApp = require("./Loggly/LogglyApp");
+const LogglyApp = require("./Loggly/observerLoggy");
 const loggly = new LogglyApp();
 const Newsletter = require("./Newsletter/observerNewsletter");
-const newsletter = new Newsletter.Newsletter();
+const newsletter = new Newsletter();
 
 class UNQfy {
 
@@ -23,6 +22,13 @@ class UNQfy {
     this.users = [];
     this.id2Playlist = 0;
     this.observer = [loggly,newsletter];
+  }
+
+  nameFunction(){
+    let myName = arguments.callee.toString();
+    myName = myName.substr('function '.length);
+    myName = myName.substr(0, myName.indexOf('('));
+    return myName;
   }
 
   printArray(array){
@@ -86,7 +92,7 @@ class UNQfy {
     } else {
       const artist1 = new Artist(artist.name,artist.country);
       this.artists.push(artist1);
-      this.observer.forEach(elem => elem.update((arguments.callee.name),{artist:artist1}));
+      this.observer.forEach(elem => elem.update("addNewArtist",{artist:artist1}));
       //this.observer.logEvent("info",`Se a agregado al sistema el artista ${artist1.name}`);
       return artist1;
     }
@@ -96,7 +102,8 @@ class UNQfy {
     const art = this.getArtistById(artistId);
     art.albums.forEach(elem => this.removeAlbum(artistId,elem.id));
     this.artists = this.removeItemWithIdFromArr(art,this.artists);
-    this.observador.logEvent('info','Se ha eliminado el artista ' + art.name);
+    this.observer.forEach(elem => elem.update("removeArtist",{artist:art}));
+    //this.observador.logEvent('info','Se ha eliminado el artista ' + art.name);
   }
 
   getArtistById(id) {
@@ -151,7 +158,7 @@ class UNQfy {
   addAlbum(artistId, albumData) {
     const artist = this.getArtistById(artistId);
     const album = artist.addAlbum(albumData);
-    this.observer.forEach(elem => elem.update((arguments.callee.name),{artist:artist,album:album}));
+    this.observer.forEach(elem => elem.update("addAlbum",{artist:artist,album:album}));
     //this.observador.logEvent('info','Se ha agregado el album ' + album.name +' al artista ' + artist.name);
     return album;
   }
@@ -166,7 +173,8 @@ class UNQfy {
     const album = this.getAlbumById(albumId);
     this.removeAlbum2Playlists(albumId);
     artist.removeAlbum(albumId);
-    this.observador.logEvent('info','Se ha eliminado el album ' + album.name + ' del artista ' + artist.name);
+    this.observer.forEach(elem => elem.update("removeAlbum",{artist:artist,album:album}));
+    //this.observador.logEvent('info','Se ha eliminado el album ' + album.name + ' del artista ' + artist.name);
   }
 
   getAlbumById(id) {
@@ -206,7 +214,7 @@ class UNQfy {
   addTrack(albumId, trackData) {
     const albumObt = this.getAlbumById(albumId);
     const track = albumObt.addNewTrack(trackData);
-    this.observer.forEach(elem => elem.update((arguments.callee.name),{track:track,album:albumObt}));
+    this.observer.forEach(elem => elem.update("addTrack",{track:track,album:albumObt}));
     //this.observador.logEvent('info','Se ha agregado el track ' + track.name +' al album ' + albumObt.name);
     return track;
   }
@@ -216,7 +224,8 @@ class UNQfy {
     const track = this.getTrackById2(trackId);
     this.removeTrack2Playlist(trackId);
     artist.removeTrack(trackId);
-    this.observador.logEvent('info','Se ha eliminado el track ' + track.name);
+    this.observer.forEach(elem => elem.update("removeTrack",{track:track}));
+    //this.observador.logEvent('info','Se ha eliminado el track ' + track.name);
   }
 
   getTracks(){
@@ -391,7 +400,7 @@ class UNQfy {
   static load(filename) {
     const serializedData = fs.readFileSync(filename, {encoding: 'utf-8'});
     //COMPLETAR POR EL ALUMNO: Agregar a la lista todas las clases que necesitan ser instanciadas
-    const classes = [UNQfy, Artist, Album, Playlist, Track,User,LogglyApp,newsletter];
+    const classes = [UNQfy, Artist, Album, Playlist, Track,User,LogglyApp,Newsletter];
     return picklify.unpicklify(JSON.parse(serializedData), classes);
   }
 }
