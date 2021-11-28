@@ -35,17 +35,7 @@ class LogManager{
             return "Not Working";
         }
     }
-
-    typeOfEvent(event){
-        if (event == "addNewArtist"){
-            return "artista";
-        }else if (event == "addAlbum"){
-            return "album";
-        }else {
-            return "track";
-        } 
-    }
-
+    
     configureWingston(){
         winston.add(new Loggly({
             token: token,

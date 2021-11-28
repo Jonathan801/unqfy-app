@@ -1,0 +1,12 @@
+info: Nov-28-2021 14:15:16: 	Se a agregado el artista Jackson
+info: Nov-28-2021 14:19:49: 	Se a agregado el artista PepeArgento
+info: Nov-28-2021 14:47:36: 	Se a agregado el album Jackson
+info: Nov-28-2021 15:07:16: 	Se a agregado el album Revival al artista Jackson
+info: Nov-28-2021 15:08:53: 	Se a agregado el album Revival2 al artista Jackson
+info: Nov-28-2021 15:12:40: 	Se a agregado el album Kamikaze al artista Jackson
+info: Nov-28-2021 15:15:10: 	Se a agregado el album DiskB al artista Jackson
+info: Nov-28-2021 15:18:51: 	Se a agregado el album DiskC al artista Jackson
+info: Nov-28-2021 15:20:40: 	Se a agregado el album DiskD al artista Jackson
+info: Nov-28-2021 15:22:20: 	Se a agregado el album DiskF al artista Jackson
+info: Nov-28-2021 15:25:01: 	Se a agregado el album 120 al artista PepeArgento
+info: Nov-28-2021 15:26:02: 	Se a agregado el track Marshall al album Revival

@@ -4,10 +4,33 @@ const errorsApi = require("../exceptions/apiExeptions");
 
 class LogglyApp {
 
-    update(event,artist){
+    typeOfEvent(event){
+        if (event == "addNewArtist"){
+            return "artista";
+        }else if (event == "addAlbum"){
+            return "album";
+        }else {
+            return "track";
+        } 
+    }
+
+    typeOfMessage(typeMessage,ojectEvent){
+        let baseMessage = `Se a agregado el ${typeMessage} `;
+        if (typeMessage == "artista"){
+            baseMessage += `${ojectEvent.artist.name}`;
+        }else if (typeMessage == "album"){
+            baseMessage += `${ojectEvent.album.name} al artista ${ojectEvent.artist.name}`;
+        }else {
+            baseMessage += `${ojectEvent.track.name} al album ${ojectEvent.album.name}`;
+        } 
+        return baseMessage;
+    }
+    
+
+    update(event,ojectEvent){
         const level = "info";
         const typeMessage = this.typeOfEvent(event);
-        let message = `Se a agregado el ${typeMessage} ${artist.artist.name}`;
+        const message = this.typeOfMessage(typeMessage,ojectEvent);
         const options = {
             url : "http://localhost:5002/api/loggly/event",
             body : {

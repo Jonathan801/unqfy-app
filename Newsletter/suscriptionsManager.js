@@ -57,7 +57,11 @@ class SubscriptionsManager {
     notifyUsers(body){
             return this.checkExistingIdArtist(body.artistId).then((artista)=> {
                 const artist_emails = this.getSubscribers(artista.id);
-                this.sendEmails(body, artist_emails);
+                if(artist_emails.length > 0){
+                    this.sendEmails(body, artist_emails);
+                }else{
+                    return console.log("El artista no tenia subscriptores");
+                }
             }).catch(() => {
                 throw new errorsApi.InternalServerError();
             });
@@ -79,7 +83,8 @@ class SubscriptionsManager {
     }
 
     getSubscribers(artistId){
-        return subscriptions.get(artistId);
+        let subs = subscriptions.get(artistId);
+        return subs ? subs : [];
     }
     
     checkExistingIdArtist(artistId){
