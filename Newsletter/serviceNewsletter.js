@@ -1,7 +1,7 @@
 const express = require('express');
 const errorHandler = require("../controller/errorHandler");
 const errorsAPI = require("../exceptions/apiExeptions");
-const newsletter = require("../controller/newsletterController");
+const newsletter = require("./newsletterController");
 const app = express();
 const api = express.Router();
 

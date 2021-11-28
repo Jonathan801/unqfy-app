@@ -3,6 +3,8 @@ const GMailAPIClient = require("./GMailAPIClient");
 const gmailClient = new GMailAPIClient();
 const errorsApi = require("../exceptions/apiExeptions");
 const artistExceptions = require("../exceptions/artistException");
+const endpoints = require("../endpoints.json");
+const urlUnqfy = endpoints.unqfy;
 
 // eslint-disable-next-line no-undef
 let subscriptions = new Map();
@@ -89,7 +91,7 @@ class SubscriptionsManager {
     
     checkExistingIdArtist(artistId){
         const options = {
-            url: `http://localhost:5000/api/artists/${artistId}`,
+            url: `${urlUnqfy}/artists/${artistId}`,
             json: true,
         };
         return rp.get(options)

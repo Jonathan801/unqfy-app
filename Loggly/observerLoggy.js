@@ -1,5 +1,7 @@
 const rp = require('request-promise');
 const errorsApi = require("../exceptions/apiExeptions");
+const endpoints = require("../endpoints.json");
+const urlLoggy = endpoints.loggy;
 
 
 class LogglyApp {
@@ -32,7 +34,7 @@ class LogglyApp {
         const typeMessage = this.typeOfEvent(event);
         const message = this.typeOfMessage(typeMessage,ojectEvent);
         const options = {
-            url : "http://localhost:5002/api/loggly/event",
+            url : urlLoggy + "/event",
             body : {
                 name : level,
                 message : message

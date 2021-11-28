@@ -1,6 +1,4 @@
 const errorsAPI = require("../exceptions/apiExeptions");
-// const LogglyService = require ("./LogglyApp");
-// const logglyService = new LogglyService();
 const Log = require("./logManager");
 const managerLog = new Log();
 

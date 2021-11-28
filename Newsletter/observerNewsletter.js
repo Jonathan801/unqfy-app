@@ -1,9 +1,8 @@
 const rp = require('request-promise');
 const errorsApi = require("../exceptions/apiExeptions");
-// const GMailAPIClient = require("./GMailAPIClient");
-// const gmailClient = new GMailAPIClient();
-// const artistExceptions = require("../exceptions/artistException");
-// const suscribersOfArtist = require("./suscribersOfArtist");
+const endpoints = require("../endpoints.json");
+const urlNewsletter = endpoints.newsletter;
+
 
 class Newsletter{
     constructor(){
@@ -14,7 +13,7 @@ class Newsletter{
     update(event,ojectEvent){
         if (event == "addAlbum"){
             const options = {
-                url:  'http://localhost:5001/api/notify',
+                url:  urlNewsletter + "/notify",
                 body: {
                     artistId: ojectEvent.artist.id,
                     subject: 'Nuevo Album para el artista ' + ojectEvent.artist.name,
@@ -28,8 +27,6 @@ class Newsletter{
                 throw new errorsApi.InternalServerError();
             }); 
         }
-        console.log(event);
-        console.log(ojectEvent);
     }
 }
 module.exports = Newsletter;

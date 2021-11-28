@@ -1,0 +1,5 @@
+{
+    "unqfy":"http://172.20.0.21:5000/api",
+    "newsletter":"http://172.20.0.22:5001/api",
+    "loggy":"http://172.20.0.23:5002/api/loggy"
+}

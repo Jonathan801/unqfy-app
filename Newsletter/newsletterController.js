@@ -1,5 +1,5 @@
 const errorsAPI = require("../exceptions/apiExeptions");
-const Manager = require("../Newsletter/suscriptionsManager");
+const Manager = require("./suscriptionsManager");
 const manager = new Manager();
 
 function suscribe(req, res){
