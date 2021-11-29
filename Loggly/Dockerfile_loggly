@@ -1,0 +1,21 @@
+FROM node:16
+
+ENV NODE_ENV=development
+ENV DEBUG=true
+
+WORKDIR /home/node/app
+
+COPY package.json .
+COPY package-lock.json .
+
+RUN ["npm", "install"]
+
+EXPOSE 5002
+
+COPY Loggly/serviceLoggy.js /home/node/app/
+
+RUN chown -R node:users /home/node/
+
+USER node
+
+CMD ["node", "serviceLoggy"]

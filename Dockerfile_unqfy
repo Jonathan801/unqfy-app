@@ -11,10 +11,14 @@ RUN ["npm", "install"]
 
 EXPOSE 5000
 
-COPY service.js /home/node/app/
+COPY . . /home/node/app/
 
 RUN chown -R node:users /home/node/
 
 USER node
 
 CMD ["node", "service"]
+
+#Run container 
+#docker build -f Dockerfile_unqfy -t unqfydocker .
+#docker run --net unqfynet --ip 172.20.0.21 -p 5000:5000 --name serviceunqfy --user node unqfydocker

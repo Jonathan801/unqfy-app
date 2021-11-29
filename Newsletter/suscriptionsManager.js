@@ -1,10 +1,12 @@
 const rp = require('request-promise');
-const GMailAPIClient = require("./GMailAPIClient");
-const gmailClient = new GMailAPIClient();
+// const GMailAPIClient = require("./GMailAPIClient");
+// const gmailClient = new GMailAPIClient();
 const errorsApi = require("../exceptions/apiExeptions");
 const artistExceptions = require("../exceptions/artistException");
 const endpoints = require("../endpoints.json");
 const urlUnqfy = endpoints.unqfy;
+const buildGmailClient = require("./GMailAPIClient");
+const gmailClient = buildGmailClient();
 
 // eslint-disable-next-line no-undef
 let subscriptions = new Map();
@@ -84,6 +86,42 @@ class SubscriptionsManager {
         });
     }
 
+    send_mail(subject, bodyLines, receiver, sender) {
+        return gmailClient.users.messages.send(
+            {
+              userId: 'me',
+              requestBody: {
+                raw: this._createMessage(subject, bodyLines, receiver, sender),
+              },
+            }
+          );
+    }
+      
+    _createMessage(subject, bodyLines, receiver, sender) {
+        // You can use UTF-8 encoding for the subject using the method below.
+        // You can also just use a plain string if you don't need anything fancy.
+        const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
+        let messageParts = [
+            `From: ${sender.name} <${sender.email}>`,
+            `To: ${receiver.name} <${receiver.email}>`,
+            'Content-Type: text/html; charset=utf-8',
+            'MIME-Version: 1.0',
+            `Subject: ${utf8Subject}`,
+            '',
+        ];
+        messageParts = messageParts.concat(bodyLines);
+        const message = messageParts.join('\n');
+    
+        // The body needs to be base64url encoded.
+        const encodedMessage = Buffer.from(message)
+        .toString('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+        //console.log("SendEmail en GmailApi");
+        return encodedMessage;
+    }
+
     getSubscribers(artistId){
         let subs = subscriptions.get(artistId);
         return subs ? subs : [];
@@ -101,7 +139,42 @@ class SubscriptionsManager {
         .catch(error => {
             throw new artistExceptions.ArtistIdDoesNotExist();
         });
-    }    
+    }
+    send_mail(subject, bodyLines, receiver, sender) {
+        return this._client.users.messages.send(
+            {
+              userId: 'me',
+              requestBody: {
+                raw: this._createMessage(subject, bodyLines, receiver, sender),
+              },
+            }
+          );
+    }
+      
+    _createMessage(subject, bodyLines, receiver, sender) {
+        // You can use UTF-8 encoding for the subject using the method below.
+        // You can also just use a plain string if you don't need anything fancy.
+        const utf8Subject = `=?utf-8?B?${Buffer.from(subject).toString('base64')}?=`;
+        let messageParts = [
+            `From: ${sender.name} <${sender.email}>`,
+            `To: ${receiver.name} <${receiver.email}>`,
+            'Content-Type: text/html; charset=utf-8',
+            'MIME-Version: 1.0',
+            `Subject: ${utf8Subject}`,
+            '',
+        ];
+        messageParts = messageParts.concat(bodyLines);
+        const message = messageParts.join('\n');
+    
+        // The body needs to be base64url encoded.
+        const encodedMessage = Buffer.from(message)
+        .toString('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+        //console.log("SendEmail en GmailApi");
+        return encodedMessage;
+    }
 }
 
 module.exports = SubscriptionsManager;
