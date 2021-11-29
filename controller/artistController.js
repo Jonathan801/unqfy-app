@@ -11,15 +11,14 @@ function getUNQfy(filename = 'data.json') {
     }
     return unqfy;
 }
-  
-function saveUNQfy(unqfy, filename = 'data.json') {
-    unqfy.save(filename);
-}
+
+const unqfy = getUNQfy();
+
+//unqfy.save('data.json');
 
 //Get an artist by id
 router.get("/:id",(req, res) => {
     const idArtist = Number(req.params.id);
-    const unqfy = getUNQfy();
     try{
         res.status(200).json(unqfy.getArtistById(idArtist));    
     }catch(error){
@@ -31,12 +30,11 @@ router.get("/:id",(req, res) => {
 router.patch("/:id",(req, res) => {
     const idArtist = Number(req.params.id);
     const body = req.body;
-    const unqfy = getUNQfy();
     if((body.name && body.country)){
         try{
             const artist =unqfy.getArtistById(idArtist);
             artist.update(body);
-            saveUNQfy(unqfy);
+            unqfy.save('data.json');
             res.status(200).json(artist);    
         }catch(error){
             throw new errorsAPI.NotFound();
@@ -49,12 +47,11 @@ router.patch("/:id",(req, res) => {
 router.put("/:id",(req, res) => {
     const idArtist = Number(req.params.id);
     const body = req.body;
-    const unqfy = getUNQfy();
     if((body.name && body.country)){
         try{
             const artist =unqfy.getArtistById(idArtist);
             artist.update(body);
-            saveUNQfy(unqfy);
+            unqfy.save('data.json');
             res.status(200).json(artist);    
         }catch(error){
             throw new errorsAPI.NotFound();
@@ -67,10 +64,9 @@ router.put("/:id",(req, res) => {
 //Delete an artist by id
 router.delete("/:id",(req,res) =>{
     const idArtist = Number(req.params.id);
-    const unqfy = getUNQfy();
     try{
         unqfy.removeArtist(idArtist);
-        saveUNQfy(unqfy);
+        unqfy.save('data.json');
         res.status(204);
         res.json({message:"Artista borrado correctamente"});
     }catch(error){
@@ -81,7 +77,6 @@ router.delete("/:id",(req,res) =>{
 //Get an artist by a query o all artist
 router.get("/",(req, res) => {
     const name = req.query.name;
-    const unqfy = getUNQfy();
     if(name){
         res.status(200).json(unqfy.matchingPartialByArtist(name));    
     }else{
@@ -91,12 +86,12 @@ router.get("/",(req, res) => {
 
 //Create a artist
 router.post("/",(req, res) => {
-    const unqfy = getUNQfy();
+    //const unqfy = getUNQfy(); // asdasdasdsadsa
         const body = req.body;
         if((body.name && body.country)){
             try{
                 const artist = unqfy.addArtist({name:body.name,country:body.country});
-                saveUNQfy(unqfy);
+                unqfy.save('data.json');
                 res.status(201).json(artist);
             }catch(error){
                 throw new errorsAPI.AlreadyExists();

@@ -13,6 +13,7 @@ const loggly = new LogglyApp();
 const Newsletter = require("./Newsletter/observerNewsletter");
 const newsletter = new Newsletter();
 
+
 class UNQfy {
 
   constructor(){
@@ -334,7 +335,7 @@ class UNQfy {
 
   // artistName: nombre de artista(string)
   // retorna: los tracks interpredatos por el artista con nombre artistName
-  getTracksMatchingArtist(artistName) { //TODO manejar caso donde no existe el artista
+  getTracksMatchingArtist(artistName) { 
     const artist = this.artists.find(art => art.name === artistName);
     const albumsOfArtist = artist.albums;
     const tracks = albumsOfArtist.map(elem => elem.tracks).reduce((actual,elem) => actual.concat(elem));
