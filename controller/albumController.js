@@ -12,19 +12,16 @@ function getUNQfy(filename = 'data.json') {
     }
     return unqfy;
 }
-  
-function saveUNQfy(unqfy, filename = 'data.json') {
-    unqfy.save(filename);
-}
+
+const unqfy = getUNQfy();
 
 router.post("/",(req,res)=>{
     const body = req.body;
     const idArtist = Number(body.artistId);
-    const unqfy = getUNQfy();
     if(body.artistId && body.year && body.name){
         try {
             const album = unqfy.addAlbum(idArtist,{name:body.name,year:body.year});
-            saveUNQfy(unqfy);
+            unqfy.save('data.json');
             res.status(201);
             res.json(album.toJSON());
         } catch (error) {
@@ -65,12 +62,11 @@ router.get("/:id",(req,res) =>{
 router.patch("/:id",(req, res) => {
     const idAlbum = Number(req.params.id);
     const body = req.body;
-    const unqfy = getUNQfy();
     if((body.year)){
         try{
             const album =unqfy.getAlbumById(idAlbum);
             album.update(body.year);
-            saveUNQfy(unqfy);
+            unqfy.save('data.json');
             res.status(200).json(album);    
         }catch(error){
             throw new errorsAPI.NotFound();
@@ -82,11 +78,10 @@ router.patch("/:id",(req, res) => {
 
 router.delete("/:id",(req,res) =>{
     const idAlbum = Number(req.params.id);
-    const unqfy = getUNQfy();
     try{
         let album = unqfy.getAlbumById(idAlbum);
         unqfy.removeAlbum(album.artist,idAlbum);
-        saveUNQfy(unqfy);
+        unqfy.save('data.json');
         res.status(204);
         res.json({message:"Album borrado correctamente"});
     }catch(error){
