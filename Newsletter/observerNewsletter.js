@@ -12,6 +12,9 @@ class Newsletter{
     //objectevent es la cosa en el medio
     update(event,ojectEvent){
         if (event == "addAlbum"){
+            // console.log(urlNewsletter);
+            // console.log(ojectEvent.artist.id);
+            // console.log(ojectEvent.artist.name);
             const options = {
                 url:  urlNewsletter + "/notify",
                 body: {

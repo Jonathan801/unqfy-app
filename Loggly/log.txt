@@ -10,3 +10,5 @@ info: Nov-28-2021 15:20:40: 	Se a agregado el album DiskD al artista Jackson
 info: Nov-28-2021 15:22:20: 	Se a agregado el album DiskF al artista Jackson
 info: Nov-28-2021 15:25:01: 	Se a agregado el album 120 al artista PepeArgento
 info: Nov-28-2021 15:26:02: 	Se a agregado el track Marshall al album Revival
+info: Nov-30-2021 01:37:44: 	Se a agregado el artista Pepe
+info: Nov-30-2021 01:39:20: 	Se a agregado el album AlbumPepe al artista Pepe

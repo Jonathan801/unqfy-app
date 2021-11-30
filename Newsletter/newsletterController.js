@@ -41,6 +41,7 @@ function notify(req, res){
     if(!(body.artistId && body.subject && body.message && body.from)){
         throw new errorsAPI.JSONException();
     }
+    console.log("Notify del controller");
     manager.notifyUsers(body)
     .then(()=>{
         res.json('OK!');

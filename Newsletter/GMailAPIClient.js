@@ -1,8 +1,8 @@
 const fs = require('fs');
 const { google } = require('googleapis');
 
-const CREDENTIALS_PATH = "./credentials.json";
-const TOKEN_PATH = "./token.json";
+const CREDENTIALS_PATH = "Newsletter/credentials.json";
+const TOKEN_PATH = "Newsletter/token.json";
 
 function buildGmailClient() {
     let credentials_file = CREDENTIALS_PATH;

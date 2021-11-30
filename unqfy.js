@@ -22,8 +22,7 @@ class UNQfy {
     this.playlists = [];
     this.users = [];
     this.id2Playlist = 0;
-    //this.observer = [loggly,newsletter];
-    this.observer = [];
+    this.observer = [loggly,newsletter];
     this.idArtist = 1;
     this.idAlbum = 1;
     this.idTrack = 1;
