@@ -19,8 +19,9 @@ const unqfy = getUNQfy();
 //Get an artist by id
 router.get("/:id",(req, res) => {
     const idArtist = Number(req.params.id);
+    let requestUnqfy = req.requestUnqfy;
     try{
-        res.status(200).json(unqfy.getArtistById(idArtist));    
+        res.status(200).json(requestUnqfy.getArtistById(idArtist));    
     }catch(error){
         throw new errorsAPI.NotFound();
     }
@@ -30,11 +31,12 @@ router.get("/:id",(req, res) => {
 router.patch("/:id",(req, res) => {
     const idArtist = Number(req.params.id);
     const body = req.body;
+    let requestUnqfy = req.requestUnqfy;
     if((body.name && body.country)){
         try{
-            const artist =unqfy.getArtistById(idArtist);
+            const artist =requestUnqfy.getArtistById(idArtist);
             artist.update(body);
-            unqfy.save('data.json');
+            requestUnqfy.save('data.json');
             res.status(200).json(artist);    
         }catch(error){
             throw new errorsAPI.NotFound();
@@ -77,10 +79,13 @@ router.delete("/:id",(req,res) =>{
 //Get an artist by a query o all artist
 router.get("/",(req, res) => {
     const name = req.query.name;
+    console.log('unqfy');
+    console.log(req.requestUnqfy);
+    let requestUnqfy = req.requestUnqfy;
     if(name){
-        res.status(200).json(unqfy.matchingPartialByArtist(name));    
+        res.status(200).json(requestUnqfy.matchingPartialByArtist(name));    
     }else{
-        res.status(200).json(unqfy.getArtists());
+        res.status(200).json(requestUnqfy.getArtists());
     }
 });
 
@@ -88,10 +93,11 @@ router.get("/",(req, res) => {
 router.post("/",(req, res) => {
     //const unqfy = getUNQfy(); // asdasdasdsadsa
         const body = req.body;
+        let requestUnqfy = req.requestUnqfy;
         if((body.name && body.country)){
             try{
-                const artist = unqfy.addArtist({name:body.name,country:body.country});
-                unqfy.save('data.json');
+                const artist = requestUnqfy.addArtist({name:body.name,country:body.country});
+                requestUnqfy.save('data.json');
                 res.status(201).json(artist);
             }catch(error){
                 throw new errorsAPI.AlreadyExists();
