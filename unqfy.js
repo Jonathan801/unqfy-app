@@ -23,6 +23,34 @@ class UNQfy {
     this.users = [];
     this.id2Playlist = 0;
     this.observer = [loggly,newsletter];
+    this.idArtist = 1;
+    this.idAlbum = 1;
+    this.idTrack = 1;
+    this.idUser = 1;
+  }
+
+  getNextArtistID(){
+    let id = this.idArtist;
+    this.idArtist++;
+    return id;
+  }
+
+  getNextAlbumID(){
+    let id = this.idAlbum;
+    this.idAlbum++;
+    return id;
+  }
+
+  getNextTrackID(){
+    let id = this.idTrack;
+    this.idTrack++;
+    return id;
+  }
+
+  getNextUserID(){
+    let id = this.idUser;
+    this.idUser++;
+    return id;
   }
 
   nameFunction(){
@@ -40,7 +68,7 @@ class UNQfy {
     if(this.users.some(elem=> elem.name === userName)){
       throw new userExceptions.UserException(userName);
     }else{
-      const user = new User(userName);
+      const user = new User(userName,this.getNextUserID());
       this.users.push(user);
       return user;
     }
@@ -91,7 +119,7 @@ class UNQfy {
     if(this.haveArtistName(artist.name)){
         throw new artistExceptions.ArtistWithSameName(`The artist ${artist.name} already existed.`);
     } else {
-      const artist1 = new Artist(artist.name,artist.country);
+      const artist1 = new Artist(artist.name,artist.country,this.getNextArtistID());
       this.artists.push(artist1);
       this.observer.forEach(elem => elem.update("addNewArtist",{artist:artist1}));
       //this.observer.logEvent("info",`Se a agregado al sistema el artista ${artist1.name}`);
@@ -158,7 +186,7 @@ class UNQfy {
   */
   addAlbum(artistId, albumData) {
     const artist = this.getArtistById(artistId);
-    const album = artist.addAlbum(albumData);
+    const album = artist.addAlbum(albumData,this.getNextAlbumID());
     this.observer.forEach(elem => elem.update("addAlbum",{artist:artist,album:album}));
     //this.observador.logEvent('info','Se ha agregado el album ' + album.name +' al artista ' + artist.name);
     return album;
@@ -214,7 +242,7 @@ class UNQfy {
   */
   addTrack(albumId, trackData) {
     const albumObt = this.getAlbumById(albumId);
-    const track = albumObt.addNewTrack(trackData);
+    const track = albumObt.addNewTrack(trackData,this.getNextTrackID());
     this.observer.forEach(elem => elem.update("addTrack",{track:track,album:albumObt}));
     //this.observador.logEvent('info','Se ha agregado el track ' + track.name +' al album ' + albumObt.name);
     return track;
