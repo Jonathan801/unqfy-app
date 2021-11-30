@@ -22,3 +22,4 @@ CMD ["node", "Loggly/serviceLoggy.js"]
 #Run container 
 #docker build -f Loggly/Dockerfile_loggly -t loggydocker .
 #docker run --net unqfynet --ip 172.20.0.23 -p 5002:5002 --name serviceloggy --user node loggydocker
+
