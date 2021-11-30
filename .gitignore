@@ -718,7 +718,6 @@ yarn-error.log*
 package-lock.json
 Newsletter/credentials.json
 Newsletter/token.json
-Newsletter/pathFiles.json
 Loggly/token.json
 data.json
 

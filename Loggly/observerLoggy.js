@@ -33,6 +33,7 @@ class LogglyApp {
         const level = "info";
         const typeMessage = this.typeOfEvent(event);
         const message = this.typeOfMessage(typeMessage,ojectEvent);
+        console.log(urlLoggy);
         const options = {
             url : urlLoggy + "/event",
             body : {
