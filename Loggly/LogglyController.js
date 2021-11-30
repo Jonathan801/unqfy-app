@@ -1,12 +1,13 @@
 const errorsAPI = require("../exceptions/apiExeptions");
-const LogglyService = require ("./LogglyApp");
-const logglyService = new LogglyService();
+const Log = require("./logManager");
+const managerLog = new Log();
 
 
 function addEvent(req,res){
-    if(logglyService.state) {
+    if(managerLog.getState()) {
         const body = req.body;
         if (body.name && body.message) {
+            managerLog.logEvent(body.name,body.message);
             res.status(201);
             res.json({result : "El evento fue registrado exitosamente"}); 
         }else{
@@ -19,13 +20,13 @@ function addEvent(req,res){
 }
 
 function activateLoggy(req,res) {
-    logglyService.activate();
+    managerLog.activate();
     res.status(201);
     res.json({result: "El servidor se ha activado"});
 }
 
 function desactivateLoggy(req,res){
-    logglyService.desactivate();
+    managerLog.desactivate();
     res.status(201);
     res.json({result: "El servidor se ha desactivado"});
 
@@ -33,7 +34,7 @@ function desactivateLoggy(req,res){
 
 function stateLoggly(req,res){
     res.status(200);
-    res.json({stateLoggly: logglyService.stateOfLogglyApp()});
+    res.json({stateLoggly: managerLog.stateOfLogglyApp()});
 }
 
 module.exports = {

@@ -1,14 +1,13 @@
 const errorsAPI = require("../exceptions/apiExeptions");
-//const newsletter = require("../Newsletter/newsletter");
-const Newsletter = require("../Newsletter/newsletter");
-const newsletter = new Newsletter.Newsletter();
+const Manager = require("./suscriptionsManager");
+const manager = new Manager();
 
 function suscribe(req, res){
     const body = req.body;
     if (!(body.artistId && body.email)) {
         throw new errorsAPI.JSONException();
     }
-    newsletter.suscribeToArtist(body.artistId, body.email)
+    manager.suscribeToArtist(body.artistId, body.email)
     .then(() => {
         res.json({message: 'suscripción éxitosa'});
     })
@@ -25,7 +24,7 @@ function unsubscribe(req, res){
     if(!(body.artistId && body.email)){
         throw new errorsAPI.JSONException();
     }
-    newsletter.unsubscribeFromArtist(body.artistId, body.email)
+    manager.unsubscribeFromArtist(body.artistId, body.email)
     .then(()=>{
         res.json();
     })
@@ -39,17 +38,15 @@ function unsubscribe(req, res){
 
 function notify(req, res){
     const body = req.body;
-    //console.log(`LLego un notify respecto al artista ${body.artistId}`);
     if(!(body.artistId && body.subject && body.message && body.from)){
         throw new errorsAPI.JSONException();
     }
-    newsletter.notifyUsers(body)
+    manager.notifyUsers(body)
     .then(()=>{
         res.json('OK!');
     })
     .catch((error) => {
         if (error) {
-            //console.log("Error del notify");
             res.status(error.status);
             res.json({status: error.status, errorCode: error.errorCode});
         }
@@ -61,10 +58,11 @@ function getSubscribersOfArtist(req, res){
         throw new errorsAPI.JSONException();
     }
     const artId = parseInt(req.query.artistId);
-    newsletter.getsEmails(artId).then((parIdEm)=>{
+    manager.getSubscribersOfArtist(artId)
+    .then((emails)=>{
         res.json({
-            artistId: parIdEm.idArtist,
-            emails: parIdEm.emails
+            artistId: artId,
+            emails: emails
         });
     })
     .catch((error) => {
@@ -80,14 +78,13 @@ function deleteSubscriptions(req, res){
     if(!body.artistId){
         throw new errorsAPI.JSONException();
     }
-    newsletter.deleteEmails(body.artistId).then(()=>{
+    manager.deleteEmails(body.artistId).then(()=>{
         res.json({message: 'OK!'});
     }).catch((error) => {
         res.status(error.status);
         res.json({status: error.status, errorCode: error.errorCode});
     });
 }
-
 
 module.exports={
     suscribe,

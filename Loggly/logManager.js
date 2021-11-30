@@ -1,16 +1,18 @@
-const rp = require('request-promise');
 const winston  = require('winston');
 const {Loggly} = require('winston-loggly-bulk');
 const Logger = require("./Logger");
 const tokenJson = require("./token.json");
 const token = tokenJson.token;
 
+class LogManager{
 
-class LogglyApp {
-
-    constructor() {
+    constructor(){
         this.state = true;
         this.configureWingston();
+    }
+
+    getState(){
+        return this.state;
     }
 
     activate(){
@@ -21,6 +23,11 @@ class LogglyApp {
         this.state = false;
     }
 
+    logEvent(level,message){
+        winston.log(level,message);//Hace el log a Loggy
+        Logger.log(level,message); //Hace el log al archivo local
+    }
+
     stateOfLogglyApp(){
         if(this.state){
             return "Working";
@@ -28,23 +35,7 @@ class LogglyApp {
             return "Not Working";
         }
     }
-
-    logEvent(level,message){
-        const options = {
-            url : "http://localhost:5002/api/loggly/event",
-            body : {
-                name : level,
-                message : message
-            },
-            json : true,
-        };
-        rp.post(options)
-        .then(() =>{
-            winston.log(level,message);//Hace el log a Loggy
-            Logger.log(level,message); //Hace el log al archivo local
-        });
-    }
-
+    
     configureWingston(){
         winston.add(new Loggly({
             token: token,
@@ -53,7 +44,8 @@ class LogglyApp {
             json: true
         }));
     }
+
+
 }
 
-module.exports = LogglyApp;
-
+module.exports = LogManager;

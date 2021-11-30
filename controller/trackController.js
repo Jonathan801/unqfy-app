@@ -12,18 +12,15 @@ function getUNQfy(filename = 'data.json') {
     }
     return unqfy;
 }
-  
-function saveUNQfy(unqfy, filename = 'data.json') {
-    unqfy.save(filename);
-}
+
+const unqfy = getUNQfy();
 
 router.get("/:id/lyrics",(req,res) =>{
     const idTrack = Number(req.params.id);
-    const unqfy = getUNQfy();
     try {
         const track = unqfy.getTrackById2(idTrack);
         track.getLyrics().then(lyrics =>{
-            saveUNQfy(unqfy);
+            unqfy.save('data.json');
             res.status(200);
             res.json({name:track.name,lyrics:lyrics});
         });

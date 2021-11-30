@@ -12,10 +12,14 @@ RUN ["npm", "install"]
 
 EXPOSE 5002
 
-COPY Loggly/serviceLoggy.js /home/node/app/
+COPY . . 
 
 RUN chown -R node:users /home/node/
 
 USER node
 
-CMD ["node", "serviceLoggy"]
+CMD ["node", "Loggly/serviceLoggy.js"]
+#Run container 
+#docker build -f Loggly/Dockerfile_loggly -t loggydocker .
+#docker run --net unqfynet --ip 172.20.0.23 -p 5002:5002 --name serviceloggy --user node loggydocker
+
