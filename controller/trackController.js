@@ -17,10 +17,11 @@ const unqfy = getUNQfy();
 
 router.get("/:id/lyrics",(req,res) =>{
     const idTrack = Number(req.params.id);
+    let requestUnqfy = req.requestUnqfy;
     try {
-        const track = unqfy.getTrackById2(idTrack);
+        const track = requestUnqfy.getTrackById2(idTrack);
         track.getLyrics().then(lyrics =>{
-            unqfy.save('data.json');
+            requestUnqfy.save('data.json');
             res.status(200);
             res.json({name:track.name,lyrics:lyrics});
         });

@@ -49,11 +49,12 @@ router.patch("/:id",(req, res) => {
 router.put("/:id",(req, res) => {
     const idArtist = Number(req.params.id);
     const body = req.body;
+    let requestUnqfy = req.requestUnqfy;
     if((body.name && body.country)){
         try{
-            const artist =unqfy.getArtistById(idArtist);
+            const artist =requestUnqfy.getArtistById(idArtist);
             artist.update(body);
-            unqfy.save('data.json');
+            requestUnqfy.save('data.json');
             res.status(200).json(artist);    
         }catch(error){
             throw new errorsAPI.NotFound();
@@ -66,9 +67,10 @@ router.put("/:id",(req, res) => {
 //Delete an artist by id
 router.delete("/:id",(req,res) =>{
     const idArtist = Number(req.params.id);
+    let requestUnqfy = req.requestUnqfy;
     try{
-        unqfy.removeArtist(idArtist);
-        unqfy.save('data.json');
+        requestUnqfy.removeArtist(idArtist);
+        requestUnqfy.save('data.json');
         res.status(204);
         res.json({message:"Artista borrado correctamente"});
     }catch(error){
@@ -79,8 +81,8 @@ router.delete("/:id",(req,res) =>{
 //Get an artist by a query o all artist
 router.get("/",(req, res) => {
     const name = req.query.name;
-    console.log('unqfy');
-    console.log(req.requestUnqfy);
+    // console.log('unqfy');
+    // console.log(req.requestUnqfy);
     let requestUnqfy = req.requestUnqfy;
     if(name){
         res.status(200).json(requestUnqfy.matchingPartialByArtist(name));    
@@ -91,7 +93,6 @@ router.get("/",(req, res) => {
 
 //Create a artist
 router.post("/",(req, res) => {
-    //const unqfy = getUNQfy(); // asdasdasdsadsa
         const body = req.body;
         let requestUnqfy = req.requestUnqfy;
         if((body.name && body.country)){
