@@ -134,7 +134,7 @@ class UNQfy {
     this.artists = this.removeItemWithIdFromArr(art,this.artists);
     // console.log("Despues de cambiar lista artista");
     // console.log(this.artists);
-    //this.observer.forEach(elem => elem.update("removeArtist",{artist:art}));
+    this.observer.forEach(elem => elem.update("removeArtist",{artist:art}));
     //this.observador.logEvent('info','Se ha eliminado el artista ' + art.name);
   }
 
@@ -207,7 +207,7 @@ class UNQfy {
     console.log(album);
     this.removeAlbum2Playlists(albumId);
     artist.removeAlbum(albumId);
-    //this.observer.forEach(elem => elem.update("removeAlbum",{artist:artist,album:album}));
+    this.observer.forEach(elem => elem.update("removeAlbum",{artist:artist,album:album}));
     //this.observador.logEvent('info','Se ha eliminado el album ' + album.name + ' del artista ' + artist.name);
   }
 
@@ -258,7 +258,7 @@ class UNQfy {
     const track = this.getTrackById2(trackId);
     this.removeTrack2Playlist(trackId);
     artist.removeTrack(trackId);
-    this.observer.forEach(elem => elem.update("removeTrack",{track:track}));
+    this.observer.forEach(elem => elem.update("removeTrack",{track:track,artist:artist}));
     //this.observador.logEvent('info','Se ha eliminado el track ' + track.name);
   }
 

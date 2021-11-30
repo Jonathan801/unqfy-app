@@ -7,11 +7,11 @@ const urlLoggy = endpoints.loggy;
 class LogglyApp {
 
     typeOfEvent(event){
-        if (event == "addNewArtist"){
+        if (event == "addNewArtist" || event == "removeArtist"){
             return "artista";
-        }else if (event == "addAlbum"){
+        }else if (event == "addAlbum" || event == "removeAlbum"){
             return "album";
-        }else {
+        }else { // las otras opciones son addTrack or removeTrack
             return "track";
         } 
     }
@@ -27,13 +27,34 @@ class LogglyApp {
         } 
         return baseMessage;
     }
+
+    typeOfMessageDelete(typeMessage,ojectEvent){
+        let baseMessage = `Se a eliminado el ${typeMessage} `;
+        if (typeMessage == "artista"){
+            baseMessage += `${ojectEvent.artist.name}`;
+        }else if (typeMessage == "album"){
+            baseMessage += `${ojectEvent.album.name} del artista ${ojectEvent.artist.name}`;
+        }else {
+            baseMessage += `${ojectEvent.track.name} del artista ${ojectEvent.artist.name}`;
+        } 
+        return baseMessage;
+    }
+
+    altaOBaja(event,typeMessage,ojectEvent){ //el if esta asi porque no funcaba el event.includes()
+        if(event == "removeArtist" || event == "removeAlbum" || event == "removeTrack"){
+            return this.typeOfMessageDelete(typeMessage,ojectEvent);
+        }else{
+            return this.typeOfMessage(typeMessage,ojectEvent);
+        }
+    }
     
 
     update(event,ojectEvent){
         const level = "info";
         const typeMessage = this.typeOfEvent(event);
-        const message = this.typeOfMessage(typeMessage,ojectEvent);
-        console.log(urlLoggy);
+        const message = this.altaOBaja(event,typeMessage,ojectEvent);
+        //const message = event.includes("remove") ? (this.typeOfMessageDelete(typeMessage,ojectEvent)) : (this.typeOfMessage(typeMessage,ojectEvent));
+        //const message = this.typeOfMessage(typeMessage,ojectEvent);
         const options = {
             url : urlLoggy + "/event",
             body : {
