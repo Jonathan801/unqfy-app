@@ -18,11 +18,11 @@ function getUNQfy(filename = 'data.json') {
     return unqfy;
 }
 
-let unqfy = function (req, res, next) {
-    console.log('LOGGED');
+// eslint-disable-next-line func-style
+const unqfy = function (req, res, next) {
+    //console.log('LOGGED');
     const unqfy = getUNQfy();
-
-    req.requestUnqfy = unqfy
+    req.requestUnqfy = unqfy;
     next();
   };
   

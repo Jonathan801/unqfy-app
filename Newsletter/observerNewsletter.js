@@ -2,19 +2,17 @@ const rp = require('request-promise');
 const errorsApi = require("../exceptions/apiExeptions");
 const endpoints = require("../endpoints.json");
 const urlNewsletter = endpoints.newsletter;
+const Observer = require("../models/observer");
 
 
-class Newsletter{
+class Newsletter extends Observer{
+    
     constructor(){
+        super();
     }
-    //update(artist,album)
-    //event es la funcion que provoco un evento 
-    //objectevent es la cosa en el medio
+
     update(event,ojectEvent){
         if (event == "addAlbum"){
-            // console.log(urlNewsletter);
-            // console.log(ojectEvent.artist.id);
-            // console.log(ojectEvent.artist.name);
             const options = {
                 url:  urlNewsletter + "/notify",
                 body: {

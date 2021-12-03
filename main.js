@@ -3,6 +3,11 @@
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
 const unqmod = require('./unqfy'); // importamos el modulo unqfy
 
+const LogglyApp = require("./Loggly/observerLoggy");
+const loggly = new LogglyApp();
+const Newsletter = require("./Newsletter/observerNewsletter");
+const newsletter = new Newsletter();
+
 // Retorna una instancia de UNQfy. Si existe filename, recupera la instancia desde el archivo.
 function getUNQfy(filename = 'data.json') {
   let unqfy = new unqmod.UNQfy();
