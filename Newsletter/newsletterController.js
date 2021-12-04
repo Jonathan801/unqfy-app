@@ -1,5 +1,6 @@
 const errorsAPI = require("../exceptions/apiExeptions");
 const Manager = require("./suscriptionsManager");
+const {ArtistIdDoesNotExist} = require("../exceptions/artistException");
 const manager = new Manager();
 
 function suscribe(req, res){
@@ -12,9 +13,11 @@ function suscribe(req, res){
         res.json({message: 'suscripción éxitosa'});
     })
     .catch((error) => {
-        if (error) {
-            res.status(error.status);
-            res.json({status: error.status, errorCode: error.errorCode});
+        // if (error) {
+        //     res.status(error.status);
+        //     res.json({status: error.status, errorCode: error.errorCode});
+        if(error instanceof ArtistIdDoesNotExist){
+            throw new errorsAPI.RelatedSourceNotFound();
         }
     });
 }
@@ -26,7 +29,7 @@ function unsubscribe(req, res){
     }
     manager.unsubscribeFromArtist(body.artistId, body.email)
     .then(()=>{
-        res.json();
+        res.json({message: 'desuscripción éxitosa'});
     })
     .catch((error) => {
         if (error) {

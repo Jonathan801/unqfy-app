@@ -5,10 +5,9 @@ const urlNewsletter = endpoints.newsletter;
 const Observer = require("../models/observer");
 
 
-class Newsletter extends Observer{
+class Newsletter{
     
-    constructor(){
-        super();
+    constructor(){  
     }
 
     update(event,ojectEvent){

@@ -5,35 +5,13 @@ const urlLoggy = endpoints.loggy;
 const Observer = require("../models/observer");
 
 
-class LogglyApp extends Observer {
+class LogglyApp{
 
     constructor(){
-        super();
-    }
-
-    update(event,ojectEvent){
-        const level = "info";
-        const typeMessage = this.typeOfEvent(event);
-        const message = this.altaOBaja(event,typeMessage,ojectEvent);
-        const options = {
-            url : urlLoggy + "/event",
-            body : {
-                name : level,
-                message : message
-            },
-            json : true,
-        };
-        rp.post(options)
-        .then(() =>{
-            console.log("Evento registrado correctamente");
-        })
-        .catch(() => {
-            throw new errorsApi.InternalServerError();
-        }); 
     }
 
     typeOfEvent(event){
-        if (event == "addNewArtist" || event == "removeArtist"){
+        if (event == "addArtist" || event == "removeArtist"){
             return "artista";
         }else if (event == "addAlbum" || event == "removeAlbum"){
             return "album";
@@ -73,6 +51,29 @@ class LogglyApp extends Observer {
             return this.typeOfMessage(typeMessage,ojectEvent);
         }
     }
+
+    update(event,ojectEvent){
+        const level = "info";
+        const typeMessage = this.typeOfEvent(event);
+        const message = this.altaOBaja(event,typeMessage,ojectEvent);
+        const options = {
+            url : urlLoggy + "/event",
+            body : {
+                name : level,
+                message : message
+            },
+            json : true,
+        };
+        rp.post(options)
+        .then(() =>{
+            console.log("Evento registrado correctamente");
+        })
+        .catch(() => {
+            throw new errorsApi.InternalServerError();
+        }); 
+    }
+
+
 }
 
 module.exports = LogglyApp;

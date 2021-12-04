@@ -16,8 +16,8 @@ const newsletter = new Newsletter();
 
 class UNQfy extends Subject {
 
-  constructor(observers){
-    super(observers);
+  constructor(subs){
+    super(subs);
     this.artists = [];
     this.artistsSize = 0;
     this.playlists = [];
@@ -121,7 +121,7 @@ class UNQfy extends Subject {
     } else {
       const artist1 = new Artist(artist.name,artist.country,this.getNextArtistID());
       this.artists.push(artist1);
-      this.changed("addArtist",artist);
+      this.changed("addArtist",{artist:artist});
       return artist1;
     }
   }

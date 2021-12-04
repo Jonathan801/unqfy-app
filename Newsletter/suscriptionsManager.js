@@ -9,7 +9,7 @@ const buildGmailClient = require("./GMailAPIClient");
 const gmailClient = buildGmailClient();
 
 // eslint-disable-next-line no-undef
-let subscriptions = new Map();
+const subscriptions = new Map();
 
 class SubscriptionsManager {
     
