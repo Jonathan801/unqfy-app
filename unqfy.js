@@ -13,6 +13,7 @@ const LogglyApp = require("./Loggly/observerLoggy");
 const loggly = new LogglyApp();
 const Newsletter = require("./Newsletter/observerNewsletter");
 const newsletter = new Newsletter();
+const getIdArtistSpotifyByName = require("./models/spotifyAlbum");
 
 class UNQfy extends Subject {
 
@@ -53,12 +54,24 @@ class UNQfy extends Subject {
     return id;
   }
 
-  nameFunction(){
-    let myName = arguments.callee.toString();
-    myName = myName.substr('function '.length);
-    myName = myName.substr(0, myName.indexOf('('));
-    return myName;
+  getArtistByName(name){
+    const artist = this.artists.find(art => art.name === name);
+    return artist;
   }
+
+  popularAlbumsForArtist(artistName) {
+    const idArtist = this.getArtistByName(artistName).id;
+    const albumsName = [];
+    return   getIdArtistSpotifyByName(artistName).then((albums) => {
+      albums.forEach(album => {
+       if (!albumsName.includes(album.name)) {
+           albumsName.push(album.name);
+           this.addAlbum(idArtist, { name: album.name, year: album.release_date });
+       }
+      });
+      return albums;
+    })
+   }
 
   printArray(array){
     array.forEach(elem=> console.log(elem));
