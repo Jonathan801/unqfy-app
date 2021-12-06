@@ -7,27 +7,30 @@ const errorHandler = require("./controller/errorHandler");
 const errorsAPI = require("./exceptions/apiExeptions");
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
 const unqmod = require('./unqfy'); // importamos el modulo unqfy
+const LogglyApp = require("./Loggly/observerLoggy");
+const loggly = new LogglyApp();
+const Newsletter = require("./Newsletter/observerNewsletter");
+const newsletter = new Newsletter();
 
 const app = express();
 
 function getUNQfy(filename = 'data.json') {
-    let unqfy = new unqmod.UNQfy();
+    let unqfy = new unqmod.UNQfy([loggly,newsletter]);
     if (fs.existsSync(filename)) {
       unqfy = unqmod.UNQfy.load(filename);
     }
     return unqfy;
 }
 
-let unqfy = function (req, res, next) {
-    console.log('LOGGED');
+// eslint-disable-next-line func-style
+const unqfy = function (req, res, next) {
+    //console.log('LOGGED');
     const unqfy = getUNQfy();
-
-    req.requestUnqfy = unqfy
+    req.requestUnqfy = unqfy;
     next();
-  };
+};
   
 app.use(unqfy);
-
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use("/api/artists",artist);

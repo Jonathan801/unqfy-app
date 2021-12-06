@@ -9,7 +9,7 @@ const buildGmailClient = require("./GMailAPIClient");
 const gmailClient = buildGmailClient();
 
 // eslint-disable-next-line no-undef
-let subscriptions = new Map();
+const subscriptions = new Map();
 
 class SubscriptionsManager {
     
@@ -61,7 +61,6 @@ class SubscriptionsManager {
     notifyUsers(body){
             return this.checkExistingIdArtist(body.artistId).then((artista)=> {
                 const artist_emails = this.getSubscribers(artista.id);
-                console.log(artist_emails);
                 if(artist_emails.length > 0){
                     this.sendEmails(body, artist_emails);
                 }else{
@@ -139,7 +138,7 @@ class SubscriptionsManager {
             return artist;
         })
         .catch(error => {
-            throw new artistExceptions.ArtistIdDoesNotExist();
+            throw new artistExceptions.ArtistIdDoesNotExist(); //Ver de que en vez de devolver esto , poner alguna representacion
         });
     }
 }

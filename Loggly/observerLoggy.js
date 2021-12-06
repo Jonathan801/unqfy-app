@@ -2,12 +2,16 @@ const rp = require('request-promise');
 const errorsApi = require("../exceptions/apiExeptions");
 const endpoints = require("../endpoints.json");
 const urlLoggy = endpoints.loggy;
+const Observer = require("../models/observer");
 
 
-class LogglyApp {
+class LogglyApp{
+
+    constructor(){
+    }
 
     typeOfEvent(event){
-        if (event == "addNewArtist" || event == "removeArtist"){
+        if (event == "addArtist" || event == "removeArtist"){
             return "artista";
         }else if (event == "addAlbum" || event == "removeAlbum"){
             return "album";
@@ -47,14 +51,11 @@ class LogglyApp {
             return this.typeOfMessage(typeMessage,ojectEvent);
         }
     }
-    
 
     update(event,ojectEvent){
         const level = "info";
         const typeMessage = this.typeOfEvent(event);
         const message = this.altaOBaja(event,typeMessage,ojectEvent);
-        //const message = event.includes("remove") ? (this.typeOfMessageDelete(typeMessage,ojectEvent)) : (this.typeOfMessage(typeMessage,ojectEvent));
-        //const message = this.typeOfMessage(typeMessage,ojectEvent);
         const options = {
             url : urlLoggy + "/event",
             body : {
@@ -71,6 +72,8 @@ class LogglyApp {
             throw new errorsApi.InternalServerError();
         }); 
     }
+
+
 }
 
 module.exports = LogglyApp;

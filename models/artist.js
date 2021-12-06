@@ -1,5 +1,4 @@
 const Album = require("./album");
-//const idGenerator = require("./idGenerator");
 const albumExceptions = require("../exceptions/albumException.js");
 
 class Artist{
