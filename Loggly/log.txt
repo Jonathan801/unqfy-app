@@ -1,0 +1,5 @@
+info: Dec-03-2021 23:49:18: 	Se a agregado el artista PepeArgento
+info: Dec-03-2021 23:49:35: 	Se a agregado el album Lol al artista PepeArgento
+info: Dec-03-2021 23:50:14: 	Se a eliminado el album Lol del artista PepeArgento
+info: Dec-03-2021 23:51:12: 	Se a agregado el album AlbumBuenardo al artista PepeArgento
+info: Dec-03-2021 23:54:33: 	Se a agregado el album AlbumBuenardosecuela al artista PepeArgento

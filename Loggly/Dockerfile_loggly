@@ -1,0 +1,25 @@
+FROM node:16
+
+ENV NODE_ENV=development
+ENV DEBUG=true
+
+WORKDIR /home/node/app
+
+COPY package.json .
+COPY package-lock.json .
+
+RUN ["npm", "install"]
+
+EXPOSE 5002
+
+COPY . . 
+
+RUN chown -R node:users /home/node/
+
+USER node
+
+CMD ["node", "Loggly/serviceLoggy.js"]
+#Run container 
+#docker build -f Loggly/Dockerfile_loggly -t loggydocker .
+#docker run --net unqfynet --ip 172.20.0.23 -p 5002:5002 --name serviceloggy --user node loggydocker
+

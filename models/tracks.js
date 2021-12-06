@@ -1,13 +1,13 @@
-const idGenerator = require("./idGenerator");
+//const idGenerator = require("./idGenerator");
 const getIdTrack = require("./musixmatch");
 
 
 class Track{
-    constructor(name, albumId, duration,genres = []){
+    constructor(name, albumId, duration,genres = [],idTrack){
         this.name = name;
         this.albumId = albumId;
         this.duration = duration;
-        this.idTrack = idGenerator.getNextIdTrack();
+        this.idTrack = idTrack;
         this.genres = genres;
         this.lyrics ;
     }

@@ -1,0 +1,29 @@
+FROM node:16
+
+ENV NODE_ENV=development
+ENV DEBUG=true
+
+WORKDIR /home/node/app
+
+COPY package.json .
+COPY package-lock.json .
+
+RUN ["npm", "install"]
+
+EXPOSE 5001
+
+
+COPY . . 
+
+
+RUN chown -R node:users /home/node/
+
+USER node
+
+
+CMD ["node", "Newsletter/serviceNewsletter"]
+
+#Run container 
+#docker build -f Newsletter/Dockerfile_newsletter -t newsletterdocker .
+#docker run --net unqfynet --ip 172.20.0.22 -p 5001:5001 --name servicenewsletter --user node newsletterdocker
+

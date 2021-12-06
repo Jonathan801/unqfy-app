@@ -1,13 +1,12 @@
 const Album = require("./album");
-const idGenerator = require("./idGenerator");
 const albumExceptions = require("../exceptions/albumException.js");
 
 class Artist{
-    constructor(name,country){
+    constructor(name,country,id){
         this.name = name;
         this.country = country;
         this.albums = [];
-        this.id = idGenerator.getNextIdArtist();
+        this.id = id;
     }
 
     toJSON(){
@@ -19,11 +18,11 @@ class Artist{
         this.country = body.country;
     }
 
-    addAlbum(albumData) {
+    addAlbum(albumData,idAlbum) {
         if(this.haveAlbumName(albumData.name)){
             throw new albumExceptions.AlbumWithSameName(`The Album ${albumData.name} already existed.`);
         }else{
-            const newAlbum = new Album(this.id, albumData.name, albumData.year);    
+            const newAlbum = new Album(this.id,albumData.name, albumData.year,idAlbum);    
             this.albums.push(newAlbum);
             return newAlbum;
         }

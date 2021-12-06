@@ -1,13 +1,13 @@
 const Track = require("./tracks");
 const trackExceptions = require("../exceptions/trackException");
-const idGenerator = require("./idGenerator");
+//const idGenerator = require("./idGenerator");
 //let idGen = new idGenerator();
 
 
 
 class Album {
-    constructor(artistId, name, year) {
-        this.id = idGenerator.getNextIdAlbum();
+    constructor(artistId, name, year,idAlbum) {
+        this.id = idAlbum;
         this.artist = artistId;
         this.name = name;
         this.year = year;
@@ -23,11 +23,11 @@ class Album {
         this.year = year;
     }
 
-    addNewTrack(trackData) {
+    addNewTrack(trackData,idTrack) {
         if(this.containsTrack(trackData.name)){
           throw new trackExceptions.TrackWithSameName(`The Track ${trackData.name} already existed.`);
         }else{
-            const newTrack = new Track(trackData.name, this.id, trackData.duration,trackData.genres);
+            const newTrack = new Track(trackData.name, this.id, trackData.duration,trackData.genres,idTrack);
             this.tracks.push(newTrack);
             return newTrack;
         }

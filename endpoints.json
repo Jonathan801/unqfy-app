@@ -1,0 +1,10 @@
+{
+    "unqfyDocker":"http://172.20.0.21:5000/api",
+    "newsletterDocker":"http://172.20.0.22:5001/api",
+    "loggyDocker":"http://172.20.0.23:5002/api/loggly",
+    "monitorDocker": "http://172.20.0.23:5007/api",
+    "unqfy":"http://localhost:5000/api",
+    "newsletter":"http://localhost:5001/api",
+    "loggy":"http://localhost:5002/api/loggly",
+    "monitor": "http://localhost:5007/api"
+}

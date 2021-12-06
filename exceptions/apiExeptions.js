@@ -40,7 +40,13 @@ class AlreadyExists extends APIError{
 class RelatedSourceNotFound extends APIError{
   constructor(){
     super('RelatedSourceNotFound', 404, 'RELATED_RESOURCE_NOT_FOUND');
-} 
+  } 
+}
+
+class InternalServerError extends APIError {
+  constructor() {
+      super('InternalServerError', 500, 'INTERNAL_SERVER_ERROR');
+  }
 }
 
 module.exports = {
@@ -50,5 +56,6 @@ module.exports = {
    InvalidURL,
    JSONException,
    AlreadyExists,
-   RelatedSourceNotFound
-}
+   RelatedSourceNotFound,
+   InternalServerError
+};

@@ -1,0 +1,27 @@
+FROM node:16
+
+ENV NODE_ENV=development
+ENV DEBUG=true
+
+WORKDIR /home/node/app
+
+COPY package*.json ./
+
+RUN ["npm", "install"]
+
+EXPOSE 5000
+
+
+COPY . . /home/node/app/
+
+
+RUN chown -R node:users /home/node/
+
+USER node
+
+CMD ["node", "service"]
+
+#Run container 
+#docker build -f Dockerfile_unqfy -t unqfydocker .
+#docker run --net unqfynet --ip 172.20.0.21 -p 5000:5000 --name serviceunqfy --user node unqfydocker
+

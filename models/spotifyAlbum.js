@@ -1,4 +1,4 @@
-let accessToken = require("../spotifyCreds");
+let accessToken = require("../spotifyCreds.json");
 let token = accessToken.access_token;
 let rp = require('request-promise');
 
@@ -12,6 +12,7 @@ function getIdArtistSpotifyByName(name){
         return result.artists.items[0].id;
     })
     .then(id =>{
+        //console.log(id);
         albumsArtistSpotify(id);
     });
 }
@@ -23,9 +24,11 @@ function albumsArtistSpotify(idArtist){
         json: true
     })
     .then(data => {
-        console.log(data.items);
         return data.items;
     });
 }
- 
-exports.albumByName = getIdArtistSpotifyByName;
+//getIdArtistSpotifyByName("Eminem"); //7dGJo4pcD2V6oG8kP0tJRR
+
+module.exports = getIdArtistSpotifyByName;
+//module.exports = getIdArtistSpotifyByName;
+//exports.albumByName = getIdArtistSpotifyByName;

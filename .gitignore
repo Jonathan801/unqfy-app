@@ -716,8 +716,14 @@ yarn-error.log*
 *.sw?
 
 package-lock.json
+Newsletter/credentials.json
+Newsletter/token.json
+Loggly/token.json
+data.json
+
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/node,sublimetext,visualstudio,visualstudiocode,linux,windows,pycharm
+
