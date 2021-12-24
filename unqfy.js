@@ -312,7 +312,8 @@ class UNQfy extends Subject {
   }
 
   removePlaylistById(playlistId) {
-    this.removeItemWithIdFromArr(playlistId, this.playlists)
+    const playlist = this.getPlaylistById(playlistId)
+    this.removeItemWithIdFromArr(playlist.id, this.playlists)
   }
 
   searchByName(scrappyWord) {
@@ -332,7 +333,7 @@ class UNQfy extends Subject {
   searchBy(name=undefined, durationLT=undefined, durationGT=undefined) {
     let playlists = []
 
-    playlists = this.createQuery(name, durationLT, durationLT)
+    playlists = this.createQuery(name, durationLT, durationGT)
 
     // if(name =! undefined) { playlists = this.searchByName(name) }
 
@@ -429,7 +430,11 @@ class UNQfy extends Subject {
 
   getPlaylistById(id) {
     const playlist = this.playlists.find(artist => artist.id === id); 
-    return playlist !== undefined ? playlist : unqfyExceptions.PlaylistWithAlbumIdNotExist(`The Playlist with id ${id} does not exist`);
+    if (playlist !== undefined) {
+      return playlist;
+    } else {
+      throw new unqfyExceptions.PlaylistWithAlbumIdNotExist(`The Playlist with id ${id} does not exist`);
+    }
   }
 
   haveArtistName(name) {

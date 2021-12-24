@@ -5,21 +5,8 @@ const errorsAPI = require("../exceptions/apiExeptions");
 
 const router = express.Router();
 
-function getUNQfy(filename = 'data.json') {
-    let unqfy = new unqmod.UNQfy();
-    if (fs.existsSync(filename)) {
-      unqfy = unqmod.UNQfy.load(filename);
-    }
-    return unqfy;
-}
-  
-function saveUNQfy(unqfy, filename = 'data.json') {
-    unqfy.save(filename);
-}
-
 router.post("/", (req, res) => {
     const body = req.body;
-    const unqfy = getUNQfy();
     let requestUnqfy = req.requestUnqfy;
     if ((body.name === undefined) || (body.genres.lenght > 0)) {
         throw new errorsAPI.JSONException()
@@ -36,7 +23,6 @@ router.post("/", (req, res) => {
 
 router.post('/', (req, res) => {
     const body = req.body
-    const unqfy = getUNQfy()
     let requestUnqfy = req.requestUnqfy;
     if ((body.name === undefined) || (body.tracks.lenght > 0)) {
         throw new errorsAPI.JSONException()
@@ -48,6 +34,7 @@ router.post('/', (req, res) => {
         res.status(201).json(playlist.toJson())
     } catch (error) {
         console.log(error)
+        throw new errorsAPI.RelatedSourceNotFound()
     }
 });
 
@@ -56,11 +43,10 @@ router.get('/:id', (req, res) => {
     let requestUnqfy = req.requestUnqfy;
 
     try {
-        // playlistId: is a valid ID and it exists
-        const playlist = requestUnqfy.getPlaylistById(playlistId);
-        res.status(200).json(playlist.toJson());
+        // playlistId: should be an int
+        res.status(200).json(requestUnqfy.getPlaylistById(playlistId));
     } catch (error) {
-        console.log(error);
+        throw new errorsAPI.NotFound(`The Playlist with id ${playlistId} does not exist`);
     }
 });
 
@@ -68,8 +54,13 @@ router.delete('/:id', (req, res) => {
     const playlistId = Number(req.params.id);
     let requestUnqfy = req.requestUnqfy;
 
-    requestUnqfy.removePlaylistById(playlistId);
-    res.status(204).json({message: `Playlist with id ${playlistId} deleted successfully`});
+    try {
+        requestUnqfy.removePlaylistById(playlistId);
+        res.status(204);
+    } catch (error) {
+        throw new errorsAPI.NotFound(`The Playlist with id ${playlistId} does not exist`);
+    }
+    
 });
 
 router.get('/', (req, res) => {
