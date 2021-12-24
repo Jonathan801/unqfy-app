@@ -4,6 +4,7 @@ class APIError extends Error {
       this.name = name;
       this.status = statusCode;
       this.errorCode = errorCode;
+      this.message = message;
     }
  }
  
@@ -14,8 +15,8 @@ class APIError extends Error {
  }
 
  class NotFound extends APIError{
-  constructor(){
-      super('NotFound',404,'RESOURCE_NOT_FOUND');
+  constructor(message){
+      super('NotFound',404,'RESOURCE_NOT_FOUND', message);
   }
 }
 
