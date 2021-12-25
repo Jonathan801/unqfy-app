@@ -347,7 +347,15 @@ class UNQfy extends Subject {
 
   matchingPartialByArtist(scrappyWord) {
     const artists = this.artists.filter(artist => artist.matchingByName(scrappyWord));
-    return artists;
+
+    let matchingArtists = (nArtists) => {
+      if (nArtists > 0) {
+        return artists
+      } else {
+        throw new artistExceptions.ArtistWithSameName(`Can't find an artist with that name`);
+      }
+    } 
+    return matchingArtists(artists.length);
   }
 
   matchingPartialByAlbum(scrappyWord) {
