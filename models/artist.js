@@ -33,6 +33,10 @@ class Artist{
         return this.albums;
     }
 
+    get_Albums() {
+        return this.albums;
+    }
+
     getAlbums(){
         //return this.albums.forEach(album=> console.log(JSON.stringify(album)));
         return this.albums.forEach(album=> console.log(album));
