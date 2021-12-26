@@ -1,19 +1,7 @@
-const fs = require('fs'); // necesitado para guardar/cargar unqfy
-const unqmod = require('../unqfy'); // importamos el modulo unqfy
 const express = require('express');
 const errorsAPI = require("../exceptions/apiExeptions");
 const {ArtistIdDoesNotExist} = require("../exceptions/artistException");
 const router = express.Router();
-
-function getUNQfy(filename = 'data.json') {
-    let unqfy = new unqmod.UNQfy();
-    if (fs.existsSync(filename)) {
-      unqfy = unqmod.UNQfy.load(filename);
-    }
-    return unqfy;
-}
-
-const unqfy = getUNQfy();
 
 router.post("/",(req,res)=>{
     const body = req.body;
@@ -40,22 +28,26 @@ router.post("/",(req,res)=>{
 router.get("/",(req, res) => {
     const name = req.query.name;
     let requestUnqfy = req.requestUnqfy;
-    if(name){
-        res.status(200).json(requestUnqfy.matchingPartialByAlbum(name));    
-    }else{
-        res.status(200).json(requestUnqfy.getAlbums());
+
+    try {
+        if(name){
+            res.status(200).json(requestUnqfy.matchingPartialByAlbum(name));
+        }else{
+            res.status(200).json(requestUnqfy.getAlbums());
+        }    
+    } catch (error) {
+        throw new errorsAPI.NotFound(`Can't find an album with that ${name}`);
     }
+    
 });
 
 router.get("/:id",(req,res) =>{
     const idAlbum = Number(req.params.id);
     let requestUnqfy = req.requestUnqfy;
     try {
-        const album = requestUnqfy.getAlbumById(idAlbum);
-        res.status(200);
-        res.json(album);
+        res.status(200).json(requestUnqfy.getAlbumById(idAlbum));
     } catch (error) {
-        throw new errorsAPI.NotFound();
+        throw new errorsAPI.NotFound(`The album with id ${idAlbum} does not exist`);
         
     }
 });
@@ -86,9 +78,8 @@ router.delete("/:id",(req,res) =>{
         requestUnqfy.removeAlbum(album.artist,idAlbum);
         requestUnqfy.save('data.json');
         res.status(204);
-        res.json({message:"Album borrado correctamente"});
     }catch(error){
-        throw new errorsAPI.NotFound();
+        throw new errorsAPI.NotFound(`The album with id ${idAlbum} does not exist`);
     }
 });
 
