@@ -24,7 +24,6 @@ function getUNQfy(filename = 'data.json') {
 
 // eslint-disable-next-line func-style
 const unqfy = function (req, res, next) {
-    //console.log('LOGGED');
     const unqfy = getUNQfy();
     req.requestUnqfy = unqfy;
     next();
@@ -33,6 +32,11 @@ const unqfy = function (req, res, next) {
 app.use(unqfy);
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+app.use( function (req, res, next) {
+    req.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
+    next()
+})
 app.use("/api/artists",artist);
 app.use("/api/albums",album);
 app.use("/api/tracks",track);

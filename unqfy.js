@@ -57,7 +57,22 @@ class UNQfy extends Subject {
 
   getArtistByName(name){
     const artist = this.artists.find(art => art.name === name);
-    return artist;
+    if (artist !== undefined) {
+      return artist;
+    } else {
+      throw new artistExceptions.ArtistIdDoesNotExist(`The artist with name ${name} does not exist`);
+    }
+  }
+
+  getAlbumsForArtist(artistName) {
+    const artist = this.getArtistByName(artistName);
+    
+    let titles = [];
+    titles = artist.get_Albums().reduce((accum, current) => {
+      return accum.concat(current.name);
+    }, []);
+
+    return titles;
   }
 
   popularAlbumsForArtist(artistName) {
@@ -142,12 +157,10 @@ class UNQfy extends Subject {
 
   removeArtist(artistId){
     const art = this.getArtistById(artistId);
+
     art.albums.forEach(elem => this.removeAlbum(artistId,elem.id));
-    // console.log("Despues de borrar albums");
-    // console.log(art);
     this.artists = this.removeItemWithIdFromArr(art,this.artists);
-    // console.log("Despues de cambiar lista artista");
-    // console.log(this.artists);
+    
     this.changed("removeArtist",{artist:art});
     //this.observador.logEvent('info','Se ha eliminado el artista ' + art.name);
   }
@@ -348,15 +361,7 @@ class UNQfy extends Subject {
 
   matchingPartialByArtist(scrappyWord) {
     const artists = this.artists.filter(artist => artist.matchingByName(scrappyWord));
-
-    let matchingArtists = (nArtists) => {
-      if (nArtists > 0) {
-        return artists
-      } else {
-        throw new artistExceptions.ArtistWithSameName(`Can't find an artist with that name`);
-      }
-    } 
-    return matchingArtists(artists.length);
+    return artists;
   }
 
   matchingPartialByAlbum(scrappyWord) {
