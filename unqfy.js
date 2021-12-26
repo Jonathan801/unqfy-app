@@ -4,6 +4,7 @@ const Artist = require("./models/artist"); // El modelo Artista
 const artistExceptions = require("./exceptions/artistException.js");
 const userExceptions = require("./exceptions/userException.js");
 const unqfyExceptions = require("./exceptions/unqfyException.js");
+const trackException = require('./exceptions/trackException.js')
 const Album = require('./models/album.js');
 const Track = require('./models/tracks');
 const User = require("./models/user");
@@ -291,11 +292,11 @@ class UNQfy extends Subject {
 
 
   getTrackById2(id){
-    let test = this.getTracks().find(elem => elem.idTrack === id);
-    if(!test){
-      throw new Error("Not Founddddd");
+    let track = this.getTracks().find(elem => elem.idTrack === id);
+    if(track === undefined){
+      throw new trackException.TrackIdDoesNotExist(`The track with id ${id} does not exist`);
     }else{
-      return test;
+      return track;
     }
   }
 

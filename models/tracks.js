@@ -42,12 +42,10 @@ class Track{
     async getLyrics(){ 
         try{
             if(!this.lyrics){
-                console.log("No tenia la letra")
                 let lytrack = await getIdTrack(this.name);
                 this.lyrics = lytrack
                 return this.lyrics;
             }else{
-                console.log("Si las tenia");
                 return this.lyrics;
             }
         }catch(error){
