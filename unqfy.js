@@ -363,7 +363,15 @@ class UNQfy extends Subject {
       const albumsMatch = current.matchingAlbumByName(scrappyWord);
       return total.concat(albumsMatch);
     }, []);
-    return albums;
+    
+    let matchingAlbums = (nAlbums) => {
+      if (nAlbums > 0) {
+        return albums
+      } else {
+        throw new artistExceptions.ArtistWithSameName(`Can't find an album with that name`);
+      }
+    } 
+    return matchingAlbums(albums.length);
   }
 
   matchingPartialByTrack(scrappyWord) {
