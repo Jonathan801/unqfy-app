@@ -57,7 +57,7 @@ router.delete("/:id",(req,res) =>{
     try{
         requestUnqfy.removeArtist(idArtist);
         requestUnqfy.save('data.json');
-        res.status(204);
+        res.status(204).json({message: `The artist was removed.`});
     }catch(error){
         throw new errorsAPI.NotFound(`The artist with id ${idArtist} does not exist`);
     }

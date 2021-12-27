@@ -77,7 +77,7 @@ router.delete("/:id",(req,res) =>{
         let album = requestUnqfy.getAlbumById(idAlbum);
         requestUnqfy.removeAlbum(album.artist,idAlbum);
         requestUnqfy.save('data.json');
-        res.status(204);
+        res.status(204).json({message: `The album was removed.`});
     }catch(error){
         throw new errorsAPI.NotFound(`The album with id ${idAlbum} does not exist`);
     }
