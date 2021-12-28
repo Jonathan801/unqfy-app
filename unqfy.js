@@ -16,6 +16,8 @@ const Newsletter = require("./Newsletter/observerNewsletter");
 const newsletter = new Newsletter();
 const getIdArtistSpotifyByName = require("./models/spotifyAlbum");
 
+const promisify = require('util').promisify;
+
 class UNQfy extends Subject {
 
   constructor(subs){
@@ -75,18 +77,18 @@ class UNQfy extends Subject {
     return titles;
   }
 
-  popularAlbumsForArtist(artistName) {
-    const idArtist = this.getArtistByName(artistName).id;
-    const albumsName = [];
-    return   getIdArtistSpotifyByName(artistName).then((albums) => {
-      albums.forEach(album => {
-       if (!albumsName.includes(album.name)) {
-           albumsName.push(album.name);
-           this.addAlbum(idArtist, { name: album.name, year: album.release_date });
-       }
-      });
-      return albums;
-    })
+  async populateAlbumsForArtist(artistName) {
+    const artist = this.getArtistByName(artistName);
+    let albumsTitles = this.getAlbumsForArtist(artistName);
+
+    let albumsSpotify = await getIdArtistSpotifyByName(artistName);
+    albumsSpotify.forEach(album => {
+      if (!albumsTitles.includes(album.name)) {
+        albumsTitles.push(album.name);
+        this.addAlbum(artist.id, { name: album.name, year: album.release_date });
+      }
+    });
+    return albumsTitles;
    }
 
   printArray(array){

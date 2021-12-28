@@ -95,4 +95,19 @@ router.post("/",(req, res) => {
         }
 });
 
+router.get("/:name/populate_albums", (req, res) => {
+    const name = req.params.name;
+    let requestUnqfy = req.requestUnqfy;
+    try {
+        if(name){
+            requestUnqfy.populateAlbumsForArtist(name).then(albums => {
+                requestUnqfy.save('data.json');
+                res.status(200).json({albums: albums});
+            });
+        }
+    } catch (error) {
+        throw new errorsAPI.NotFound(`Can't find an artist with that ${name}`);
+    }
+});
+
 module.exports = router;

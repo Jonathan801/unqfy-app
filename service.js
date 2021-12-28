@@ -1,4 +1,5 @@
 const express = require('express');
+let bodyParser = require('body-parser');
 const artist = require("./controller/artistController");
 const album = require("./controller/albumController");
 const track = require("./controller/trackController");
@@ -30,13 +31,8 @@ const unqfy = function (req, res, next) {
 };
   
 app.use(unqfy);
-app.use(express.json());
-app.use(express.urlencoded({extended:false}));
-app.use( function (req, res, next) {
-    req.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
-    next()
-})
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use("/api/artists",artist);
 app.use("/api/albums",album);
 app.use("/api/tracks",track);
