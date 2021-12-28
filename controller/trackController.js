@@ -11,11 +11,10 @@ router.get("/:id/lyrics",(req,res) =>{
         const track = requestUnqfy.getTrackById2(idTrack);
         track.getLyrics().then(() =>{
             requestUnqfy.save('data.json');
-            res.status(200);
-            res.json({ name: track.name, lyrics: track.lyrics });
+            res.status(200).json({ name: track.name, lyrics: track.lyrics });
         });
     } catch (error) {
-        throw new errorsAPI.NotFound(`The track with id ${idTrack} does not exist`);    
+        throw new errorsAPI.NotFound(`The track with id ${idTrack} does not exist`);
     }
 });
 
@@ -25,10 +24,11 @@ router.post("/",(req,res)=>{
     let requestUnqfy = req.requestUnqfy;
     if(body.idAlbum && body.name && body.duration && body.genres){
         try {
-            const album = requestUnqfy.addTrack(idAlbum,{name:body.name,duration:body.duration,genres:body.genres});
+            const track = requestUnqfy.addTrack(idAlbum, { name: body.name, 
+                                                           duration: body.duration, 
+                                                           genres: body.genres });
             requestUnqfy.save('data.json');
-            res.status(201);
-            res.json(album.toJSON());
+            res.status(201).json(track.toJSON());
         } catch (error) {
             if(error instanceof AlbumIdDoesNotExist){
                 throw new errorsAPI.RelatedSourceNotFound();
