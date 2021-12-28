@@ -1,9 +1,9 @@
 const express = require('express');
 let bodyParser = require('body-parser');
-const artist = require("./controller/artistController");
-const album = require("./controller/albumController");
-const track = require("./controller/trackController");
-const playlists = require("./controller/playlistController.js");
+const artistApp = require("./controller/artistController");
+const albumApp = require("./controller/albumController");
+const trackApp = require("./controller/trackController");
+const playlistsApp = require("./controller/playlistController.js");
 const errorHandler = require("./controller/errorHandler");
 const errorsAPI = require("./exceptions/apiExeptions");
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
@@ -13,7 +13,7 @@ const loggly = new LogglyApp();
 const Newsletter = require("./Newsletter/observerNewsletter");
 const newsletter = new Newsletter();
 
-const app = express();
+const rootApp = express();
 
 function getUNQfy(filename = 'data.json') {
     let unqfy = new unqmod.UNQfy([loggly,newsletter]);
@@ -30,20 +30,17 @@ const unqfy = function (req, res, next) {
     next();
 };
   
-app.use(unqfy);
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use("/api/artists",artist);
-app.use("/api/albums",album);
-app.use("/api/tracks",track);
-app.use("/api/playlists", playlists);
-app.all("*",(req,res) =>{
+rootApp.use(unqfy);
+rootApp.use(bodyParser.urlencoded({ extended: true }));
+rootApp.use(bodyParser.json());
+rootApp.use("/api", artistApp, albumApp, trackApp, playlistsApp);
+rootApp.all("*",(req,res) =>{
     throw new errorsAPI.InvalidURL();
 });
-app.use(errorHandler);
+rootApp.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT,()=>{
+rootApp.listen(PORT,()=>{
     console.log('Server on port ', PORT);
 });

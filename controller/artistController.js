@@ -2,8 +2,10 @@ const express = require('express');
 const errorsAPI = require("../exceptions/apiExeptions");
 const router = express.Router();
 
+const BASE_URL = `/artists`;
+
 //Get an artist by id
-router.get("/:id",(req, res) => {
+router.get(`${BASE_URL}/:id`,(req, res) => {
     const idArtist = Number(req.params.id);
     let requestUnqfy = req.requestUnqfy;
     try{
@@ -14,7 +16,7 @@ router.get("/:id",(req, res) => {
 });
 
 //Update an artist by id
-router.patch("/:id",(req, res) => {
+router.patch(`${BASE_URL}/:id`,(req, res) => {
     const idArtist = Number(req.params.id);
     const body = req.body;
     let requestUnqfy = req.requestUnqfy;
@@ -32,7 +34,7 @@ router.patch("/:id",(req, res) => {
     }
 });
 
-router.put("/:id",(req, res) => {
+router.put(`${BASE_URL}/:id`,(req, res) => {
     const idArtist = Number(req.params.id);
     const body = req.body;
     let requestUnqfy = req.requestUnqfy;
@@ -51,7 +53,7 @@ router.put("/:id",(req, res) => {
 });
 
 //Delete an artist by id
-router.delete("/:id",(req,res) =>{
+router.delete(`${BASE_URL}/:id`,(req,res) =>{
     const idArtist = Number(req.params.id);
     let requestUnqfy = req.requestUnqfy;
     try{
@@ -64,7 +66,7 @@ router.delete("/:id",(req,res) =>{
 });
 
 //Get an artist by a query o all artist
-router.get("/",(req, res) => {
+router.get(`${BASE_URL}/`,(req, res) => {
     const name = req.query.name;
     let requestUnqfy = req.requestUnqfy;
     try {
@@ -79,7 +81,7 @@ router.get("/",(req, res) => {
 });
 
 //Create a artist
-router.post("/",(req, res) => {
+router.post(`${BASE_URL}/`,(req, res) => {
         const body = req.body;
         let requestUnqfy = req.requestUnqfy;
         if((body.name && body.country)){
@@ -95,7 +97,7 @@ router.post("/",(req, res) => {
         }
 });
 
-router.get("/:name/populate_albums", (req, res) => {
+router.get(`${BASE_URL}/:name/populate_albums`, (req, res) => {
     const name = req.params.name;
     let requestUnqfy = req.requestUnqfy;
     try {

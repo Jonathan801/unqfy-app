@@ -3,7 +3,9 @@ const errorsAPI = require("../exceptions/apiExeptions");
 const {ArtistIdDoesNotExist} = require("../exceptions/artistException");
 const router = express.Router();
 
-router.post("/",(req,res)=>{
+const BASE_URL = `/albums`;
+
+router.post(`${BASE_URL}/`,(req,res)=>{
     const body = req.body;
     const idArtist = Number(body.artistId);
     let requestUnqfy = req.requestUnqfy;
@@ -25,7 +27,7 @@ router.post("/",(req,res)=>{
     }
 });
 
-router.get("/",(req, res) => {
+router.get(`${BASE_URL}/`,(req, res) => {
     const name = req.query.name;
     let requestUnqfy = req.requestUnqfy;
 
@@ -41,7 +43,7 @@ router.get("/",(req, res) => {
     
 });
 
-router.get("/:id",(req,res) =>{
+router.get(`${BASE_URL}/:id`,(req,res) =>{
     const idAlbum = Number(req.params.id);
     let requestUnqfy = req.requestUnqfy;
     try {
@@ -52,7 +54,7 @@ router.get("/:id",(req,res) =>{
     }
 });
 
-router.patch("/:id",(req, res) => {
+router.patch(`${BASE_URL}/:id`,(req, res) => {
     const idAlbum = Number(req.params.id);
     const body = req.body;
     let requestUnqfy = req.requestUnqfy;
@@ -70,7 +72,7 @@ router.patch("/:id",(req, res) => {
     }
 });
 
-router.delete("/:id",(req,res) =>{
+router.delete(`${BASE_URL}/:id`,(req,res) =>{
     const idAlbum = Number(req.params.id);
     let requestUnqfy = req.requestUnqfy;
     try{
