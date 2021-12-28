@@ -1,9 +1,10 @@
 const express = require('express');
 const errorsAPI = require("../exceptions/apiExeptions");
-
 const router = express.Router();
 
-router.post("/", (req, res) => {
+const BASE_URL = `/playlists`;
+
+router.post(`${BASE_URL}/`, (req, res) => {
     const body = req.body;
     let requestUnqfy = req.requestUnqfy;
     if ((body.name === undefined) || (body.genres.lenght > 0)) {
@@ -19,7 +20,7 @@ router.post("/", (req, res) => {
     
 });
 
-router.post('/', (req, res) => {
+router.post(`${BASE_URL}/`, (req, res) => {
     const body = req.body
     let requestUnqfy = req.requestUnqfy;
     if ((body.name === undefined) || (body.tracks.lenght > 0)) {
@@ -36,7 +37,7 @@ router.post('/', (req, res) => {
     }
 });
 
-router.get('/:id', (req, res) => {
+router.get(`${BASE_URL}/:id`, (req, res) => {
     const playlistId = Number(req.params.id);
     let requestUnqfy = req.requestUnqfy;
 
@@ -48,7 +49,7 @@ router.get('/:id', (req, res) => {
     }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete(`${BASE_URL}/:id`, (req, res) => {
     const playlistId = Number(req.params.id);
     let requestUnqfy = req.requestUnqfy;
 
@@ -61,7 +62,7 @@ router.delete('/:id', (req, res) => {
     
 });
 
-router.get('/', (req, res) => {
+router.get(`${BASE_URL}/`, (req, res) => {
     const name = req.query.name;
     const durationLT = Number(req.query.durationLT); // menores a ...
     const durationGT = Number(req.query.durationGT); // mayores a ...

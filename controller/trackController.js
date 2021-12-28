@@ -1,10 +1,11 @@
 const express = require('express');
 const errorsAPI = require("../exceptions/apiExeptions");
 const {AlbumIdDoesNotExist} = require("../exceptions/albumException");
-
 const router = express.Router();
 
-router.get("/:id/lyrics",(req,res) =>{
+const BASE_URL = `/tracks`;
+
+router.get(`${BASE_URL}/:id/lyrics`,(req,res) =>{
     const idTrack = Number(req.params.id);
     let requestUnqfy = req.requestUnqfy;
     try {
@@ -18,7 +19,7 @@ router.get("/:id/lyrics",(req,res) =>{
     }
 });
 
-router.post("/",(req,res)=>{
+router.post(`${BASE_URL}/`,(req,res)=>{
     const body = req.body;
     const idAlbum = Number(body.idAlbum);
     let requestUnqfy = req.requestUnqfy;
