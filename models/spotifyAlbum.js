@@ -3,32 +3,30 @@ let token = accessToken.access_token;
 let rp = require('request-promise');
 
 function getIdArtistSpotifyByName(name){
-    rp.get({
-        url: 'https://api.spotify.com/v1/search?q=' + name + '&type=artist',
-        headers: { Authorization: 'Bearer ' + token },
+    const options = {
+        url: `https://api.spotify.com/v1/search?q=${name}&type=artist`,
+        headers: { Authorization: `Bearer ${token}` },
         json: true
-    })
-    .then(result => {
+    };
+
+    return rp.get(options).then(result => {
         return result.artists.items[0].id;
-    })
-    .then(id =>{
-        //console.log(id);
-        albumsArtistSpotify(id);
-    });
+    }).then(id => {
+        return albumsArtistSpotify(id);
+    }).catch(error => console.log(error.message));
 }
 
 function albumsArtistSpotify(idArtist){
-    rp.get({
-        url: 'https://api.spotify.com/v1/artists/' + idArtist + '/albums',
-        headers: { Authorization: 'Bearer ' + token },
+    const options = {
+        url: `https://api.spotify.com/v1/artists/${idArtist}/albums`,
+        headers: { Authorization: `Bearer ${token}` },
         json: true
-    })
-    .then(data => {
+    };
+
+    return rp.get(options).then(data => {
         return data.items;
-    });
+    })
+    .catch(error => console.log(error.message));
 }
-//getIdArtistSpotifyByName("Eminem"); //7dGJo4pcD2V6oG8kP0tJRR
 
 module.exports = getIdArtistSpotifyByName;
-//module.exports = getIdArtistSpotifyByName;
-//exports.albumByName = getIdArtistSpotifyByName;
