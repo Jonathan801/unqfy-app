@@ -8,15 +8,15 @@ const errorHandler = require("./controller/errorHandler");
 const errorsAPI = require("./exceptions/apiExeptions");
 const fs = require('fs'); // necesitado para guardar/cargar unqfy
 const unqmod = require('./unqfy'); // importamos el modulo unqfy
-const LogglyApp = require("./Loggly/observerLoggy");
-const loggly = new LogglyApp();
-const Newsletter = require("./Newsletter/observerNewsletter");
-const newsletter = new Newsletter();
+const loggly = require("./Loggly/observerLoggy");
+const newsletter = require("./Newsletter/observerNewsletter");
 
 const rootApp = express();
 
 function getUNQfy(filename = 'data.json') {
-    let unqfy = new unqmod.UNQfy([loggly,newsletter]);
+    let unqfy = new unqmod.UNQfy();
+    unqfy.subscribe(newsletter);
+    // unqfy.subscribe(loggly);
     if (fs.existsSync(filename)) {
       unqfy = unqmod.UNQfy.load(filename);
     }
