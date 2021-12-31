@@ -1,11 +1,11 @@
-class Subject{
+class Subject {
 
-    constructor(observers = []){
-      this.observers = observers; //loggly,newsletter
+    constructor(observers = []) {
+      this.observers = observers;
     }
   
-    changed(aspect,data){
-      this.observers.forEach(elem => elem.update(aspect,data));
+    changed(event, data) {
+      this.observers.forEach(elem => elem.update(event, data));
     }
   
     subscribe(observer) {
