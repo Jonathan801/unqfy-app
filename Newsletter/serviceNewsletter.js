@@ -1,27 +1,36 @@
 const express = require('express');
 const errorsAPI = require("../exceptions/apiExeptions");
-const newsletter = require("./newsletterController");
 const errorHandler = require("../controller/errorHandler");
-const app = express();
-const api = express.Router();
+let bodyParser = require('body-parser');
+
+const rootApp = express();
+const newsletterApp = require("./newsletterController")
+const newsmod = require('./observerNewsletter.js')
 
 const PORT = process.env.PORT || 5001;
 
-api.post("/api/subscribe",newsletter.suscribe);
-api.post("/api/unsubscribe",newsletter.unsubscribe);
-api.post("/api/notify",newsletter.notify);
-api.get( "/api/subscriptions",newsletter.getSubscribersOfArtist);
-api.delete('/api/subscription', newsletter.deleteSubscriptions);
 
-api.all('*', (_req, res) => {
+function getNewsletter() {
+    let newsletter = new newsmod.Newsletter();
+    return newsletter;
+}
+
+// eslint-disable-next-line func-style
+const newsletter = function (req, res, next) {
+    const newsletter = getNewsletter();
+    req.requestNewsletter = newsletter;
+    next();
+};
+
+rootApp.use(newsletter)
+rootApp.use(bodyParser.urlencoded({ extended: true }));
+rootApp.use(bodyParser.json());
+rootApp.use("/api", newsletterApp);
+rootApp.all("*",(req,res) =>{
     throw new errorsAPI.InvalidURL();
 });
+rootApp.use(errorHandler);
 
-app.use(express.json());
-app.use(express.urlencoded({extended:false}));
-app.use(api);
-app.use(errorHandler);
-
-app.listen(PORT,()=>{
+rootApp.listen(PORT,()=>{
     console.log('Server on port ', PORT);
 });

@@ -11,12 +11,11 @@ const User = require("./models/user");
 const Playlist = require('./models/playlist.js');
 const Subject = require("./models/subject");
 const LogglyApp = require("./Loggly/observerLoggy");
-const loggly = new LogglyApp();
+// const loggly = new LogglyApp();
 const Newsletter = require("./Newsletter/observerNewsletter");
-const newsletter = new Newsletter();
+// const newsletter = new Newsletter();
 const getIdArtistSpotifyByName = require("./models/spotifyAlbum");
 
-const promisify = require('util').promisify;
 
 class UNQfy extends Subject {
 
@@ -152,7 +151,7 @@ class UNQfy extends Subject {
     } else {
       const artist1 = new Artist(artist.name,artist.country,this.getNextArtistID());
       this.artists.push(artist1);
-      this.changed("addArtist",{artist:artist});
+      // this.changed("addArtist",{artist:artist});
       return artist1;
     }
   }
