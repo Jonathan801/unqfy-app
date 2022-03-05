@@ -1,3 +1,14 @@
+Proyecto realizado para el Taller de Desarrollo de Servicios Web/Cloud Modernos en la Unq,consiste en una aplicación similar a Spotify con artistas,albums,canciones y playlists
+----
+El proyecto consistio en 3 Visados:
+
+En la primera parte se tenia el modelo y se usaba la consola de comandos para realizar acciones crud(V1.0)
+
+En la segunda parte se obtienen datos de Spotify(artistas y albums) y MusixMatch(letras de canciones) para usarlos en la aplicacion , ademas de ofrecer un servicio REST para la misma(V2.0).
+
+En la tercera parte se agrega la funcionalidad de un newsletter (Notificar a usuarios por mail sobre las novedades en UNQfy) ,un registro (log) de diferentes sucesos del sistema, para poder auditar y debuggear en caso de ser necesario , tambien un monitoreo sobre estos servicios (Unqfy, newsletter y logger).Finalmente todos estos servicios estan dockerizados(V3.0).
+
+----
 Requerimientos
 ----
 
